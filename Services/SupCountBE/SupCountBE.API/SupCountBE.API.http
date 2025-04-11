@@ -1,0 +1,6 @@
+@SupCountBE.API_HostAddress = http://localhost:5293
+
+GET {{SupCountBE.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
