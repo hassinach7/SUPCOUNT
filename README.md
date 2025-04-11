@@ -2,7 +2,7 @@
 
 ## Schéma de base de données : Identity (Authentification)
 
-![alt text](images/DiagramAuth.png)
+![alt text](DiagramAuth.png)
 
 Ce modèle gère l’authentification et l’autorisation des utilisateurs via des tables liées aux rôles, revendications, connexions externes et tokens. Il assure une sécurité avancée et une gestion flexible des utilisateurs.
 
@@ -115,7 +115,7 @@ Ce schéma est **standard dans les applications ASP.NET Core utilisant Identity*
 
 ## Diagramme UML : Diagramme de classes 
 
-![alt text](images/DiagramUML.jpg)
+![alt text](DiagramUML.jpg)
 
 ## 👥 **`8. Group` (groupe)** 
 
