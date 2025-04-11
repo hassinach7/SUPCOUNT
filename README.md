@@ -115,7 +115,7 @@ Ce schéma est **standard dans les applications ASP.NET Core utilisant Identity*
 
 ## Diagramme UML : Diagramme de classes 
 
-![alt text](DiagramUML.jpg)
+![alt text](DiagramUML.png)
 
 ## 👥 **`8. Group` (groupe)** 
 
