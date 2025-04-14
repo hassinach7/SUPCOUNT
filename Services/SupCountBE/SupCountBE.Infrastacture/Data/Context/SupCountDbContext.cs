@@ -1,6 +1,4 @@
 ﻿
-
-
 using SupCountBE.Infrastacture.Configurations;
 using SupCountBE.Infrastacture.Extentions;
 
@@ -21,12 +19,25 @@ public class SupCountDbContext : DbContext
 
     public SupCountDbContext(DbContextOptions<SupCountDbContext> options) : base(options)
     {
-        
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+      
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new GroupConfiguration());
+        modelBuilder.ApplyConfiguration(new JustificationConfiguration());
+        modelBuilder.ApplyConfiguration(new MessageConfiguration());
+        modelBuilder.ApplyConfiguration(new ParticipationConfiguration());
+        modelBuilder.ApplyConfiguration(new ReimbursementConfiguration());
+        modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+        modelBuilder.ApplyConfiguration(new UserGroupConfiguration());
+
+        
         modelBuilder.InitiData();
     }
 }

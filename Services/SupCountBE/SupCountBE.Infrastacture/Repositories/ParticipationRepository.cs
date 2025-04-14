@@ -1,0 +1,30 @@
+﻿using SupCountBE.Core.Repositories;
+using SupCountBE.Infrastacture.Data.Context;
+
+
+namespace SupCountBE.Infrastacture.Repositories;
+
+public class ParticipationRepository : AsyncRepository<Participation>, IParticipationRepository
+{
+    public ParticipationRepository(SupCountDbContext dbContext) : base(dbContext) { }
+
+    public async Task<Participation?> GetByIdIncludingAsync(
+        int id,
+        bool includeUser = false,
+        bool includeExpense = false)
+    {
+        var query = _dbContext.Participations.AsQueryable();
+
+        if (includeUser)
+        {
+            query = query.Include(p => p.User);
+        }
+
+        if (includeExpense)
+        {
+            query = query.Include(p => p.Expense);
+        }
+
+        return await query.SingleOrDefaultAsync(p => p.Id == id);
+    }
+}

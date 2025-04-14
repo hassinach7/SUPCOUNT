@@ -1,6 +1,6 @@
 ﻿namespace SupCountBE.Core.Enums;
 
-public enum JustifactionTypeEnum : byte
+public enum JustificationTypeEnum : byte
 {
     None = 0,
     Invoice,
