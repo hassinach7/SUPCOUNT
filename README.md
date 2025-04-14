@@ -218,3 +218,59 @@ Messagerie interne (privée ou de groupe).
 - Un remboursement peut générer plusieurs transactions.
 
 - Un utilisateur peut envoyer/recevoir des messages, participer à des dépenses, appartenir à des groupes et effectuer des remboursements.
+
+## La structure du projet
+![alt text](ProjectStruct.png)
+
+Le projet adopte une architecture en couches, également connue sous le nom d’architecture "clean" ou DDD (Domain-Driven Design). Cette organisation permet une séparation claire des responsabilités et facilite la maintenabilité.  
+Il est structuré en 4 projets principaux, chacun ayant un rôle bien défini :
+
+
+### 🧠 SupCountBE.Core
+
+Cette couche contient le cœur du domaine métier.  
+Elle est totalement indépendante des aspects techniques.
+
+**Contenu :**
+- Entités (ex : `User`, `Group`, `Expense`)
+- Interfaces de services et de répertoires (`IUserService`, `IExpenseRepository`, etc.)
+- Énumérations, classes de validation, exceptions métiers
+
+---
+
+### 🔧 SupCountBE.Application
+
+Cette couche représente la logique applicative, c’est-à-dire les cas d’usage métier.  
+Elle orchestre les opérations métier à travers les services définis dans `Core`.
+
+**Contenu :**
+- Services applicatifs (cas d’usage)
+- DTOs (Data Transfer Objects)
+- Mapping entre entités et modèles de données
+- Gestion des règles métiers spécifiques à l’application
+
+---
+
+### 🗃️ SupCountBE.Infrastructure
+
+Cette couche contient les implémentations concrètes des interfaces définies dans `Core`.
+
+**Contenu :**
+- `DbContext` et configuration Entity Framework
+- Repositories (implémentation de l'accès aux données)
+- Services d’envoi d’e-mail, stockage de fichiers, etc.
+
+---
+
+### 🌐 SupCountBE.API
+
+La couche API est responsable de l’exposition des fonctionnalités de l’application via des endpoints REST.
+
+**Contenu :**
+- Contrôleurs ASP.NET Core
+- Endpoints HTTP (`GET`, `POST`, etc.)
+- Middleware, Swagger, sécurité (JWT, auth, etc.)
+
+---
+
+Cette architecture permet de séparer clairement la logique métier de la logique technique, et rend le projet plus lisible, modulaire et évolutif.
