@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Name": "Category Name 1",
+    "CreatedAt": "2023-10-01T12:00:00Z"
+  },
+  {
+    "Id": 2,
+    "Name": "Category Name 2",
+    "CreatedAt": "2023-10-02T12:00:00Z"
+  },
+  {
+    "Id": 3,
+    "Name": "Category Name 3",
+    "CreatedAt": "2023-10-03T12:00:00Z"
+  },
+  {
+    "Id": 4,
+    "Name": "Category Name 4",
+    "CreatedAt": "2023-10-04T12:00:00Z"
+  }
+]
