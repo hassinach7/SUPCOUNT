@@ -217,7 +217,8 @@ Messagerie interne (privée ou de groupe).
 
 - Un remboursement peut générer plusieurs transactions.
 
-- Un utilisateur peut envoyer/recevoir des messages, participer à des dépenses, appartenir à des groupes et effectuer des remboursements.
+
+- Un utilisateur peut envoyer/recevoir des messages, participer à des dépenses, appartenir à des groupes et effectuer des remboursements
 
 ## La structure du projet
 ![alt text](ProjectStruct.png)
@@ -273,4 +274,6 @@ La couche API est responsable de l’exposition des fonctionnalités de l’appl
 
 ---
 
+
 Cette architecture permet de séparer clairement la logique métier de la logique technique, et rend le projet plus lisible, modulaire et évolutif.
+
