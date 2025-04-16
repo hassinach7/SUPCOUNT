@@ -1,13 +1,14 @@
 ﻿
 
-namespace SupCountBE.Core.Entities
-{
-    public  class Justification
+using SupCountBE.Core.Enums;
 
-    {
-        public int Id   { get; set; }
-        public int ExpenseId { get; set; }
-        public required string FilePath { get; set; }
-        public required string Type { get; set; }
-    }
+namespace SupCountBE.Core.Entities;
+
+public  class Justification : BaseEntity
+
+{
+    public int ExpenseId { get; set; }
+    public Expense?  Expense { get; set; }
+    public required byte[] FileContent { get; set; }
+    public required JustificationTypeEnum Type { get; set; }
 }

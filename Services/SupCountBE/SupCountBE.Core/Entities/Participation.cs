@@ -1,17 +1,13 @@
 ﻿
 
-namespace SupCountBE.Core.Entities
+namespace SupCountBE.Core.Entities;
+
+public  class Participation : BaseEntity
 {
-   public  class Participation
+    public float Weight { get; set; }
 
-    {
-        public required string UserId { get; set; }
-        public required  int ExpenseId { get; set; }
-
-        public float Weight { get; set; }
-
-        public User? User { get; set; }
-        public Expense? Expense { get; set; }
-
-    }
+    public required string UserId { get; set; }
+    public User? User { get; set; }
+    public required int ExpenseId { get; set; }
+    public Expense? Expense { get; set; }
 }
