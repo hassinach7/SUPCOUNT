@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
+using SupCountBE.Infrastacture.Repositories;
 
 namespace SupCountBE.Infrastacture;
 
@@ -14,6 +16,8 @@ public static class InfrastactureContainer
             ArgumentNullException.ThrowIfNullOrEmpty(connectionString, nameof(connectionString));
             options.UseSqlServer(connectionString);
         });
+
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }
