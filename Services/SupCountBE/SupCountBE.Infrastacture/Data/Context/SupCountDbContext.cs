@@ -1,14 +1,14 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SupCountBE.Infrastacture.Configurations;
-using SupCountBE.Infrastacture.Extentions;
 
 namespace SupCountBE.Infrastacture.Data.Context;
 
-public class SupCountDbContext : DbContext
+public class SupCountDbContext : IdentityDbContext<User,ApplicationRole, string>
 {
     public DbSet<Group> Groups { get; set; }
     public DbSet<UserGroup> UserGroups { get; set; }
-    public DbSet<User> Users { get; set; }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Participation> Participations { get; set; }
@@ -45,5 +45,12 @@ public class SupCountDbContext : DbContext
            foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
         }
 
+        modelBuilder.Entity<ApplicationRole>().ToTable("Roles");
+        modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
     }
 }

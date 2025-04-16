@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Identity;
+using SupCountBE.Core.Entities;
 using SupCountBE.Infrastacture;
+using SupCountBE.Infrastacture.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastacture(builder.Configuration);
+builder.Services.AddIdentity<User, ApplicationRole>().AddEntityFrameworkStores<SupCountDbContext>()
+    .AddDefaultTokenProviders();
+
 
 var app = builder.Build();
 

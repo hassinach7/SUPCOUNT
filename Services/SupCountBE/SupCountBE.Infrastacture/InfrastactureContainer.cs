@@ -15,7 +15,6 @@ public static class InfrastactureContainer
             options.UseSqlServer(connectionString);
         });
 
-
         return services;
     }
 }

@@ -1,7 +1,8 @@
-﻿namespace SupCountBE.Core.Entities;
-public class User
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace SupCountBE.Core.Entities;
+public class User : IdentityUser
 {
-    public string Id { get; set; } = null!;
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     public DateTime? UpdatdAt { get; set; }
     public required  string FullName {  get; set; }
