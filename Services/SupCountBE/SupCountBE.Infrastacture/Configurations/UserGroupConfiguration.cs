@@ -6,7 +6,7 @@ public class UserGroupConfiguration : IEntityTypeConfiguration<UserGroup>
 {
     public void Configure(EntityTypeBuilder<UserGroup> builder)
     {
-        // Clé composite : UserId + GroupId
+        //builder.HasKey(ug => ug.Id);
         builder.HasKey(ug => new { ug.UserId, ug.GroupId });
 
         builder.Property(ug => ug.Role)

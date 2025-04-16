@@ -2,8 +2,8 @@
 
 public interface IParticipationRepository : IAsyncRepository<Participation>
 {
-    Task<Participation?> GetByIdIncludingAsync(
-        int id,
+    Task<IList<Participation>> GetListIncludingAsync(
+       
         bool includeUser = false,
         bool includeExpense = false
     );

@@ -37,7 +37,13 @@ public class SupCountDbContext : DbContext
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
         modelBuilder.ApplyConfiguration(new UserGroupConfiguration());
 
-        
-        modelBuilder.InitiData();
+
+        //modelBuilder.InitiData();
+        // DeleteBehiavor configuration for all entities 
+        foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(o => o.GetForeignKeys()))
+        {
+           foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+        }
+
     }
 }

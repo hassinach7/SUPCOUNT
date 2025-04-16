@@ -8,8 +8,7 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
 {
     public ParticipationRepository(SupCountDbContext dbContext) : base(dbContext) { }
 
-    public async Task<Participation?> GetByIdIncludingAsync(
-        int id,
+    public async Task<IList<Participation>> GetListIncludingAsync(
         bool includeUser = false,
         bool includeExpense = false)
     {
@@ -24,7 +23,6 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
         {
             query = query.Include(p => p.Expense);
         }
-
-        return await query.SingleOrDefaultAsync(p => p.Id == id);
+        return await query.ToListAsync();
     }
 }

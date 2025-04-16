@@ -6,15 +6,9 @@ public class ParticipationConfiguration : IEntityTypeConfiguration<Participation
 {
     public void Configure(EntityTypeBuilder<Participation> builder)
     {
-        builder.HasKey(p => p.Id);
+        builder.HasKey(p => new { p.UserId, p.ExpenseId });
 
         builder.Property(p => p.Weight)
-               .IsRequired();
-
-        builder.Property(p => p.UserId)
-               .IsRequired();
-
-        builder.Property(p => p.ExpenseId)
                .IsRequired();
 
         builder.HasOne(p => p.User)

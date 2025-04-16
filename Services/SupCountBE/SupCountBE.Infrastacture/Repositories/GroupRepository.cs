@@ -1,6 +1,6 @@
 ﻿using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace SupCountBE.Infrastacture.Repositories;
 

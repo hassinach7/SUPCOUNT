@@ -8,8 +8,8 @@ public static class ExtentionsMethod
     public static ModelBuilder InitiData(this ModelBuilder builder)
     {
         string filePath = Path.Combine("Data", "SeedData", "Categories.json");
-        string? assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        if(assemblyLocation is null)
+        string? assemblyLocation = Environment.CurrentDirectory;
+        if (assemblyLocation is null)
         {
             throw new InvalidOperationException("Unable to get assembly location.");
         }

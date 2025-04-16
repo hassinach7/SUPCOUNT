@@ -4,7 +4,7 @@ public interface IUserGroupRepository : IAsyncRepository<UserGroup>
 {
     Task<UserGroup?> GetByIdsIncludingAsync(
         string userId,
-        string groupId,
+        int groupId,
         bool includeUser = false,
         bool includeGroup = false
     );

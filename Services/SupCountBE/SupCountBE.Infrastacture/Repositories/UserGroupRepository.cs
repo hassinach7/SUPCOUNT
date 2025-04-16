@@ -10,7 +10,7 @@ public class UserGroupRepository : AsyncRepository<UserGroup>, IUserGroupReposit
 
     public async Task<UserGroup?> GetByIdsIncludingAsync(
         string userId,
-        string groupId,
+        int groupId,
         bool includeUser = false,
         bool includeGroup = false)
     {
