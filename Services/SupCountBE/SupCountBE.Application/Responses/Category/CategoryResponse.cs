@@ -1,4 +1,4 @@
-﻿namespace SupCountBE.Application.Responses;
+﻿namespace SupCountBE.Application.Responses.Category;
 
 public class CategoryResponse
 {

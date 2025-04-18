@@ -1,4 +1,4 @@
-﻿using SupCountBE.Application.Responses;
+﻿using SupCountBE.Application.Responses.Category;
 
 namespace SupCountBE.Application.Queries.Category;
 

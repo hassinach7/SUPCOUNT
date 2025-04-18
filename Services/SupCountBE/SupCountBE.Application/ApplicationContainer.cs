@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SupCountBE.Application.Handlers.Category;
 
-namespace SupCountBE.Application
+namespace SupCountBE.Application;
+
+public static class ApplicationContainer
 {
-    internal class ApplicationContainer
+    public static IServiceCollection AppRegisterServices(this IServiceCollection services)
     {
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetAllCategoryHandler>());
+        return services;
     }
 }

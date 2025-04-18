@@ -1,5 +1,5 @@
 ﻿using SupCountBE.Application.Queries.Category;
-using SupCountBE.Application.Responses;
+using SupCountBE.Application.Responses.Category;
 using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.Category;

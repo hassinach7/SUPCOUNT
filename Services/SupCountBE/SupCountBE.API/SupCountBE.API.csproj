@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SupCountBE.Application\SupCountBE.Application.csproj" />
-    <ProjectReference Include="..\SupCountBE.Core\SupCountBE.Core.csproj" />
     <ProjectReference Include="..\SupCountBE.Infrastacture\SupCountBE.Infrastacture.csproj" />
   </ItemGroup>
 

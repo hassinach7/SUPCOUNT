@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SupCountBE.Core.Entities;
 using SupCountBE.Infrastacture;
+using SupCountBE.Application;
 using SupCountBE.Infrastacture.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddInfrastacture(builder.Configuration);
+builder.Services.InfpRegisterServices(builder.Configuration).AppRegisterServices();
 builder.Services.AddIdentity<User, ApplicationRole>().AddEntityFrameworkStores<SupCountDbContext>()
     .AddDefaultTokenProviders();
 
@@ -24,6 +25,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
@@ -32,4 +34,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

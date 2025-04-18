@@ -10,4 +10,12 @@ public interface IExpenseRepository : IAsyncRepository<Expense>
         bool includeParticipations = false,
         bool includeJustifications = false
     );
+
+    Task<IList<Expense>> GetAllListIncludingAsync(
+    bool includePayer = false,
+    bool includeCategory = false,
+    bool includeGroup = false,
+    bool includeParticipations = false,
+    bool includeJustifications = false
+);
 }

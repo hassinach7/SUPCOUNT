@@ -4,7 +4,7 @@ namespace SupCountBE.Core.Entities;
 public class User : IdentityUser
 {
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-    public DateTime? UpdatdAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
     public required  string FullName {  get; set; }
     public ICollection<Expense>? Expenses { get; set; } 
     public ICollection<Participation>? Participations { get; set; }

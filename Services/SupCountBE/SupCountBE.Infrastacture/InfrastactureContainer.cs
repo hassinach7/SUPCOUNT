@@ -8,7 +8,7 @@ namespace SupCountBE.Infrastacture;
 
 public static class InfrastactureContainer
 {
-    public static IServiceCollection AddInfrastacture(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection InfpRegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<SupCountDbContext>(options =>
         {
@@ -18,6 +18,16 @@ public static class InfrastactureContainer
         });
 
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IExpenseRepository, ExpenseRepository>();
+        services.AddScoped<IGroupRepository, GroupRepository>();
+        services.AddScoped<IJustificationRepository, JustificationRepository>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IParticipationRepository, ParticipationRepository>();
+        services.AddScoped<IReimbursementRepository, ReimbursementRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserGroupRepository, UserGroupRepository>();
+
 
         return services;
     }
