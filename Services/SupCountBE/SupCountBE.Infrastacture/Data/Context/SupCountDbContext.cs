@@ -7,6 +7,7 @@ namespace SupCountBE.Infrastacture.Data.Context;
 
 public class SupCountDbContext : IdentityDbContext<User,ApplicationRole, string>
 {
+    public string? UserId { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<UserGroup> UserGroups { get; set; }
     public DbSet<Expense> Expenses { get; set; }
@@ -52,5 +53,7 @@ public class SupCountDbContext : IdentityDbContext<User,ApplicationRole, string>
         modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
         modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
         modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+
+        modelBuilder.Entity<Expense>().HasQueryFilter(o => o.PayerId == UserId);
     }
 }

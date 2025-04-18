@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SupCountBE.Core\SupCountBE.Core.csproj" />
   </ItemGroup>
 
