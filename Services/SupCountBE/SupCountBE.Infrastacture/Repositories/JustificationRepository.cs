@@ -19,4 +19,15 @@ public class JustificationRepository : AsyncRepository<Justification>, IJustific
 
         return await query.SingleOrDefaultAsync(j => j.Id == id);
     }
+    public async Task<IList<Justification>> GetAllListIncludingAsync(bool includeExpense = false)
+    {
+        var query = _dbContext.Justifications.AsQueryable();
+
+        if (includeExpense)
+        {
+            query = query.Include(j => j.Expense);
+        }
+
+        return await query.ToListAsync();
+    }
 }

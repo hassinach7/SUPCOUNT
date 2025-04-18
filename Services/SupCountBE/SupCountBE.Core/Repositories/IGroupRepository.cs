@@ -9,4 +9,10 @@ public interface IGroupRepository : IAsyncRepository<Group>
         bool includeReimbursements = false,
         bool includeMessages = false
     );
+    Task<IList<Group>> GetAllListIncludingAsync(
+        bool includeUserGroups = false,
+        bool includeExpenses = false,
+        bool includeReimbursements = false,
+        bool includeMessages = false
+    );
 }

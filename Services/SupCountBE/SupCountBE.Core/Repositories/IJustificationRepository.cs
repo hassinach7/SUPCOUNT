@@ -6,4 +6,7 @@ public interface IJustificationRepository : IAsyncRepository<Justification>
         int id,
         bool includeExpenses = false
     );
+    Task<IList<Justification>> GetAllListIncludingAsync(
+        bool includeExpense = false
+    );
 }

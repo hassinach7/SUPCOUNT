@@ -6,8 +6,8 @@ namespace SupCountBE.Application.Mappers
     {
         public JustificationMapperProfile()
         {
-            this.CreateMap<Justification, JustificationResponse>();
-           
+            CreateMap<Justification, JustificationResponse>()
+                .ForMember(dest => dest.ExpenseTitle, opt => opt.MapFrom(src => src.Expense!.Title));
         }
     }
 }
