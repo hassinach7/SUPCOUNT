@@ -13,8 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Validations\" />
   </ItemGroup>
 

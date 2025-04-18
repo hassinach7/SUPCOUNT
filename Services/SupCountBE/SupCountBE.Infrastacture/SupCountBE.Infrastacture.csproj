@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\SupCountBE.Application\SupCountBE.Application.csproj" />
 		<ProjectReference Include="..\SupCountBE.Core\SupCountBE.Core.csproj" />
 	</ItemGroup>
 

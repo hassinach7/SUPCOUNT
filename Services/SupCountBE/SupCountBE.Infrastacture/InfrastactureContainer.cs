@@ -1,8 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SupCountBE.Application.Common.Services;
 using SupCountBE.Core.Repositories;
+using SupCountBE.Infrastacture.AuthSettings;
 using SupCountBE.Infrastacture.Data.Context;
 using SupCountBE.Infrastacture.Repositories;
+using SupCountBE.Infrastacture.Services;
 
 namespace SupCountBE.Infrastacture;
 
@@ -28,6 +32,31 @@ public static class InfrastactureContainer
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserGroupRepository, UserGroupRepository>();
 
+        services.Configure<JwtSettings>(options =>
+        {
+            var jwtSection = configuration.GetSection("JWT");
+            if(jwtSection is null)
+            {
+                throw new ArgumentNullException(nameof(jwtSection), "JWT section not found in configuration");
+            }
+            options.Key = jwtSection["Key"];
+            options.Issuer = jwtSection["Issuer"];
+            options.Audience = jwtSection["Audience"];
+            if (!int.TryParse(jwtSection["ExpirationInMinutes"], out var expiration))
+            {
+                throw new ArgumentException("Invalid ExpirationInMinutes value in JWT section");
+            }
+            options.ExpirationInMinutes = expiration;
+        });
+        services.AddScoped<ITokenGenerator, TokenGenerator>();
+        services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequiredLength = 6;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireLowercase = false;
+        });
 
         return services;
     }
