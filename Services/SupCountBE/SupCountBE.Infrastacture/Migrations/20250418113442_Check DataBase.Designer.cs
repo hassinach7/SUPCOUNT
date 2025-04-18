@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupCountBE.Infrastacture.Data.Context;
 
@@ -11,9 +12,11 @@ using SupCountBE.Infrastacture.Data.Context;
 namespace SupCountBE.Infrastacture.Migrations
 {
     [DbContext(typeof(SupCountDbContext))]
-    partial class SupCountDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250418113442_Check DataBase")]
+    partial class CheckDataBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

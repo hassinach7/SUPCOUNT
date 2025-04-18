@@ -3,6 +3,7 @@ using SupCountBE.Core.Entities;
 using SupCountBE.Infrastacture;
 using SupCountBE.Application;
 using SupCountBE.Infrastacture.Data.Context;
+using SupCountBE.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,5 +34,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.InitializeUserAndRole();
 
 await app.RunAsync();
