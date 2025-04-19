@@ -7,7 +7,8 @@ namespace SupCountBE.Application.Mappers
     { 
         public TransactionMapperProfile()
         {
-            this.CreateMap<Transaction, TransactionResponse>();
+            CreateMap<Transaction, TransactionResponse>()
+                .ForMember(dest => dest.ReimbursementName, opt => opt.MapFrom(src => src.Reimbursement!.Name));
         }
     }
 }

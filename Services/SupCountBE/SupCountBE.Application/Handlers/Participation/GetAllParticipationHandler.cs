@@ -1,5 +1,5 @@
 ﻿using SupCountBE.Application.Queries.Participation;
-using SupCountBE.Application.Responses;
+using SupCountBE.Application.Responses.Participation;
 using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.Participation

@@ -1,4 +1,4 @@
-﻿using SupCountBE.Application.Responses;
+﻿using SupCountBE.Application.Responses.Reimbursement;
 
 namespace SupCountBE.Application.Queries.Reimbursement
 {

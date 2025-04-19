@@ -1,6 +1,6 @@
 ﻿
 using SupCountBE.Application.Queries.Reimbursement;
-using SupCountBE.Application.Responses;
+using SupCountBE.Application.Responses.Reimbursement;
 using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.Reimbursement;

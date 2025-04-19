@@ -1,4 +1,4 @@
-﻿using SupCountBE.Application.Queries.UserGroup;
+﻿using SupCountBE.Application.Responses.UserGroup;
 
 namespace SupCountBE.Application.Mappers
 {
@@ -6,7 +6,8 @@ namespace SupCountBE.Application.Mappers
     {
         public UserGroupMapperProfile()
         {
-            this.CreateMap<UserGroup, UserGroupResponse>();
+            CreateMap<UserGroup, UserGroupResponse>()
+                 .ForMember(dest => dest.GroupName, opt => opt.MapFrom(src => src.Group!.Name));
         }
     }
     

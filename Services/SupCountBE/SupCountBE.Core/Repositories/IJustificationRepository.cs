@@ -4,7 +4,7 @@ public interface IJustificationRepository : IAsyncRepository<Justification>
 {
     Task<Justification?> GetByIdIncludingAsync(
         int id,
-        bool includeExpenses = false
+        bool includeExpense = false
     );
     Task<IList<Justification>> GetAllListIncludingAsync(
         bool includeExpense = false

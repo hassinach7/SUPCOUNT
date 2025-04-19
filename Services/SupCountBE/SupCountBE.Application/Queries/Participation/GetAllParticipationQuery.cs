@@ -1,6 +1,5 @@
 ﻿
-
-using SupCountBE.Application.Responses;
+using SupCountBE.Application.Responses.Participation;
 
 namespace SupCountBE.Application.Queries.Participation;
 

@@ -1,11 +1,12 @@
-﻿namespace SupCountBE.Application.Responses;
+﻿namespace SupCountBE.Application.Responses.Reimbursement;
 
 public class ReimbursementResponse
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
-    public float Amount { get; set; }
-    public string SenderId { get; set; } = null!;
-    public string BeneficiaryId { get; set; } = null!;
-    public int GroupId { get; set; }
+    public float Amount { get; set; } 
+    public string SenderName { get; set; } = null!;
+    public string BeneficiaryName { get; set; } = null!;
+    public string GroupName { get; set; } = null!;
+    public int TransactionCount { get; set; }
 }

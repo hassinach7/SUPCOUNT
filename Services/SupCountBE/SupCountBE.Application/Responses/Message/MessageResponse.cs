@@ -2,12 +2,15 @@
 
 namespace SupCountBE.Application.Responses.Message
 {
-    public  class MessageResponse
+    public class MessageResponse
     {
         public int Id { get; set; }
-        public string Content { get; set; } = string.Empty;
-        public string? SenderId { get; set; }
-        public string? RecipientId { get; set; }
-        public int? GroupId { get; set; }
+        public string Content { get; set; } = null!;
+        public DateTime CreatedAt { get; set; }
+
+        public string SenderName { get; set; } = null!;
+        public string? RecipientName { get; set; }
+        public string? GroupName { get; set; }
     }
+
 }

@@ -1,0 +1,41 @@
+﻿using FluentValidation;
+using SupCountBE.Application.Commands.Reimbursement;
+using SupCountBE.Application.Responses.Reimbursement;
+using SupCountBE.Application.Validations.Reimbursement;
+using SupCountBE.Core.Repositories;
+
+namespace SupCountBE.Application.Handlers.Reimbursement;
+
+public class CreateReimbursementHandler : IRequestHandler<CreateReimbursementCommand, ReimbursementResponse>
+{
+    private readonly IReimbursementRepository _repository;
+    private readonly IMapper _mapper;
+
+    public CreateReimbursementHandler(IReimbursementRepository repository, IMapper mapper)
+    {
+        _repository = repository;
+        _mapper = mapper;
+    }
+
+    public async Task<ReimbursementResponse> Handle(CreateReimbursementCommand request, CancellationToken cancellationToken)
+    {
+        var validator = new CreateReimbursementValidator();
+        var validation = await validator.ValidateAsync(request, cancellationToken);
+        if (!validation.IsValid)
+            throw new ValidationException(validation.Errors);
+
+        var reimbursement = new Core.Entities.Reimbursement
+        {
+            Name = request.Name,
+            SenderId = request.SenderId,
+            BeneficiaryId = request.BeneficiaryId,
+            Amount = request.Amount,
+            GroupId = request.GroupId
+        };
+
+        await _repository.AddAsync(reimbursement);
+
+        var full = await _repository.GetByIdIncludingAsync(reimbursement.Id, includeSender: true, includeBeneficiary: true, includeGroup: true, includeTransactions: true);
+        return _mapper.Map<ReimbursementResponse>(full);
+    }
+}

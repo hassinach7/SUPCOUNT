@@ -1,6 +1,7 @@
-﻿using SupCountBE.Core.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using SupCountBE.Core.Entities;
+using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
-
 
 namespace SupCountBE.Infrastacture.Repositories;
 
@@ -23,6 +24,16 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
         {
             query = query.Include(p => p.Expense);
         }
+
         return await query.ToListAsync();
     }
+
+    public async Task<Participation?> GetByIdsAsync(string userId, int expenseId)
+    {
+        return await _dbContext.Participations
+            .Include(p => p.User)
+            .Include(p => p.Expense)
+            .FirstOrDefaultAsync(p => p.UserId == userId && p.ExpenseId == expenseId);
+    }
+
 }
