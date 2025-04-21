@@ -1,12 +1,32 @@
 ﻿using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
 
-
 namespace SupCountBE.Infrastacture.Repositories;
 
 public class UserRepository : AsyncRepository<User>, IUserRepository
 {
     public UserRepository(SupCountDbContext dbContext) : base(dbContext) { }
+
+    public Task<IList<User>> GetAllListIncludingAsync(bool includeExpenses = false, bool includeReimbursements = false, bool includeGroups = false)
+     
+    {
+        var query = _dbContext.Users.AsQueryable();
+
+        if (includeExpenses)
+            query = query.Include(u => u.Expenses);
+
+        if (includeReimbursements)
+        {
+            query = query
+                .Include(u => u.ReimbursementsSent)
+                .Include(u => u.ReimbursementsReceived);
+        }
+
+        if (includeGroups)
+            query = query.Include(u => u.UserGroups!).ThenInclude(ug => ug.Group);
+
+        return Task.FromResult(query.ToList() as IList<User>);
+    }
 
     public async Task<User?> GetByIdIncludingAsync(
         string id,

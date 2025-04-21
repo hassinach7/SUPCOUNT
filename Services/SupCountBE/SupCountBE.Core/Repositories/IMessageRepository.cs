@@ -8,4 +8,8 @@ public interface IMessageRepository : IAsyncRepository<Message>
         bool includeRecipient = false,
         bool includeGroup = false
     );
+    Task<IList<Message>> GetAllListIncludingAsync(
+       bool includeSender = false,
+       bool includeRecipient = false,
+       bool includeGroup = false);
 }

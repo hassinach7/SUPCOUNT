@@ -17,7 +17,7 @@ namespace SupCountBE.Application.Handlers.Transaction
 
         public async Task<IList<TransactionResponse>> Handle(GetAllTransactionQuery request, CancellationToken cancellationToken)
         {
-            var transactions = await _transactionRepository.ListAllAsync();
+            var transactions = await _transactionRepository.GetAllListIncludingAsync(includeReimbursement: true);
             return _mapper.Map<IList<TransactionResponse>>(transactions);
         }
     }

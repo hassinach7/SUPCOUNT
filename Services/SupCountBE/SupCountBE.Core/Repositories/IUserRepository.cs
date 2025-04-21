@@ -12,4 +12,9 @@ public interface IUserRepository : IAsyncRepository<User>
         bool includeReceivedMessages = false,
         bool includeUserGroups = false
     );
+    Task<IList<User>> GetAllListIncludingAsync(
+           bool includeExpenses = false,
+           bool includeReimbursements = false,
+           bool includeGroups = false
+       );
 }

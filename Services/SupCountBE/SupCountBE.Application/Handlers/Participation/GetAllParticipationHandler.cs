@@ -17,7 +17,7 @@ namespace SupCountBE.Application.Handlers.Participation
 
         public async Task<IList<ParticipationResponse>> Handle(GetAllParticipationQuery request, CancellationToken cancellationToken)
         {
-            var participations = await _participationRepository.ListAllAsync();
+            var participations = await _participationRepository.GetListIncludingAsync(includeUser: true, includeExpense: true);
             return _mapper.Map<IList<ParticipationResponse>>(participations);
         }
     }

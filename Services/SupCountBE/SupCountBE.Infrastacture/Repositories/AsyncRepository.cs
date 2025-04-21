@@ -58,4 +58,9 @@ public class AsyncRepository<T> : IAsyncRepository<T>    where T : class
         var any = _dbContext.Set<T>().Any(expression);
         return Task.FromResult(any);
     }
+
+    public string GetCurrentUser()
+    {
+        return _dbContext.UserId!;
+    }
 }

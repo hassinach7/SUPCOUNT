@@ -12,7 +12,7 @@ namespace SupCountBE.Application.Handlers.Message
 
         public async Task<IList<MessageResponse>> Handle(GetAllMessageQuery request, CancellationToken cancellationToken)
         {
-            var messages = await _messageRepository.ListAllAsync();
+            var messages = await _messageRepository.GetAllListIncludingAsync(includeSender: true, includeRecipient: true, includeGroup: true);
             return _mapper.Map<IList<MessageResponse>>(messages);
         }
     }

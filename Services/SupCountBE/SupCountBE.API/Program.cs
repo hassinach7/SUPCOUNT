@@ -25,6 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.InfpRegisterServices(builder.Configuration).AppRegisterServices();
+builder.Services.AppRegisterServices();
 builder.Services.AddIdentity<User, ApplicationRole>().AddEntityFrameworkStores<SupCountDbContext>()
     .AddDefaultTokenProviders();
 

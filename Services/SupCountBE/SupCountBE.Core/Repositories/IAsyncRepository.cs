@@ -12,4 +12,5 @@ public interface IAsyncRepository<T> where T : class
     Task<IReadOnlyList<T>> FindByConditionAsync(Expression<Func<T, bool>> expression);
     Task<int> CountAsync();
     Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
+    string GetCurrentUser();
 }

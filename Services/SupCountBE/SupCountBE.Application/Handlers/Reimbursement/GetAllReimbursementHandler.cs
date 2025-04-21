@@ -18,7 +18,7 @@ public class GetAllReimbursementHandler : IRequestHandler<GetAllReimbursementQue
 
     public async Task<IList<ReimbursementResponse>> Handle(GetAllReimbursementQuery request, CancellationToken cancellationToken)
     {
-        var reimbursements = await _reimbursementRepository.ListAllAsync();
+        var reimbursements = await _reimbursementRepository.GetAllListIncludingAsync(includeSender: true, includeBeneficiary: true, includeGroup: true);
         return _mapper.Map<IList<ReimbursementResponse>>(reimbursements);
     }
 }

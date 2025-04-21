@@ -18,7 +18,7 @@ namespace SupCountBE.Application.Handlers.UserGroup
 
         public async Task<IList<UserGroupResponse>> Handle(GetAllUserGroupQuery request, CancellationToken cancellationToken)
         {
-            var userGroups = await _userGroupRepository.ListAllAsync();
+            var userGroups = await _userGroupRepository.GetListIncludingAsync(includeUser: true, includeGroup: true);
             return _mapper.Map<IList<UserGroupResponse>>(userGroups);
         }
     }

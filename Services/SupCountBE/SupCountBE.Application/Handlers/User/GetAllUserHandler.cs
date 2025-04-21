@@ -1,6 +1,4 @@
-﻿
-using MediatR;
-using SupCountBE.Application.Queries.User;
+﻿using SupCountBE.Application.Queries.User;
 using SupCountBE.Application.Responses.User;
 using SupCountBE.Core.Repositories;
 
@@ -19,7 +17,7 @@ namespace SupCountBE.Application.Handlers.User
 
         public async Task<IList<UserResponse>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
         {
-            var users = await _userRepository.ListAllAsync();
+            var users = await _userRepository.GetAllListIncludingAsync(includeExpenses: true, includeGroups: true, includeReimbursements: true);
             return _mapper.Map<IList<UserResponse>>(users);
         }
     }

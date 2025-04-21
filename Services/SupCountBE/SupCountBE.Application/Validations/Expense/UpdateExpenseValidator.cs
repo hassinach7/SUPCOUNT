@@ -7,7 +7,6 @@ namespace SupCountBE.Application.Validations.Expense
     {
         public UpdateExpenseValidator()
         {
-            RuleFor(x => x.Id);
           
 
             RuleFor(x => x.Title)
@@ -24,16 +23,16 @@ namespace SupCountBE.Application.Validations.Expense
                 .NotEmpty()
                 .WithMessage("Date is required.");
 
-            RuleFor(x => x.PayerId)
-                .NotEmpty()
-                .WithMessage("Payer ID is required.");
+            RuleFor(x => x.Id)
+                .NotNull()
+                .WithMessage("ID is required.");
 
             RuleFor(x => x.CategoryId)
-                .GreaterThan(0)
+                .NotNull()
                 .WithMessage("Category ID is required.");
 
             RuleFor(x => x.GroupId)
-                .GreaterThan(0)
+                .NotNull()
                 .WithMessage("Group ID is required.");
         }
     }

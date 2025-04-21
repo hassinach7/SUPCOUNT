@@ -8,4 +8,10 @@ public interface IUserGroupRepository : IAsyncRepository<UserGroup>
         bool includeUser = false,
         bool includeGroup = false
     );
+
+    Task<UserGroup?> GetByIdsAsync(string userId, int groupId);
+    Task<IList<UserGroup>> GetListIncludingAsync(
+    bool includeUser = false,
+    bool includeGroup = false
+);
 }

@@ -7,5 +7,8 @@
        int id,
        bool includeReimbursement = false
    );
+        Task<IList<Transaction>> GetAllListIncludingAsync(
+       bool includeReimbursement = false
+   );
     }
 }

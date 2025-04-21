@@ -8,6 +8,16 @@ public class TransactionRepository : AsyncRepository<Transaction>, ITransactionR
 {
     public TransactionRepository(SupCountDbContext dbContext) : base(dbContext) { }
 
+    public async Task<IList<Transaction>> GetAllListIncludingAsync(bool includeReimbursement = false)
+    {
+        var query = _dbContext.Transactions.AsQueryable();
+
+        if (includeReimbursement)
+            query = query.Include(t => t.Reimbursement);
+
+        return await query.ToListAsync();
+    }
+
     public async Task<Transaction?> GetByIdIncludingAsync(
         int id,
         bool includeReimbursement = false)
