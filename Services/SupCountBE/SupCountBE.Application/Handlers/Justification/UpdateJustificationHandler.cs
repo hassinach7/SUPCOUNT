@@ -2,19 +2,22 @@
 using SupCountBE.Application.Commands.Justification;
 using SupCountBE.Application.Responses.Justification;
 using SupCountBE.Application.Validations.Justification;
+using SupCountBE.Core.Exceptions;
 using SupCountBE.Core.Repositories;
 
 
 namespace SupCountBE.Application.Handlers.Justification
 {
-    public class UpdateJustificationHandler : IRequest<JustificationResponse>
+    public class UpdateJustificationHandler : IRequestHandler<UpdateJustificationCommand, JustificationResponse>
     {
         private readonly IJustificationRepository _justificationRepository;
         private readonly IMapper _mapper;
-        public UpdateJustificationHandler(IJustificationRepository justificationRepository, IMapper mapper)
+        private readonly IExpenseRepository _expenseRepository;
+        public UpdateJustificationHandler(IJustificationRepository justificationRepository, IMapper mapper, IExpenseRepository expenseRepository)
         {
             _justificationRepository = justificationRepository;
             _mapper = mapper;
+            _expenseRepository = expenseRepository;
         }
         public async Task<JustificationResponse> Handle(UpdateJustificationCommand request, CancellationToken cancellationToken)
         {
@@ -24,6 +27,10 @@ namespace SupCountBE.Application.Handlers.Justification
             {
                 throw new ValidationException(validationResult.Errors);
             }
+            var expense = await _expenseRepository.GetByIdAsync(request.ExpenseId!.Value);
+            if (expense == null)
+                throw new JustificationException($"Expense not found.");
+
             var justification = await _justificationRepository.GetByIdAsync(request.Id);
             if (justification is null)
 

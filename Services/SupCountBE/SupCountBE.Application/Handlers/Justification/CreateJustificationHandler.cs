@@ -2,6 +2,7 @@
 using SupCountBE.Application.Commands.Justification;
 using SupCountBE.Application.Responses.Justification;
 using SupCountBE.Application.Validations.Justification;
+using SupCountBE.Core.Exceptions;
 using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.Justification;
@@ -10,11 +11,13 @@ public class CreateJustificationHandler : IRequestHandler<CreateJustificationCom
 {
     private readonly IJustificationRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IExpenseRepository _expenseRepository;
 
-    public CreateJustificationHandler(IJustificationRepository repository, IMapper mapper)
+    public CreateJustificationHandler(IJustificationRepository repository, IMapper mapper, IExpenseRepository expenseRepository)
     {
         _repository = repository;
         _mapper = mapper;
+        _expenseRepository = expenseRepository;
     }
 
     public async Task<JustificationResponse> Handle(CreateJustificationCommand request, CancellationToken cancellationToken)
@@ -24,9 +27,14 @@ public class CreateJustificationHandler : IRequestHandler<CreateJustificationCom
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
 
+        var expense = await _expenseRepository.GetByIdAsync(request.ExpenseId!.Value);
+        if (expense == null)
+            throw new JustificationException($"Expense not found.");
+
+
         var justification = new Core.Entities.Justification
         {
-            ExpenseId = request.ExpenseId,
+            ExpenseId = request.ExpenseId.Value,
             FileContent = request.FileContent,
             Type = request.Type
         };

@@ -17,7 +17,7 @@ public class GetAllExpenseHandler : IRequestHandler<GetAllExpenseQuery, IList<Ex
 
     public async Task<IList<ExpenseResponse>> Handle(GetAllExpenseQuery request, CancellationToken cancellationToken)
     {
-        var expenses = await _expenseRepository.GetAllListIncludingAsync(includeGroup:true,includeJustifications:true,includeParticipations:true);
+        var expenses = await _expenseRepository.GetAllListIncludingAsync(includeGroup:true,includeJustifications:true,includeParticipations:true,includeCategory: true);
         return _mapper.Map<IList<ExpenseResponse>>(expenses);
     }
 }

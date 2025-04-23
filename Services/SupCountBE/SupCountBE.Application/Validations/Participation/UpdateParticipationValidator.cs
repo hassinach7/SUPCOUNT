@@ -7,10 +7,14 @@ public class UpdateParticipationValidator : AbstractValidator<UpdateParticipatio
 {
     public UpdateParticipationValidator()
     {
-        RuleFor(x => x.UserId);
+        RuleFor(x => x.UserId)
+         .NotNull()
+         .WithMessage("User ID is required.");
 
-        RuleFor(x => x.ExpenseId);
-      
+        RuleFor(x => x.ExpenseId)
+         .NotNull()
+         .WithMessage("Expense Id is required.");
+
         RuleFor(x => x.Weight)
             .GreaterThan(0).WithMessage("Weight must be greater than 0.");
     }

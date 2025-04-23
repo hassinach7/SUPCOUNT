@@ -8,5 +8,13 @@ public interface IParticipationRepository : IAsyncRepository<Participation>
     );
 
     Task<Participation?> GetByIdsAsync(string userId, int expenseId);
+    Task<Participation?> GetByIdsIncludingAsync(
+        string userId, 
+        int expenseId,
+         bool includeUser = false,
+        bool includeExpense = false
+        );
+
+
 
 }

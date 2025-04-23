@@ -6,6 +6,7 @@ namespace SupCountBE.Application.Commands.Justification;
 public class UpdateJustificationCommand : IRequest<JustificationResponse>
 {
     public int Id { get; set; }
+    public int? ExpenseId { get; set; }
     public byte[] FileContent { get; set; } = null!;
     public JustificationTypeEnum Type { get; set; }
 }

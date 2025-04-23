@@ -36,4 +36,24 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
             .FirstOrDefaultAsync(p => p.UserId == userId && p.ExpenseId == expenseId);
     }
 
+    public async Task<Participation?> GetByIdsIncludingAsync(
+      string userId,
+      int expenseId,
+      bool includeUser = false,
+      bool includeExpense = false)
+    {
+        var query = _dbContext.Participations.AsQueryable();
+
+        if (includeUser)
+        {
+            query = query.Include(ug => ug.User);
+        }
+
+        if (includeExpense)
+        {
+            query = query.Include(ug => ug.Expense);
+        }
+
+        return await query.SingleOrDefaultAsync(ug => ug.UserId == userId && ug.ExpenseId == expenseId);
+    }
 }

@@ -10,11 +10,15 @@ public class CreateUserGroupHandler : IRequestHandler<CreateUserGroupCommand, Us
 {
     private readonly IUserGroupRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly IGroupRepository _groupRepository;
 
-    public CreateUserGroupHandler(IUserGroupRepository repository, IMapper mapper)
+    public CreateUserGroupHandler(IUserGroupRepository repository, IMapper mapper, IUserRepository userRepository, IGroupRepository groupRepository)
     {
         _repository = repository;
         _mapper = mapper;
+        _userRepository = userRepository;
+        _groupRepository = groupRepository;
     }
 
     public async Task<UserGroupResponse> Handle(CreateUserGroupCommand request, CancellationToken cancellationToken)
@@ -23,6 +27,16 @@ public class CreateUserGroupHandler : IRequestHandler<CreateUserGroupCommand, Us
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
+
+        int userId = int.Parse(request.UserId);
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new Exception("User not found.");
+
+        var group = await _groupRepository.GetByIdAsync(request.GroupId);
+        if (group == null)
+            throw new Exception("Group not found.");
+
 
         var userGroup = new Core.Entities.UserGroup
         {

@@ -1,17 +1,18 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SupCountBE.Application.Commands.Expense;
-using SupCountBE.Application.Queries.Expense;
+using SupCountBE.Application.Commands.Group;
+using SupCountBE.Application.Queries.Group;
 
 namespace SupCountBE.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ExpenseController : ControllerBase
+
+public class GroupController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public ExpenseController(IMediator mediator)
+    public GroupController(IMediator mediator)
     {
         this._mediator = mediator;
     }
@@ -21,19 +22,19 @@ public class ExpenseController : ControllerBase
     [Route("[action]")]
     public async Task<IActionResult> GetAllAsync()
     {
-        return Ok(await _mediator.Send(new GetAllExpenseQuery()));
+        return Ok(await _mediator.Send(new GetAllGroupQuery()));
     }
     [HttpPost]
     [ActionName("Create")]
     [Route("[action]")]
-    public async Task<IActionResult> CreateAsync(CreateExpenseCommand model)
+    public async Task<IActionResult> CreateAsync(CreateGroupCommand model)
     {
         return Ok(await _mediator.Send(model));
     }
     [HttpPut]
     [ActionName("Edit")]
     [Route("[action]")]
-    public async Task<IActionResult> EditAsync(UpdateExpenseCommand model)
+    public async Task<IActionResult> EditAsync(UpdateGroupCommand model)
     {
         return Ok(await _mediator.Send(model));
     }

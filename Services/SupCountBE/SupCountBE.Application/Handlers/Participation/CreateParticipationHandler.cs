@@ -10,11 +10,16 @@ public class CreateParticipationHandler : IRequestHandler<CreateParticipationCom
 {
     private readonly IParticipationRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly IExpenseRepository _expenseRepository;
 
-    public CreateParticipationHandler(IParticipationRepository repository, IMapper mapper)
+
+    public CreateParticipationHandler(IParticipationRepository repository, IMapper mapper, IUserRepository userRepository, IExpenseRepository expenseRepository)
     {
         _repository = repository;
         _mapper = mapper;
+        _userRepository = userRepository;
+        _expenseRepository = expenseRepository;
     }
 
     public async Task<ParticipationResponse> Handle(CreateParticipationCommand request, CancellationToken cancellationToken)
@@ -23,6 +28,17 @@ public class CreateParticipationHandler : IRequestHandler<CreateParticipationCom
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
+
+        int userId = int.Parse(request.UserId);
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new Exception("User not found.");
+
+        var expense = await _expenseRepository.GetByIdAsync(request.ExpenseId);
+        if (expense == null)
+            throw new Exception("Expense not found.");
+
+
 
         var participation = new Core.Entities.Participation
         {
@@ -33,7 +49,8 @@ public class CreateParticipationHandler : IRequestHandler<CreateParticipationCom
 
         await _repository.AddAsync(participation);
 
-        var createParticipation = await _repository.GetByIdsAsync(request.UserId, request.ExpenseId);
+        var createParticipation = await _repository.GetByIdsIncludingAsync(request.UserId, request.ExpenseId);
+        ;
 
         return _mapper.Map<ParticipationResponse>(createParticipation);
     }
