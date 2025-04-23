@@ -3,7 +3,7 @@ using SupCountBE.Application.Responses.Message;
 
 namespace SupCountBE.Application.Queries.Message;
 
-    public class GetAllMessageQuery : IRequest<List<MessageResponse>>
+    public class GetAllMessageQuery : IRequest<IList<MessageResponse>>
 {
 
 }

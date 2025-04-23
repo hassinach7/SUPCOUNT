@@ -16,7 +16,7 @@ public class CategoryController : ControllerBase
         _mediator = mediator;
     }
 
-  
+
     [HttpGet]
     [ActionName("GetAll")]
     [Route("[action]")]

@@ -7,8 +7,8 @@ public class UpdateUserGroupValidator : AbstractValidator<UpdateUserGroupCommand
 {
     public UpdateUserGroupValidator()
     {
-        RuleFor(x => x.UserId)
-            .NotEmpty().WithMessage("User ID is required.");
+        //RuleFor(x => x.UserId)
+        //    .NotEmpty().WithMessage("User ID is required.");
 
         RuleFor(x => x.GroupId)
             .NotEmpty().WithMessage("Group ID is required.");

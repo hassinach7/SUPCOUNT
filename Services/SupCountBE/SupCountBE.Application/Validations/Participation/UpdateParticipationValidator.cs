@@ -7,9 +7,9 @@ public class UpdateParticipationValidator : AbstractValidator<UpdateParticipatio
 {
     public UpdateParticipationValidator()
     {
-        RuleFor(x => x.UserId)
-         .NotNull()
-         .WithMessage("User ID is required.");
+        //RuleFor(x => x.UserId)
+        // .NotNull()
+        // .WithMessage("User ID is required.");
 
         RuleFor(x => x.ExpenseId)
          .NotNull()

@@ -2,11 +2,9 @@
 
 namespace SupCountBE.Application.Queries.Transaction
 {
-    public class GetAllTransactionQuery : IRequest<List<TransactionResponse>>
+    public class GetAllTransactionQuery : IRequest<IList<TransactionResponse>>
     {
-        public GetAllTransactionQuery()
-        {
-        }
+       
     }
     
 }

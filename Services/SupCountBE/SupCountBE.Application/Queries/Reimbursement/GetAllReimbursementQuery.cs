@@ -2,7 +2,7 @@
 
 namespace SupCountBE.Application.Queries.Reimbursement
 {
-    public class GetAllReimbursementQuery : IRequest<List<ReimbursementResponse>>
+    public class GetAllReimbursementQuery : IRequest<IList<ReimbursementResponse>>
     {
     }
 

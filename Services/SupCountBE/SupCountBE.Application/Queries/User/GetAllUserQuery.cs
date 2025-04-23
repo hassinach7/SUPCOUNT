@@ -2,7 +2,7 @@
 
 namespace SupCountBE.Application.Queries.User
 {
-    public class GetAllUserQuery : IRequest<List<UserResponse>>
+    public class GetAllUserQuery : IRequest<IList<UserResponse>>
     {
     }
 }

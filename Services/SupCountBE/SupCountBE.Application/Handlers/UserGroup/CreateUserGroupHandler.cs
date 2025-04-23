@@ -8,14 +8,14 @@ namespace SupCountBE.Application.Handlers.UserGroup;
 
 public class CreateUserGroupHandler : IRequestHandler<CreateUserGroupCommand, UserGroupResponse>
 {
-    private readonly IUserGroupRepository _repository;
+    private readonly IUserGroupRepository _userGrouprepository;
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
     private readonly IGroupRepository _groupRepository;
 
-    public CreateUserGroupHandler(IUserGroupRepository repository, IMapper mapper, IUserRepository userRepository, IGroupRepository groupRepository)
+    public CreateUserGroupHandler(IUserGroupRepository userGrouprepository, IMapper mapper, IUserRepository userRepository, IGroupRepository groupRepository)
     {
-        _repository = repository;
+        _userGrouprepository = userGrouprepository;
         _mapper = mapper;
         _userRepository = userRepository;
         _groupRepository = groupRepository;
@@ -28,10 +28,7 @@ public class CreateUserGroupHandler : IRequestHandler<CreateUserGroupCommand, Us
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
 
-        int userId = int.Parse(request.UserId);
-        var user = await _userRepository.GetByIdAsync(userId);
-        if (user == null)
-            throw new Exception("User not found.");
+       
 
         var group = await _groupRepository.GetByIdAsync(request.GroupId);
         if (group == null)
@@ -40,15 +37,15 @@ public class CreateUserGroupHandler : IRequestHandler<CreateUserGroupCommand, Us
 
         var userGroup = new Core.Entities.UserGroup
         {
-            UserId = request.UserId,
+            UserId = _userGrouprepository.GetCurrentUser(),
             GroupId = request.GroupId,
             Role = request.Role
-        };
+        }; 
 
-        await _repository.AddAsync(userGroup);
+        await _userGrouprepository.AddAsync(userGroup);
 
-        var full = await _repository.GetByIdsIncludingAsync(
-            request.UserId,
+        var full = await _userGrouprepository.GetByIdsIncludingAsync(
+          
             request.GroupId,
             includeUser: false,
             includeGroup: true

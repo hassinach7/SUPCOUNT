@@ -24,12 +24,7 @@ public class UpdateUserGroupHandler : IRequestHandler<UpdateUserGroupCommand, Us
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
 
-        var userGroup = await _repository.GetByIdsIncludingAsync(
-            request.UserId,
-            request.GroupId,
-            includeUser: false,
-            includeGroup: true
-        );
+        var userGroup = await _repository.GetByIdsIncludingAsync(request.GroupId );
 
         if (userGroup is null)
             throw new Exception("UserGroup not found.");

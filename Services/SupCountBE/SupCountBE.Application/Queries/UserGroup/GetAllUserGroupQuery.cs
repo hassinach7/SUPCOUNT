@@ -2,7 +2,7 @@
 
 namespace SupCountBE.Application.Queries.UserGroup
 {
-    public class GetAllUserGroupQuery : IRequest<List<UserGroupResponse>>
+    public class GetAllUserGroupQuery : IRequest<IList<UserGroupResponse>>
     {
     }
 }

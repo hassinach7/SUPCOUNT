@@ -24,7 +24,7 @@ public class UpdateParticipationHandler : IRequestHandler<UpdateParticipationCom
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
 
-        var participation = await _repository.GetByIdsAsync(request.UserId, request.ExpenseId);
+        var participation = await _repository.GetByIdsAsync( request.ExpenseId);
         if (participation == null)
             throw new Exception("Participation not found.");
 

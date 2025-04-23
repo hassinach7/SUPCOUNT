@@ -21,16 +21,16 @@ public class UserGroupRepository : AsyncRepository<UserGroup>, IUserGroupReposit
     }
 
     public UserGroupRepository(SupCountDbContext dbContext) : base(dbContext) { }
-     public async Task<UserGroup?> GetByIdsAsync(string userId, int groupId)
+     public async Task<UserGroup?> GetByIdsAsync( int groupId)
     {
         return await _dbContext.UserGroups
             .Include(ug => ug.User)
             .Include(ug => ug.Group)
-            .FirstOrDefaultAsync(ug => ug.UserId == userId && ug.GroupId == groupId);
+            .FirstOrDefaultAsync(ug =>  ug.GroupId == groupId);
     }
 
     public async Task<UserGroup?> GetByIdsIncludingAsync(
-        string userId,
+
         int groupId,
         bool includeUser = false,
         bool includeGroup = false)
@@ -47,6 +47,6 @@ public class UserGroupRepository : AsyncRepository<UserGroup>, IUserGroupReposit
             query = query.Include(ug => ug.Group);
         }
 
-        return await query.SingleOrDefaultAsync(ug => ug.UserId == userId && ug.GroupId == groupId);
+        return await query.SingleOrDefaultAsync(ug =>  ug.GroupId == groupId);
     }
 }

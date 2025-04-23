@@ -8,15 +8,15 @@ namespace SupCountBE.Application.Handlers.Participation;
 
 public class CreateParticipationHandler : IRequestHandler<CreateParticipationCommand, ParticipationResponse>
 {
-    private readonly IParticipationRepository _repository;
+    private readonly IParticipationRepository _participationrepository;
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
     private readonly IExpenseRepository _expenseRepository;
 
 
-    public CreateParticipationHandler(IParticipationRepository repository, IMapper mapper, IUserRepository userRepository, IExpenseRepository expenseRepository)
+    public CreateParticipationHandler(IParticipationRepository participationrepository, IMapper mapper, IUserRepository userRepository, IExpenseRepository expenseRepository)
     {
-        _repository = repository;
+        _participationrepository = participationrepository;
         _mapper = mapper;
         _userRepository = userRepository;
         _expenseRepository = expenseRepository;
@@ -29,10 +29,7 @@ public class CreateParticipationHandler : IRequestHandler<CreateParticipationCom
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
 
-        int userId = int.Parse(request.UserId);
-        var user = await _userRepository.GetByIdAsync(userId);
-        if (user == null)
-            throw new Exception("User not found.");
+       
 
         var expense = await _expenseRepository.GetByIdAsync(request.ExpenseId);
         if (expense == null)
@@ -43,13 +40,13 @@ public class CreateParticipationHandler : IRequestHandler<CreateParticipationCom
         var participation = new Core.Entities.Participation
         {
             Weight = request.Weight,
-            UserId = request.UserId,
+            UserId = _participationrepository.GetCurrentUser(),
             ExpenseId = request.ExpenseId
         };
 
-        await _repository.AddAsync(participation);
+        await _participationrepository.AddAsync(participation);
 
-        var createParticipation = await _repository.GetByIdsIncludingAsync(request.UserId, request.ExpenseId);
+        var createParticipation = await _participationrepository.GetByIdsIncludingAsync(request.ExpenseId);
         ;
 
         return _mapper.Map<ParticipationResponse>(createParticipation);

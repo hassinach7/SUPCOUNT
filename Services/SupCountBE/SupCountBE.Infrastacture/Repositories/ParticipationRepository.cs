@@ -28,16 +28,16 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
         return await query.ToListAsync();
     }
 
-    public async Task<Participation?> GetByIdsAsync(string userId, int expenseId)
+    public async Task<Participation?> GetByIdsAsync( int expenseId)
     {
         return await _dbContext.Participations
             .Include(p => p.User)
             .Include(p => p.Expense)
-            .FirstOrDefaultAsync(p => p.UserId == userId && p.ExpenseId == expenseId);
+            .FirstOrDefaultAsync(p =>  p.ExpenseId == expenseId);
     }
 
     public async Task<Participation?> GetByIdsIncludingAsync(
-      string userId,
+    
       int expenseId,
       bool includeUser = false,
       bool includeExpense = false)
@@ -54,6 +54,6 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
             query = query.Include(ug => ug.Expense);
         }
 
-        return await query.SingleOrDefaultAsync(ug => ug.UserId == userId && ug.ExpenseId == expenseId);
+        return await query.SingleOrDefaultAsync(ug => ug.ExpenseId == expenseId);
     }
 }
