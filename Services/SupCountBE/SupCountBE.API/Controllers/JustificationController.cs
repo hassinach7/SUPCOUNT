@@ -24,8 +24,14 @@ namespace SupCountBE.API.Controllers
         {
             return Ok(await _mediator.Send(new GetAllJustificationQuery()));
         }
+        [HttpGet]
+        [ActionName("GetById")]
+        [Route("[action]")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            return Ok(await _mediator.Send(new GetJustificationByIdQuery(id)));
 
-       
+        }
 
         [HttpPost]
         [ActionName("Create")]

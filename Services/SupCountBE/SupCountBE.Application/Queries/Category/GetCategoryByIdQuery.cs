@@ -4,10 +4,12 @@ namespace SupCountBE.Application.Queries.Category;
 
 public class GetCategoryByIdQuery : IRequest<CategoryResponse>
 {
-    public int Id { get; }
-
     public GetCategoryByIdQuery(int id)
     {
         Id = id;
     }
+
+    public int Id { get; }
+
+   
 }

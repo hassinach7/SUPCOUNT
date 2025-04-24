@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SupCountBE.Application.Commands.Expense;
 using SupCountBE.Application.Queries.Expense;
+using SupCountBE.Application.Queries.Participation;
 
 namespace SupCountBE.API.Controllers;
 
@@ -22,6 +23,14 @@ public class ExpenseController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await _mediator.Send(new GetAllExpenseQuery()));
+    }
+    [HttpGet]
+    [ActionName("GetById")]
+    [Route("[action]")]
+    public async Task<IActionResult> GetByIdAsync(int id)
+    {
+        return Ok(await _mediator.Send(new GetExpenseByIdQuery(id)));
+
     }
     [HttpPost]
     [ActionName("Create")]

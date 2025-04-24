@@ -8,12 +8,12 @@ namespace SupCountBE.Application.Handlers.Reimbursement;
 
 public class CreateReimbursementHandler : IRequestHandler<CreateReimbursementCommand, ReimbursementResponse>
 {
-    private readonly IReimbursementRepository _repository;
+    private readonly IReimbursementRepository _reimbursementRepository;
     private readonly IMapper _mapper;
 
-    public CreateReimbursementHandler(IReimbursementRepository repository, IMapper mapper)
+    public CreateReimbursementHandler(IReimbursementRepository reimbursementRepository, IMapper mapper)
     {
-        _repository = repository;
+        _reimbursementRepository = reimbursementRepository;
         _mapper = mapper;
     }
 
@@ -27,15 +27,15 @@ public class CreateReimbursementHandler : IRequestHandler<CreateReimbursementCom
         var reimbursement = new Core.Entities.Reimbursement
         {
             Name = request.Name,
-            SenderId = request.SenderId,
+            SenderId = _reimbursementRepository.GetCurrentUser(),
             BeneficiaryId = request.BeneficiaryId,
             Amount = request.Amount,
             GroupId = request.GroupId
         };
 
-        await _repository.AddAsync(reimbursement);
+        await _reimbursementRepository.AddAsync(reimbursement);
 
-        var full = await _repository.GetByIdIncludingAsync(reimbursement.Id, includeSender: true, includeBeneficiary: true, includeGroup: true, includeTransactions: true);
+        var full = await _reimbursementRepository.GetByIdIncludingAsync(reimbursement.Id, includeSender: true, includeBeneficiary: true, includeGroup: true, includeTransactions: true);
         return _mapper.Map<ReimbursementResponse>(full);
     }
 }

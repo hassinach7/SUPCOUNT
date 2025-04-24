@@ -24,6 +24,14 @@ public class GroupController : ControllerBase
     {
         return Ok(await _mediator.Send(new GetAllGroupQuery()));
     }
+    [HttpGet]
+    [ActionName("GetById")]
+    [Route("[action]")]
+    public async Task<IActionResult> GetByIdAsync(int id)
+    {
+        return Ok(await _mediator.Send(new GetGroupByIdQuery(id)));
+
+    }
     [HttpPost]
     [ActionName("Create")]
     [Route("[action]")]

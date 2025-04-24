@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SupCountBE.Application.Commands.UserGroup;
-using SupCountBE.Application.Queries.Participation;
 using SupCountBE.Application.Queries.UserGroup;
 
 namespace SupCountBE.API.Controllers
@@ -25,7 +24,14 @@ namespace SupCountBE.API.Controllers
         {
             return Ok(await _mediator.Send(new GetAllUserGroupQuery()));
         }
+        [HttpGet]
+        [ActionName("GetById")]
+        [Route("[action]")]
+        public async Task<IActionResult> GetByIdAsync(int groupId)
+        {
+            return Ok(await _mediator.Send(new GetUserGroupByIdQuery(groupId)));
 
+        }
 
         [HttpPost]
         [ActionName("Create")]

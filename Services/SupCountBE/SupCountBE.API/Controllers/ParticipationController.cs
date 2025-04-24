@@ -25,6 +25,14 @@ namespace SupCountBE.API.Controllers
             return Ok(await _mediator.Send(new GetAllParticipationQuery()));
         }
 
+        [HttpGet]
+        [ActionName("GetById")]
+        [Route("[action]")]
+        public async Task<IActionResult> GetByIdAsync(int expenseId)
+        {
+            return Ok(await _mediator.Send(new GetParticipationByIdQuery(expenseId)));
+
+        }
 
 
         [HttpPost]

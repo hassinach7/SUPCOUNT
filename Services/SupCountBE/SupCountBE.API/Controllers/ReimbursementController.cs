@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SupCountBE.Application.Commands.Reimbursement;
+using SupCountBE.Application.Queries.Group;
 using SupCountBE.Application.Queries.Reimbursement;
 
 namespace SupCountBE.API.Controllers
@@ -24,8 +25,14 @@ namespace SupCountBE.API.Controllers
         {
             return Ok(await _mediator.Send(new GetAllReimbursementQuery()));
         }
+        [HttpGet]
+        [ActionName("GetById")]
+        [Route("[action]")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            return Ok(await _mediator.Send(new GetReimbursementByIdQuery(id)));
 
-
+        }
 
         [HttpPost]
         [ActionName("Create")]
