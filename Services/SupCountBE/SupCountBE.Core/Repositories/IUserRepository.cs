@@ -18,4 +18,6 @@ public interface IUserRepository : IAsyncRepository<User>
            bool includeGroups = false
        );
     Task<User?> GetUserByIdAsync(string id);
+    Task<User?> GetUserByEmailAsync(string email);
+    Task<(bool,string)> CreateAsync(User user, string password);
 }

@@ -13,8 +13,22 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         this._userManager = userManager;
     }
 
+    public async Task<(bool, string)> CreateAsync(User user, string password)
+    {
+        var result = await _userManager.CreateAsync(user, password);
+        if (result.Succeeded)
+        {
+            return (true,string.Empty);
+        }
+        else
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return (false, errors);
+        }
+    }
+
     public Task<IList<User>> GetAllListIncludingAsync(bool includeExpenses = false, bool includeReimbursements = false, bool includeGroups = false)
-     
+
     {
         var query = _dbContext.Users.AsQueryable();
 
@@ -57,8 +71,13 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         return await query.SingleOrDefaultAsync(u => u.Id == id);
     }
 
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        return await _userManager.FindByEmailAsync(email);
+    }
+
     public async Task<User?> GetUserByIdAsync(string id)
     {
-        return await _userManager.FindByIdAsync(id);    
+        return await _userManager.FindByIdAsync(id);
     }
 }

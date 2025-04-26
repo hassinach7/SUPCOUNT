@@ -1,4 +1,5 @@
 ﻿
+using SupCountBE.Application.Commands.User;
 using SupCountBE.Application.Responses.User;
 
 namespace SupCountBE.Application.Mappers
@@ -8,6 +9,9 @@ namespace SupCountBE.Application.Mappers
         public UserMapperProfile()
         {
            this.CreateMap<User, UserResponse>();
+            // Mapping User with RegisterUserCommand
+            this.CreateMap<RegisterUserCommand, User>();
+
         }
     }
 }
