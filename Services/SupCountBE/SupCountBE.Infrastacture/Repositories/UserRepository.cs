@@ -1,11 +1,17 @@
-﻿using SupCountBE.Core.Repositories;
+﻿using Microsoft.AspNetCore.Identity;
+using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
 
 namespace SupCountBE.Infrastacture.Repositories;
 
 public class UserRepository : AsyncRepository<User>, IUserRepository
 {
-    public UserRepository(SupCountDbContext dbContext) : base(dbContext) { }
+    private readonly UserManager<User> _userManager;
+
+    public UserRepository(SupCountDbContext dbContext, UserManager<User> userManager) : base(dbContext)
+    {
+        this._userManager = userManager;
+    }
 
     public Task<IList<User>> GetAllListIncludingAsync(bool includeExpenses = false, bool includeReimbursements = false, bool includeGroups = false)
      
@@ -49,5 +55,10 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         if (includeUserGroups) query = query.Include(u => u.UserGroups);
 
         return await query.SingleOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<User?> GetUserByIdAsync(string id)
+    {
+        return await _userManager.FindByIdAsync(id);    
     }
 }

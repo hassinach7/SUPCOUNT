@@ -17,4 +17,5 @@ public interface IUserRepository : IAsyncRepository<User>
            bool includeReimbursements = false,
            bool includeGroups = false
        );
+    Task<User?> GetUserByIdAsync(string id);
 }

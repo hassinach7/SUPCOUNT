@@ -6,18 +6,18 @@ namespace SupCountBE.Application.Handlers.Reimbursement
 {
     public class GetReimbursementByIdHandler : IRequestHandler<GetReimbursementByIdQuery, ReimbursementResponse>
     {
-        private readonly IReimbursementRepository _repository;
+        private readonly IReimbursementRepository _reimbursementRepository;
         private readonly IMapper _mapper;
 
-        public GetReimbursementByIdHandler(IReimbursementRepository repository, IMapper mapper)
+        public GetReimbursementByIdHandler(IReimbursementRepository reimbursementRepository, IMapper mapper)
         {
-            _repository = repository;
+            _reimbursementRepository = reimbursementRepository;
             _mapper = mapper;
         }
 
         public async Task<ReimbursementResponse> Handle(GetReimbursementByIdQuery request, CancellationToken cancellationToken)
         {
-            var reimbursement = await _repository.GetByIdIncludingAsync(
+            var reimbursement = await _reimbursementRepository.GetByIdIncludingAsync(
                 request.Id,
                 includeSender: true,
                 includeBeneficiary: true,

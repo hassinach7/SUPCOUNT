@@ -2,6 +2,7 @@
 
 public  class Participation 
 {
+    public int Id { get; set; }
     public float Weight { get; set; }
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 

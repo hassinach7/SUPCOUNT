@@ -6,5 +6,9 @@
         {
 
         }
+        public JustificationException(string message, Exception innerException) : base(message, innerException)
+        {
+
+        }
     }
 }

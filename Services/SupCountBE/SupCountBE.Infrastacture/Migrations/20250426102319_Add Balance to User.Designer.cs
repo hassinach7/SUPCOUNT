@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupCountBE.Infrastacture.Data.Context;
 
@@ -11,9 +12,11 @@ using SupCountBE.Infrastacture.Data.Context;
 namespace SupCountBE.Infrastacture.Migrations
 {
     [DbContext(typeof(SupCountDbContext))]
-    partial class SupCountDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250426102319_Add Balance to User")]
+    partial class AddBalancetoUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -330,30 +333,21 @@ namespace SupCountBE.Infrastacture.Migrations
 
             modelBuilder.Entity("SupCountBE.Core.Entities.Participation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ExpenseId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<float>("Weight")
                         .HasColumnType("real");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "ExpenseId");
 
                     b.HasIndex("ExpenseId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Participations", (string)null);
                 });

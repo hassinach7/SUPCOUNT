@@ -24,6 +24,8 @@ public class CreateReimbursementHandler : IRequestHandler<CreateReimbursementCom
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
 
+
+
         var reimbursement = new Core.Entities.Reimbursement
         {
             Name = request.Name,

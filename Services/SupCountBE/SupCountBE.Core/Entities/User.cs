@@ -3,6 +3,7 @@
 namespace SupCountBE.Core.Entities;
 public class User : IdentityUser
 {
+    public float Balance { get; set; }
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public required  string FullName {  get; set; }
