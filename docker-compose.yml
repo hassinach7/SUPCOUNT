@@ -1,0 +1,6 @@
+services:
+  supcountbe.api:
+    image: ${DOCKER_REGISTRY-}supcountbeapi
+    build:
+      context: .
+      dockerfile: Services/SupCountBE/SupCountBE.API/Dockerfile

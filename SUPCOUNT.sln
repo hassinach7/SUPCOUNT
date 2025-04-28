@@ -9,13 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupCountUI", "SupCountUI", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupCountBE", "SupCountBE", "{666D245A-A9D0-4F7C-8258-3C7C46E59156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupCountBE.Core", "Services\SupCountBE\SupCountBE.Core\SupCountBE.Core.csproj", "{942026DA-B9BD-4418-ACC7-63BE895E86B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupCountBE.Core", "Services\SupCountBE\SupCountBE.Core\SupCountBE.Core.csproj", "{942026DA-B9BD-4418-ACC7-63BE895E86B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupCountBE.Application", "Services\SupCountBE\SupCountBE.Application\SupCountBE.Application.csproj", "{975B66B7-D7ED-47EF-A92E-41E901C9F487}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupCountBE.Application", "Services\SupCountBE\SupCountBE.Application\SupCountBE.Application.csproj", "{975B66B7-D7ED-47EF-A92E-41E901C9F487}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupCountBE.Infrastacture", "Services\SupCountBE\SupCountBE.Infrastacture\SupCountBE.Infrastacture.csproj", "{153A7158-7902-4945-A588-88A2143C8407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupCountBE.Infrastacture", "Services\SupCountBE\SupCountBE.Infrastacture\SupCountBE.Infrastacture.csproj", "{153A7158-7902-4945-A588-88A2143C8407}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupCountBE.API", "Services\SupCountBE\SupCountBE.API\SupCountBE.API.csproj", "{8D7CE7B5-F003-4FCD-BD38-5B367C0E22FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupCountBE.API", "Services\SupCountBE\SupCountBE.API\SupCountBE.API.csproj", "{8D7CE7B5-F003-4FCD-BD38-5B367C0E22FD}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{75E4194E-3E24-40BF-B67B-BD1F3F74DD64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8D7CE7B5-F003-4FCD-BD38-5B367C0E22FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D7CE7B5-F003-4FCD-BD38-5B367C0E22FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D7CE7B5-F003-4FCD-BD38-5B367C0E22FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E4194E-3E24-40BF-B67B-BD1F3F74DD64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E4194E-3E24-40BF-B67B-BD1F3F74DD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E4194E-3E24-40BF-B67B-BD1F3F74DD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E4194E-3E24-40BF-B67B-BD1F3F74DD64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
