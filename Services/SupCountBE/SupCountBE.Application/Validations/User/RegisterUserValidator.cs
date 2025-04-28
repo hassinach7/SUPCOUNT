@@ -28,5 +28,10 @@ public class RegisterUserValidator: AbstractValidator<RegisterUserCommand>
             .WithMessage("Full name is required")
             .MinimumLength(3)
             .WithMessage("Full name must be at least 3 characters long");
+        RuleFor(x => x.Username)
+            .NotEmpty()
+            .WithMessage("Username is required")
+            .MinimumLength(3)
+            .WithMessage("Username must be at least 3 characters long");
     }
 }

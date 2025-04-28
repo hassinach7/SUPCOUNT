@@ -8,9 +8,12 @@ namespace SupCountBE.Application.Mappers
     {
         public UserMapperProfile()
         {
-           this.CreateMap<User, UserResponse>();
+           CreateMap<User, UserResponse>();
             // Mapping User with RegisterUserCommand
-            this.CreateMap<RegisterUserCommand, User>();
+            CreateMap<RegisterUserCommand, User>();
+            // Mapping User with UpdateUserCommand
+            CreateMap<UpdateUserCommand, User>();
+               
 
         }
     }

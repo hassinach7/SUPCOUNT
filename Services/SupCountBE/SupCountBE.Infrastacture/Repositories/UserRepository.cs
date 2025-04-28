@@ -71,6 +71,11 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         return await query.SingleOrDefaultAsync(u => u.Id == id);
     }
 
+    public async Task<User?> GetReciepientByIdAsync(string RecipientId)
+    {
+       return await _userManager.FindByIdAsync(RecipientId);
+    }
+
     public async Task<User?> GetUserByEmailAsync(string email)
     {
         return await _userManager.FindByEmailAsync(email);

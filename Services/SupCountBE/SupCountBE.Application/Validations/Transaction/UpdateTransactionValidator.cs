@@ -7,8 +7,12 @@ public class UpdateTransactionValidator : AbstractValidator<UpdateTransactionCom
 {
     public UpdateTransactionValidator()
     {
-        RuleFor(x => x.Id);
-      
+        RuleFor(x => x.Id)
+                .NotNull()
+                .WithMessage("ID is required.");
+
+
+
         RuleFor(x => x.PaymentMethod)
             .NotEmpty().WithMessage("Payment method is required.")
             .MaximumLength(50).WithMessage("Maximum length is 50 characters.");

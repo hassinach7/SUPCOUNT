@@ -7,8 +7,10 @@ public class UpdatecategoryValidator : AbstractValidator<UpdateCategoryCommand>
 {
     public UpdatecategoryValidator()
     {
-        RuleFor(x => x.Id);
-      
+        RuleFor(x => x.Id)
+               .NotNull()
+               .WithMessage("ID is required.");
+
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Name is required.")
