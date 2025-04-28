@@ -7,7 +7,9 @@ public class CreateJustificationValidator : AbstractValidator<CreateJustificatio
 {
     public CreateJustificationValidator()
     {
-        RuleFor(x => x.ExpenseId);
+        RuleFor(x => x.ExpenseId)
+             .NotNull()
+             .WithMessage("Expense ID is required."); 
             
 
         RuleFor(x => x.FileContent)

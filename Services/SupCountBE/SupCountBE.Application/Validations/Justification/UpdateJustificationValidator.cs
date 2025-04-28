@@ -7,7 +7,9 @@ public class UpdateJustificationValidator : AbstractValidator<UpdateJustificatio
 {
     public UpdateJustificationValidator()
     {
-        RuleFor(x => x.Id);
+        RuleFor(x => x.Id)
+             .NotNull()
+             .WithMessage("ID is required."); ;
            
 
         RuleFor(x => x.FileContent)

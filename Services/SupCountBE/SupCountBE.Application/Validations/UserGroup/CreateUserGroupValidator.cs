@@ -11,7 +11,9 @@ public class CreateUserGroupValidator : AbstractValidator<CreateUserGroupCommand
         //    .NotEmpty().WithMessage("User ID is required.");
 
         RuleFor(x => x.GroupId)
-            .NotEmpty().WithMessage("Group ID is required.");
+             .NotNull()
+             .WithMessage("Group Id is required.");
+            
 
         RuleFor(x => x.Role)
             .NotEmpty().WithMessage("Role is required.")

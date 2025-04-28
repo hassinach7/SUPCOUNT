@@ -9,8 +9,12 @@ public class CreateReimbursementValidator : AbstractValidator<CreateReimbursemen
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
         //RuleFor(x => x.SenderId).NotEmpty();
-        RuleFor(x => x.BeneficiaryId).NotEmpty();
+        RuleFor(x => x.BeneficiaryId)
+             .NotNull()
+             .WithMessage("Beneficiary ID is required."); 
         RuleFor(x => x.Amount).GreaterThan(0);
-        RuleFor(x => x.GroupId).GreaterThan(0);
+        RuleFor(x => x.GroupId)
+         .NotNull()
+         .WithMessage("Expense Id is required."); 
     }
 }

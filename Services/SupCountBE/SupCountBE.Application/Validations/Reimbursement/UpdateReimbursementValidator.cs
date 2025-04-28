@@ -8,8 +8,8 @@ public class UpdateReimbursementValidator : AbstractValidator<UpdateReimbursemen
     public UpdateReimbursementValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0)
-            .WithMessage("Valid reimbursement ID is required.");
+            .NotNull()
+            .WithMessage("Id is required.");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Name is required.")

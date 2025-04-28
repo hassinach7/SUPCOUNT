@@ -7,8 +7,10 @@ public class CreateTransactionValidator : AbstractValidator<CreateTransactionCom
 {
     public CreateTransactionValidator()
     {
-        RuleFor(x => x.ReimbursementId).NotEmpty();
-        RuleFor(x => x.PaymentMethod).NotEmpty().MaximumLength(50);
+        RuleFor(x => x.ReimbursementId)
+             .NotNull()
+                .WithMessage("ID is required."); 
+        RuleFor(x => x.PaymentMethod).NotNull().MaximumLength(50);
         RuleFor(x => x.Amount).GreaterThan(0);
     }
 }

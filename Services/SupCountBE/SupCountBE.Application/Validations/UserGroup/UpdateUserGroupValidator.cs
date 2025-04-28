@@ -8,13 +8,14 @@ public class UpdateUserGroupValidator : AbstractValidator<UpdateUserGroupCommand
     public UpdateUserGroupValidator()
     {
         //RuleFor(x => x.UserId)
-        //    .NotEmpty().WithMessage("User ID is required.");
+        //    .NotNull().WithMessage("User ID is required.");
 
         RuleFor(x => x.GroupId)
-            .NotEmpty().WithMessage("Group ID is required.");
+          .NotNull()
+          .WithMessage("Group Id is required.");
 
         RuleFor(x => x.Role)
-            .NotEmpty().WithMessage("Role is required.")
+            .NotNull().WithMessage("Role is required.")
             .MaximumLength(50).WithMessage("Role must not exceed 50 characters.");
     }
 }

@@ -23,11 +23,11 @@ namespace SupCountBE.Application.Validations.Expense
                 .WithMessage("Date is required.");
 
             RuleFor(x => x.CategoryId)
-                .GreaterThan(0)
+                 .NotNull()
                 .WithMessage("Category ID is required.");
 
             RuleFor(x => x.GroupId)
-                .GreaterThan(0)
+                .NotNull()
                 .WithMessage("Group ID is required.");
 
         }
