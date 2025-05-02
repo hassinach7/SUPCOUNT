@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SupCountBE.Application.Commands.Expense;
+using SupCountBE.Application.Commands.Justification;
 using SupCountBE.Application.Queries.Expense;
 using SupCountBE.Application.Queries.Participation;
 
@@ -35,15 +36,43 @@ public class ExpenseController : ControllerBase
     [HttpPost]
     [ActionName("Create")]
     [Route("[action]")]
-    public async Task<IActionResult> CreateAsync(CreateExpenseCommand model)
+    public async Task<IActionResult> CreateAsync([FromForm] CreateExpenseCommand model, [FromForm] List<IFormFile> files)
     {
-        return Ok(await _mediator.Send(model));
+        // Send the model to the mediator to handle the expense creation
+        int expenseId = await _mediator.Send(model);
+
+        // If files were uploaded, send them to the mediator for processing
+        if (files != null && files.Count > 0)
+        {
+
+            foreach (var file in files)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    // Copy the file content into the memory stream
+                    await file.CopyToAsync(memoryStream);
+
+                    // Get the byte array of the file content
+                    byte[] fileBytes = memoryStream.ToArray();
+                    // Send the file content to the mediator to create a justification
+                    await _mediator.Send(new CreateJustificationCommand
+                    {
+                        ExpenseId = expenseId,
+                        FileContent = fileBytes
+                    });
+                }
+            }
+        }
+
+        return Ok(await _mediator.Send(new GetExpenseByIdQuery(expenseId)));
     }
+
     [HttpPut]
     [ActionName("Edit")]
     [Route("[action]")]
     public async Task<IActionResult> EditAsync(UpdateExpenseCommand model)
     {
-        return Ok(await _mediator.Send(model));
+        await _mediator.Send(model);
+        return NoContent();
     }
 }

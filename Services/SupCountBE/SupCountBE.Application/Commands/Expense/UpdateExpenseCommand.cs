@@ -2,7 +2,7 @@
 
 namespace SupCountBE.Application.Commands.Expense
 {
-    public class UpdateExpenseCommand : IRequest<ExpenseResponse>
+    public class UpdateExpenseCommand : IRequest<Unit>
     {
         public int? Id { get; set; }
         public string Title { get; set; } = null!;

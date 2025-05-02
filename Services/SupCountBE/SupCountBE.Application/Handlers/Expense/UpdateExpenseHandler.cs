@@ -7,7 +7,7 @@ using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.Expense
 {
-    public class UpdateExpenseHandler : IRequestHandler<UpdateExpenseCommand, ExpenseResponse>
+    public class UpdateExpenseHandler : IRequestHandler<UpdateExpenseCommand, Unit>
     {
         private readonly IExpenseRepository _expenseRepository;
         private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ namespace SupCountBE.Application.Handlers.Expense
             _groupRepository = groupRepository;
         }
 
-        public async Task<ExpenseResponse> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
         {
             var validator = new UpdateExpenseValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -49,16 +49,7 @@ namespace SupCountBE.Application.Handlers.Expense
 
             await _expenseRepository.UpdateAsync(expense);
 
-            var updated = await _expenseRepository.GetByIdIncludingAsync(
-                expense.Id,
-                includeGroup: true,
-                includeCategory: true,
-                includePayer: true,
-                includeParticipations: true,
-                includeJustifications: true
-            );
-
-            return _mapper.Map<ExpenseResponse>(updated!);
+            return  Unit.Value;
         }
     }
 }

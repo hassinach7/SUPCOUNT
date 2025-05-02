@@ -14,4 +14,10 @@ public interface IUserGroupRepository : IAsyncRepository<UserGroup>
     bool includeUser = false,
     bool includeGroup = false
 );
+    Task<IList<UserGroup>> GetListByGroupIdAsync(
+        int groupId,
+        bool includeUser = false
+    );
+    Task<UserGroup?> GetByUserIdAndGroupIdAsync(int userId, int groupId);
+    Task<bool> IsUserInGroup(int userId, int groupId);
 }

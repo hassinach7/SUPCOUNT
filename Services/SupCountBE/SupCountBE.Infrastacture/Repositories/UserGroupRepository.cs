@@ -49,4 +49,24 @@ public class UserGroupRepository : AsyncRepository<UserGroup>, IUserGroupReposit
 
         return await query.SingleOrDefaultAsync(ug =>  ug.GroupId == groupId);
     }
+
+    public async Task<IList<UserGroup>> GetListByGroupIdAsync(int groupId, bool includeUser = false)
+    {
+        var query = _dbContext.UserGroups.AsQueryable();
+
+        if (includeUser)
+            query = query.Include(ug => ug.User);
+
+        return await query.Where(ug => ug.GroupId == groupId).ToListAsync();
+    }
+
+    public Task<UserGroup?> GetByUserIdAndGroupIdAsync(int userId, int groupId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> IsUserInGroup(int userId, int groupId)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -17,14 +17,14 @@ namespace SupCountBE.Application.Handlers.Expense
 
         public async Task<ExpenseResponse> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
         {
-            var expense = await _expenseRepository.GetByIdIncludingAsync(
-                request.Id,
-                includePayer: true,
-                includeGroup: true,
-                includeCategory: true,
-                includeParticipations: true,
-                includeJustifications: true
-            );
+            var expense = await _expenseRepository.GetByIdIncludingAsync(request.Id, new IncludingProperties
+            {
+                IncludePayer = true,
+                IncludeCategory = true,
+                IncludeGroup = true,
+                IncludeParticipations = true,
+                IncludeJustifications = true
+            });
 
             if (expense == null)
                 throw new Exception("Expense not found.");

@@ -5,7 +5,7 @@ using SupCountBE.Application.Validations.Expense;
 using SupCountBE.Core.Exceptions;
 using SupCountBE.Core.Repositories;
 
-public class CreateExpenseHandler : IRequestHandler<CreateExpenseCommand, ExpenseResponse>
+public class CreateExpenseHandler : IRequestHandler<CreateExpenseCommand, int>
 {
     private readonly IExpenseRepository _expenseRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class CreateExpenseHandler : IRequestHandler<CreateExpenseCommand, Expens
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<ExpenseResponse> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
     {
         var validator = new CreateExpenseValidator();
         var validation = await validator.ValidateAsync(request, cancellationToken);
@@ -35,7 +35,7 @@ public class CreateExpenseHandler : IRequestHandler<CreateExpenseCommand, Expens
 
         var expense = new Expense
         {
-            Title = request.Title,
+            Title = request.Title!,
             Amount = request.Amount,
             Date = request.Date,
             PayerId = _expenseRepository.GetCurrentUser(),
@@ -44,7 +44,7 @@ public class CreateExpenseHandler : IRequestHandler<CreateExpenseCommand, Expens
         };
 
         var created = await _expenseRepository.AddAsync(expense);
-        var fullExpense = await _expenseRepository.GetByIdIncludingAsync(created.Id, includeGroup: true, includeCategory: true, includeParticipations: true, includeJustifications: true);
-        return _mapper.Map<ExpenseResponse>(fullExpense);
+    
+        return created.Id;
     }
 }

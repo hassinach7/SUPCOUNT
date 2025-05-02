@@ -2,20 +2,16 @@
 
 public interface IExpenseRepository : IAsyncRepository<Expense>
 {
-    Task<Expense?> GetByIdIncludingAsync(
-        int id,
-        bool includePayer = false,
-        bool includeCategory = false,
-        bool includeGroup = false,
-        bool includeParticipations = false,
-        bool includeJustifications = false
-    );
+    Task<Expense?> GetByIdIncludingAsync(int id, IncludingProperties includingProperties);
 
-    Task<IList<Expense>> GetAllListIncludingAsync(
-    bool includePayer = false,
-    bool includeCategory = false,
-    bool includeGroup = false,
-    bool includeParticipations = false,
-    bool includeJustifications = false
-);
+    Task<IList<Expense>> GetAllListIncludingAsync(IncludingProperties includingProperties);
+}
+
+public record IncludingProperties
+{
+    public bool IncludePayer { get; set; } = false;
+    public bool IncludeCategory { get; set; } = false;
+    public bool IncludeGroup { get; set; } = false;
+    public bool IncludeParticipations { get; set; } = false;
+    public bool IncludeJustifications { get; set; } = false;
 }

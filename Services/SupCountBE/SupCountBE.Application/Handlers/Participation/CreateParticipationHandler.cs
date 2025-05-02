@@ -31,23 +31,23 @@ public class CreateParticipationHandler : IRequestHandler<CreateParticipationCom
             throw new ValidationException(validation.Errors);
 
         // Check if the User Exist or not
-        var user = await _userRepository.GetUserByIdAsync(request.UserId);
+        var user = await _userRepository.GetUserByIdAsync(_expenseRepository.GetCurrentUser());
         if (user is null)
-            throw new UserException($"The User with {request.UserId} is not found");
+            throw new UserException($"The User with is not found");
 
         // check if the Expense Exist or not
         var expense = await _expenseRepository.GetByIdAsync(request.ExpenseId!.Value);
-        if(expense is null)
+        if (expense is null)
             throw new ExpenseException($"The Expense with {request.ExpenseId} is not found");
 
-        if(user.Balance<request.Weight)
-            throw new UserException($"The User with {request.UserId} has not enough balance to participate in this expense.");
+        if (user.Balance < request.Weight)
+            throw new UserException($"Thnaks ,but you have not enough balance to participate in this expense.");
 
 
         var participation = new Core.Entities.Participation
         {
             Weight = request.Weight,
-            UserId =  user.Id,
+            UserId = user.Id,
             ExpenseId = expense.Id
         };
 

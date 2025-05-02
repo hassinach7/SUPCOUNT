@@ -10,9 +10,6 @@ public class CreateParticipationValidator : AbstractValidator<CreateParticipatio
         RuleFor(x => x.Weight)
             .GreaterThan(0).WithMessage("Weight must be greater than 0.");
 
-        RuleFor(x => x.UserId)
-            .NotEmpty().NotNull()
-            .WithMessage("User ID is required.");
 
         RuleFor(x => x.ExpenseId)
             .NotNull().WithMessage("Expense ID is required.");
