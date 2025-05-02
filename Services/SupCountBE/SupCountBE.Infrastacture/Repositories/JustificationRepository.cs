@@ -9,6 +9,20 @@ public class JustificationRepository : AsyncRepository<Justification>, IJustific
 {
     public JustificationRepository(SupCountDbContext dbContext) : base(dbContext) { }
 
+    public async Task<IList<Justification>> GetAllListByExpenseIdIncludingAsync(int expenseId, bool includeExpense = false)
+    {
+        var query = _dbContext.Justifications.AsQueryable();
+
+        if (includeExpense)
+        {
+            query = query.Include(j => j.Expense);
+        }
+
+        return await query
+            .Where(j => j.ExpenseId == expenseId)
+            .ToListAsync();
+    }
+
     public async Task<Justification?> GetByIdIncludingAsync(int id, bool includeExpense = false)
     {
         var query = _dbContext.Justifications.AsQueryable();
@@ -21,15 +35,4 @@ public class JustificationRepository : AsyncRepository<Justification>, IJustific
         return await query.SingleOrDefaultAsync(j => j.Id == id);
     }
 
-    public async Task<IList<Justification>> GetAllListIncludingAsync(bool includeExpense = false)
-    {
-        var query = _dbContext.Justifications.AsQueryable();
-
-        if (includeExpense)
-        {
-            query = query.Include(j => j.Expense);
-        }
-
-        return await query.ToListAsync();
-    }
 }

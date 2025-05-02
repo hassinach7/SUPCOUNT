@@ -5,7 +5,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=supcountdb;DataBase=SupCountDb;Persist Security Info=True;User ID=sa;Password=kalilinux2.0@@;Trust Server Certificate=True;MultipleActiveResultSets=true;
       - JWT__Key=f1cQ1bgc8lY7UIHdaIZRTJE29AwiE5eAg5XTR3e1a4eDZlMhld1THVbb18uzdeAW
-      - JWT__ExpirationInMinutes=20
+      - JWT__ExpirationInMinutes=400
       - JWT__Issuer=SupCountApi
       - JWT__Audience=SupCountApiUser
     ports:

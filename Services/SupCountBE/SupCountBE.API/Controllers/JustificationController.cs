@@ -20,9 +20,9 @@ namespace SupCountBE.API.Controllers
         [HttpGet]
         [ActionName("GetAll")]
         [Route("[action]")]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync(int expenseId)
         {
-            return Ok(await _mediator.Send(new GetAllJustificationQuery()));
+            return Ok(await _mediator.Send(new GetAllJustificationQuery(expenseId)));
         }
         [HttpGet]
         [ActionName("GetById")]
