@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
 using SupCountBE.Application.Commands.Expense;
 using SupCountBE.Application.Commands.Justification;
 using SupCountBE.Application.Queries.Expense;
 using SupCountBE.Application.Queries.Participation;
+using System.Globalization;
 
 namespace SupCountBE.API.Controllers;
 
@@ -75,12 +77,70 @@ public class ExpenseController : ControllerBase
         await _mediator.Send(model);
         return NoContent();
     }
-
+    
     [HttpGet]
-    [ActionName("GetAllExpenseByGroup")]
-    [Route("[action]")]
-    public async Task<IActionResult> GetAllExpenseByGroupAsync(int groupId)
+    [Route("GenerateExpensePdf")]
+    public async Task<IActionResult> GenerateExpensePdfAsync(int groupId)
     {
-        var result  = await _mediator.Send(new GetAllExpenseByGroupQuery { GroupId = groupId });
+        var result = await _mediator.Send(new GetAllExpenseByGroupQuery { GroupId = groupId });
+
+        var stream = new MemoryStream();
+        QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
+        Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Margin(30);
+                page.Header().Text($"Expenses for Group {groupId}").FontSize(18).Bold().AlignCenter();
+
+                page.Content().Table(table =>
+                {
+                    // Define columns
+                    table.ColumnsDefinition(columns =>
+                    {
+                        columns.RelativeColumn(1); // ID
+                        columns.RelativeColumn(2); // Title
+                        columns.RelativeColumn(1); // Amount
+                        columns.RelativeColumn(2); // Date
+                        columns.RelativeColumn(2); // Group Name
+                        columns.RelativeColumn(2); // Category
+                    });
+
+                    // Table header
+                    table.Header(header =>
+                    {
+                        header.Cell().Text("ID").Bold();
+                        header.Cell().Text("Title").Bold();
+                        header.Cell().Text("Amount").Bold();
+                        header.Cell().Text("Date").Bold();
+                        header.Cell().Text("Group").Bold();
+                        header.Cell().Text("Category").Bold();
+                    });
+
+                    // Table rows
+                    foreach (var exp in result)
+                    {
+                        table.Cell().Text(exp.Id.ToString());
+                        table.Cell().Text(exp.Title);
+                        table.Cell().Text($"{exp.Amount.ToString("C", CultureInfo.InvariantCulture)}");
+                        table.Cell().Text(exp.Date.ToString("yyyy-MM-dd"));
+                        table.Cell().Text(exp.Group?.Name ?? "N/A");
+                        table.Cell().Text(exp.CategoryName ?? "N/A");
+                    }
+                });
+
+                page.Footer().AlignCenter().Text(x =>
+                {
+                    x.Span("Generated on ");
+                    x.Span(DateTime.Now.ToString("g"));
+                });
+            });
+        })
+        .GeneratePdf(stream);
+
+        stream.Position = 0;
+
+        return File(stream, "application/pdf", $"Expenses_Group_{groupId}.pdf");
     }
 }
