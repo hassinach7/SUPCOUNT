@@ -48,6 +48,14 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         return Task.FromResult(query.ToList() as IList<User>);
     }
 
+    public async Task<IList<User>> GetAllUsersByGroupIdAsync(int groupId)
+    {
+        return await _dbContext.Users
+             .Include(u => u.UserGroups)
+             .Where(u => u.UserGroups!.Any(ug => ug.GroupId == groupId))
+             .ToListAsync();
+    }
+
     public async Task<User?> GetByIdIncludingAsync(
         string id,
         bool includeExpenses = false,

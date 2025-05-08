@@ -43,5 +43,11 @@ public class UserController : ControllerBase
     {
         return Ok(await _mediator.Send(model));
     }
-
+    [HttpGet]
+    [ActionName("GetAllUserSoldeByGroupId")]
+    [Route("[action]")]
+    public async Task<IActionResult> GetAllUserSoldeByGroupIdAsync(int groupId)
+    {
+        return Ok(await _mediator.Send(new GetAllUserSoldeByGroupIdQuery { GroupId = groupId }));
+    }
 }

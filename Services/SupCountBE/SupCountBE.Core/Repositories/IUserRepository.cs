@@ -21,4 +21,5 @@ public interface IUserRepository : IAsyncRepository<User>
     Task<User?> GetReciepientByIdAsync(string RecipientId);
     Task<User?> GetUserByEmailAsync(string email);
     Task<(bool,string)> CreateAsync(User user, string password);
+    Task<IList<User>> GetAllUsersByGroupIdAsync(int groupId);
 }
