@@ -24,6 +24,48 @@ public class TokenGenerator : ITokenGenerator
         this._dbContext = dbContext;
         this._jwtSettings = options.Value;
     }
+
+    public async Task<AuthModel> GetExternalTokenAsync(string email, string provider, string? fullName = null)
+    {
+        var authModel = new AuthModel();
+
+      
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            user = new User
+            {
+                UserName = email,
+                Email = email,
+                FullName = fullName ?? email,
+                EmailConfirmed = true 
+            };
+
+            var creationResult = await _userManager.CreateAsync(user);
+            if (!creationResult.Succeeded)
+            {
+                authModel.Message = "Error while creating the user.";
+                return authModel;
+            }
+
+        }
+
+        var jwtSecurityToken = await CreateJwtToken(user);
+        var rolesList = await _userManager.GetRolesAsync(user);
+
+        authModel.IsAuthenticated = true;
+        authModel.UserName = user.UserName;
+        authModel.Email = user.Email;
+        authModel.UserId = user.Id;
+        authModel.ExpiresOn = jwtSecurityToken.ValidTo;
+        authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        authModel.Roles = rolesList.ToList();
+
+        return authModel;
+
+    }
+
     public async Task<AuthModel> GetTokenAsync(TokenRequestModel model)
     {
         var authModel = new AuthModel();

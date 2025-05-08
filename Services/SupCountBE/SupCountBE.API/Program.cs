@@ -49,6 +49,12 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!)),
         ClockSkew = TimeSpan.Zero // Remove delay of token when expire
     };
+})
+.AddGoogle(options =>
+{
+    var googleConfig = builder.Configuration.GetSection("Authentication:Google");
+    options.ClientId = googleConfig["ClientId"]!;
+    options.ClientSecret = googleConfig["ClientSecret"]!;
 });
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
