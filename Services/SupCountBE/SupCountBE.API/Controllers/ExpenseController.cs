@@ -75,4 +75,12 @@ public class ExpenseController : ControllerBase
         await _mediator.Send(model);
         return NoContent();
     }
+
+    [HttpGet]
+    [ActionName("GetAllExpenseByGroup")]
+    [Route("[action]")]
+    public async Task<IActionResult> GetAllExpenseByGroupAsync(int groupId)
+    {
+        var result  = await _mediator.Send(new GetAllExpenseByGroupQuery { GroupId = groupId });
+    }
 }

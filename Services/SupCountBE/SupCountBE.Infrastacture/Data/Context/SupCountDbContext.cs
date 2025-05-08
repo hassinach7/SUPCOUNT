@@ -53,7 +53,5 @@ public class SupCountDbContext : IdentityDbContext<User,ApplicationRole, string>
         modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
         modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
         modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
-
-        modelBuilder.Entity<Expense>().HasQueryFilter(o => o.PayerId == UserId);
     }
 }

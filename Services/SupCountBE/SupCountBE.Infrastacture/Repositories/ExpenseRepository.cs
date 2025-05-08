@@ -52,4 +52,16 @@ public class ExpenseRepository : AsyncRepository<Expense>, IExpenseRepository
 
         return await query.SingleOrDefaultAsync(e => e.Id == id);
     }
+
+    public async Task<IList<Expense>> GetAllExpenseByGroupAsync(int groupId, string userId)
+    {
+        return await _dbContext.Expenses
+              .Include(e => e.Payer)
+              .Include(e => e.Category)
+              .Include(e => e.Group)
+              .ThenInclude(e => e!.UserGroups)
+              .Include(e => e.Participations)
+              .Include(e => e.Justifications)
+              .Where(e => e.GroupId == groupId && e.Group!.UserGroups!.Any(ug => ug.UserId == userId)).ToListAsync();
+    }
 }
