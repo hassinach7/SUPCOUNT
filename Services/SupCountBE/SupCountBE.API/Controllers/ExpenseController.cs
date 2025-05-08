@@ -6,6 +6,7 @@ using SupCountBE.Application.Commands.Justification;
 using SupCountBE.Application.Queries.Expense;
 using SupCountBE.Application.Queries.Participation;
 using System.Globalization;
+using System.Text;
 
 namespace SupCountBE.API.Controllers;
 
@@ -143,4 +144,49 @@ public class ExpenseController : ControllerBase
 
         return File(stream, "application/pdf", $"Expenses_Group_{groupId}.pdf");
     }
+
+    [HttpGet]
+    [Route("ExportExpensesCsv")]
+    public async Task<IActionResult> ExportExpensesCsvAsync(int groupId)
+    {
+        var result = await _mediator.Send(new GetAllExpenseByGroupQuery { GroupId = groupId });
+
+        var csv = new StringBuilder();
+
+        // Header row
+        csv.AppendLine("ID,Title,Amount,Date,CreatedAt,Group,Category,ParticipationCount,JustificationCount,Payer");
+
+        // Data rows
+        foreach (var exp in result)
+        {
+            var row = string.Join(",",
+                exp.Id,
+                EscapeCsv(exp.Title),
+                exp.Amount.ToString(CultureInfo.InvariantCulture),
+                exp.Date.ToString("yyyy-MM-dd"),
+                exp.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                EscapeCsv(exp.Group?.Name ?? ""),
+                EscapeCsv(exp.CategoryName),
+                exp.ParticipationCount,
+                exp.JustificationCount,
+                EscapeCsv(exp.Payer)
+            );
+
+            csv.AppendLine(row);
+        }
+
+        var byteArray = Encoding.UTF8.GetBytes(csv.ToString());
+        var stream = new MemoryStream(byteArray);
+
+        return File(stream, "text/csv", $"Expenses_Group_{groupId}.csv");
+    }
+
+    private static string EscapeCsv(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return "";
+
+        return $"\"{value.Replace("\"", "\"\"")}\"";
+    }
+
 }
