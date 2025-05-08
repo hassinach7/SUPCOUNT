@@ -17,7 +17,7 @@ public class GetAllGroupHandler : IRequestHandler<GetAllGroupQuery, IList<GroupR
 
     public async Task<IList<GroupResponse>> Handle(GetAllGroupQuery request, CancellationToken cancellationToken)
     {
-        var groups = await _groupRepository.GetAllListIncludingAsync(includeUserGroups: true, includeExpenses: true, includeReimbursements: true, includeMessages: true);
+        var groups = await _groupRepository.ListAllAsync();
         return _mapper.Map<IList<GroupResponse>>(groups);
     }
 }

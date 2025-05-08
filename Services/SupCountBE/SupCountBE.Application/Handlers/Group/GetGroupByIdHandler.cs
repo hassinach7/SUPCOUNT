@@ -19,13 +19,7 @@ namespace SupCountBE.Application.Handlers.Group
 
         public async Task<GroupResponse> Handle(GetGroupByIdQuery request, CancellationToken cancellationToken)
         {
-            var group = await _groupRepository.GetByIdIncludingAsync(
-                request.Id,
-                includeUserGroups: true,
-                includeExpenses: true,
-                includeReimbursements: true,
-                includeMessages: true
-            );
+            var group = await _groupRepository.GetByIdAsync(request.Id);
 
             if (group == null)
                 throw new Exception("Group not found.");

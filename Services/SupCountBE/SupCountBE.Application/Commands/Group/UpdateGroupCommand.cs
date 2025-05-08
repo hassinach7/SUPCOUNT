@@ -2,7 +2,7 @@
 
 namespace SupCountBE.Application.Commands.Group
 {
-    public class UpdateGroupCommand : IRequest<GroupResponse>
+    public class UpdateGroupCommand : IRequest<Unit>
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

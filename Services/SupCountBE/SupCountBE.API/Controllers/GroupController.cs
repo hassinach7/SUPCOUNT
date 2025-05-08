@@ -37,13 +37,15 @@ public class GroupController : ControllerBase
     [Route("[action]")]
     public async Task<IActionResult> CreateAsync(CreateGroupCommand model)
     {
-        return Ok(await _mediator.Send(model));
+        int groupId = await _mediator.Send(model);
+        return Ok(await _mediator.Send(new GetGroupByIdQuery(groupId)));
     }
     [HttpPut]
     [ActionName("Edit")]
     [Route("[action]")]
     public async Task<IActionResult> EditAsync(UpdateGroupCommand model)
     {
-        return Ok(await _mediator.Send(model));
+        await _mediator.Send(model);
+        return NoContent();
     }
 }

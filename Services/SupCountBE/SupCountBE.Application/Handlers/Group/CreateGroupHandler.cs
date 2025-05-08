@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 using SupCountBE.Application.Commands.Group;
-using SupCountBE.Application.Responses.Group;
 using SupCountBE.Application.Validations.Group;
 using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.Group;
 
-public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, GroupResponse>
+public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, int>
 {
     private readonly IGroupRepository _groupRepository;
     private readonly IMapper _mapper;
@@ -17,7 +16,7 @@ public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, GroupRespo
         _mapper = mapper;
     }
 
-    public async Task<GroupResponse> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
         var validator = new CreateGroupValidator();
         var validation = await validator.ValidateAsync(request, cancellationToken);
@@ -31,6 +30,6 @@ public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, GroupRespo
         };
 
         await _groupRepository.AddAsync(group);
-        return _mapper.Map<GroupResponse>(group);
+        return group.Id;
     }
 }
