@@ -1,4 +1,5 @@
-﻿using SupCountBE.Core.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -63,5 +64,27 @@ public class ExpenseRepository : AsyncRepository<Expense>, IExpenseRepository
               .Include(e => e.Participations)
               .Include(e => e.Justifications)
               .Where(e => e.GroupId == groupId && e.Group!.UserGroups!.Any(ug => ug.UserId == userId)).ToListAsync();
+    }
+
+    public Task<IList<Expense>> GetAllExpensesByUserIdAsync(string userId)
+    {
+
+        return Task.FromResult(_dbContext.Expenses
+            .Include(e => e.Payer)
+            .Include(e => e.Category)
+            .Include(e => e.Group)
+            .ThenInclude(e => e!.UserGroups)
+            .Include(e => e.Participations)
+            .Include(e => e.Justifications)
+            .Where(e => e.Group!.UserGroups!.Any(ug => ug.UserId == userId)).ToList() as IList<Expense>);
+    }
+
+    public  Task<IList<Expense>> GetByGroupIdWithParticipationsAsync(int groupId)
+    {
+        return  Task.FromResult(_dbContext.Expenses
+            .Include(e => e.Participations!)
+            .ThenInclude(e => e.User)
+            .Where(e => e.GroupId == groupId).ToList() as IList<Expense>);
+
     }
 }

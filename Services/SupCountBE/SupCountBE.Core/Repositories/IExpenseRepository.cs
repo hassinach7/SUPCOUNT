@@ -6,6 +6,9 @@ public interface IExpenseRepository : IAsyncRepository<Expense>
 
     Task<IList<Expense>> GetAllListIncludingAsync(IncludingProperties includingProperties);
     Task<IList<Expense>> GetAllExpenseByGroupAsync(int groupId, string userId);
+    Task<IList<Expense>> GetAllExpensesByUserIdAsync(string userId);
+    
+    Task<IList<Expense>> GetByGroupIdWithParticipationsAsync(int groupId);
 }
 
 public record IncludingProperties

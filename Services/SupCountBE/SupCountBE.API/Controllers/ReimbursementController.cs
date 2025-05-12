@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SupCountBE.Application.Commands.Reimbursement;
-using SupCountBE.Application.Queries.Group;
 using SupCountBE.Application.Queries.Reimbursement;
 
 namespace SupCountBE.API.Controllers
@@ -49,6 +48,14 @@ namespace SupCountBE.API.Controllers
         public async Task<IActionResult> EditAsync(UpdateReimbursementCommand model)
         {
             return Ok(await _mediator.Send(model));
+        }
+      
+        [HttpGet]
+        [ActionName("GenerateReimbursements")]
+        [Route("[action]")]
+        public async Task<IActionResult> GenerateReimbursementsAsync(int groupId)
+        {
+            return Ok(await _mediator.Send(new GenerateReimbursementsQuery(groupId)));
         }
     }
 }

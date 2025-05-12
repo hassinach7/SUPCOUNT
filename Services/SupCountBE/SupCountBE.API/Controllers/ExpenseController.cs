@@ -4,7 +4,6 @@ using QuestPDF.Fluent;
 using SupCountBE.Application.Commands.Expense;
 using SupCountBE.Application.Commands.Justification;
 using SupCountBE.Application.Queries.Expense;
-using SupCountBE.Application.Queries.Participation;
 using System.Globalization;
 using System.Text;
 
@@ -188,5 +187,47 @@ public class ExpenseController : ControllerBase
 
         return $"\"{value.Replace("\"", "\"\"")}\"";
     }
+
+    [HttpGet]
+    [Route("GetUserExpenseStatistics")]
+    public async Task<IActionResult> GetUserExpenseStatisticsAsync(string userId)
+    {
+        var expenses = await _mediator.Send(new GetAllExpensesByUserQuery { UserId = userId });
+
+        if (expenses == null || !expenses.Any())
+        {
+            return Ok(new
+            {
+                totalAmount = 0,
+                amountByCategory = new Dictionary<string, decimal>(),
+                amountByMonth = new Dictionary<string, decimal>(),
+                amountByGroup = new Dictionary<string, decimal>()
+            });
+        }
+
+        var totalAmount = expenses.Sum(e => e.Amount);
+
+        var amountByCategory = expenses
+            .GroupBy(e => e.CategoryName)
+            .ToDictionary(g => g.Key, g => g.Sum(e => e.Amount));
+
+        var amountByMonth = expenses
+            .GroupBy(e => e.Date.ToString("yyyy-MM"))
+            .ToDictionary(g => g.Key, g => g.Sum(e => e.Amount));
+
+        var amountByGroup = expenses
+            .GroupBy(e => e.Group?.Name ?? "Sans groupe")
+            .ToDictionary(g => g.Key, g => g.Sum(e => e.Amount));
+
+        return Ok(new
+        {
+            totalAmount,
+            amountByCategory,
+            amountByMonth,
+            amountByGroup
+        });
+    }
+
+ 
 
 }
