@@ -34,14 +34,18 @@ public class UserController : ControllerBase
     [Route("[action]")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        return Ok(await _mediator.Send(new GetUserByIdQuery(id)));
+        var user = await _mediator.Send(new GetUserByIdQuery(id));
+        if(user is null)
+            return NotFound();
+        return Ok(user);
     }
     [HttpPut]
     [ActionName("Edit")]
     [Route("[action]")]
     public async Task<IActionResult> EditAsync(UpdateUserCommand model)
     {
-        return Ok(await _mediator.Send(model));
+        await _mediator.Send(model);
+        return NoContent();
     }
     [HttpGet]
     [ActionName("GetAllUserSoldeByGroupId")]

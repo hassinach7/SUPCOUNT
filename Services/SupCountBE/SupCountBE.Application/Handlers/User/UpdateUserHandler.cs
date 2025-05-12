@@ -1,9 +1,10 @@
 ﻿using SupCountBE.Application.Commands.User;
+using SupCountBE.Core.Exceptions;
 using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.User
 {
-    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, bool>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Unit>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -14,20 +15,20 @@ namespace SupCountBE.Application.Handlers.User
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByIdAsync(request.Id);
             if (user == null)
             {
-                return false;
+                throw new UserException($"User with ID {request.Id} not found.");
             }
 
             _mapper.Map(request, user);
             await _userRepository.UpdateAsync(user);
 
-            return true;
+            return Unit.Value;
         }
     }
-    
-    
+
+
 }
