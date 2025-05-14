@@ -47,7 +47,7 @@ builder.Services.AddAuthentication(x =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!)),
-        ClockSkew = TimeSpan.Zero // Remove delay of token when expire
+        ClockSkew = TimeSpan.Zero 
     };
 })
 .AddGoogle(options =>

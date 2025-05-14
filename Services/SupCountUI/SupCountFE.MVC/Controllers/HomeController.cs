@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace SupCountFE.MVC.Controllers
+﻿namespace SupCountFE.MVC.Controllers
 {
-	public class HomeController : Controller
+	[Route("[controller]")]
+    public class HomeController : Controller
 	{
-
-		public IActionResult Index()
+      
+        public IActionResult Index()
 		{
 			return View();
 		}

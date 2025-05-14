@@ -1,0 +1,73 @@
+﻿/* Full height page setup */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+/* Center the login box */
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #4e73df, #224abe);
+}
+
+/* Card container for the login form */
+.login-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Optional background images */
+.bg-login-image {
+    background: url('/img/login-image.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-register-image {
+    background: url('/img/register-image.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-password-image {
+    background: url('/img/password-image.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+/* Form inputs */
+.form-control-user {
+    font-size: 0.8rem;
+    border-radius: 10rem;
+    padding: 1.5rem 1rem;
+}
+
+/* Buttons */
+.btn-user {
+    font-size: 0.8rem;
+    border-radius: 10rem;
+    padding: 0.75rem 1rem;
+}
+
+/* Checkbox label spacing */
+.custom-checkbox.small label {
+    line-height: 1.5rem;
+}
+
+/* Google button style */
+.btn-google {
+    background-color: #ea4335;
+    color: white;
+    border: none;
+}
+
+    .btn-google:hover {
+        background-color: #d03c2f;
+    }

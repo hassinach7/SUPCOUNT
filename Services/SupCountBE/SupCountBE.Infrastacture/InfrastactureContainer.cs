@@ -18,7 +18,15 @@ public static class InfrastactureContainer
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             ArgumentNullException.ThrowIfNullOrEmpty(connectionString, nameof(connectionString));
-            options.UseSqlServer(connectionString);
+
+            options.UseSqlServer(connectionString, sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,             // Optional: number of retry attempts (default: 6)
+                    maxRetryDelay: TimeSpan.FromSeconds(10),  // Optional: max delay between retries
+                    errorNumbersToAdd: null       // Optional: specific SQL error numbers to consider transient
+                );
+            });
         });
 
         services.AddScoped<ICategoryRepository, CategoryRepository>();
