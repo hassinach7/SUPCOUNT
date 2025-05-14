@@ -49,15 +49,15 @@
 
                                     <form asp-action="Login" asp-controller="Auth" method="post" class="user">
                                         <div class="form-group">
-                                            <input asp-for="Email" type="email" class="form-control form-control-user" placeholder="Enter Email Address..." />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                            <input asp-for="UserName" type="email" class="form-control form-control-user" placeholder="Enter Email Address..." />
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
                                             <input asp-for="Password" type="password" class="form-control form-control-user" placeholder="Password" />
                                             <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
-                                        <div asp-validation-for="All" class="text text-danger mt-2"></div>
+                                        <div asp-validation-summary="All" class="text text-danger mt-2"></div>
                                         <hr />
                                         <a class="btn btn-google btn-user btn-block" href="/Auth/ExternalLogin?provider=Google">
                                             <i class="fab fa-google fa-fw"></i> Login with Google

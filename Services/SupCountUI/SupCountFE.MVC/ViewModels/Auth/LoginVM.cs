@@ -6,7 +6,7 @@ namespace SupCountFE.MVC.ViewModels.Auth
     {
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; } = null!;
+        public string UserName { get; set; } = null!;
 
         [Required]
         [DataType(DataType.Password)]

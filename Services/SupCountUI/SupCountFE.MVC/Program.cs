@@ -22,6 +22,7 @@ builder.Services.AddTransient<ApiSecurity>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<Helper>();
 
 
 var app = builder.Build();
