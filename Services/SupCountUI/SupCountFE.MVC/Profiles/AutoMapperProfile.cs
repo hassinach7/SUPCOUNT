@@ -6,14 +6,15 @@ using SupCountFE.MVC.ViewModels.Group;
 
 namespace SupCountFE.MVC.Profiles;
 
-    public class AutoMapperProfile : Profile
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
         this.CreateMap<GroupResponse, UpdateGroupVM>();
         this.CreateMap<ExpenseResponse, UpdateExpenseVM>();
         this.CreateMap<ExpenseResponse, CreateExpenseVM>();
         this.CreateMap<CreateExpenseVM, ExpenseResponse>();
-
+        this.CreateMap<ExpenseResponse, ExpenseVM>();
+        this.CreateMap<ExpenseGroupResponse, ExpenseGroupVM>();
     }
-    }
+}

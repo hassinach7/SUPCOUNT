@@ -25,7 +25,7 @@ namespace SupCountFE.MVC.Controllers
         public async Task<IActionResult> List()
         {
             var expenses = await _expenseService.GetAllExpensesAsync();
-            return View(expenses);
+            return View(_mapper.Map<List<ExpenseVM>>(expenses));
         }
 
         // GET: /Expense/Create

@@ -1,5 +1,5 @@
-﻿@model IEnumerable<SupCountBE.Application.Responses.Expense.ExpenseResponse>
-<link rel="stylesheet" href="~/css/form-style.css" />
+﻿@model IEnumerable<ExpenseVM>
+
 @{
     ViewData["Title"] = "Expenses";
 }
@@ -87,8 +87,11 @@
     </div>
 </div>
 
+@section ExpenseCSS {
+    <link rel="stylesheet" href="~/css/form-style.css" />
+}
 
-@section Scripts {
+@section ExpenseJS {
     <script>
         $('#detailsModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -101,4 +104,3 @@
         });
     </script>
 }
-
