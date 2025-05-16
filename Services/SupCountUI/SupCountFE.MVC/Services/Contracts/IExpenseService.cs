@@ -7,7 +7,7 @@ namespace SupCountFE.MVC.Services.Contracts
     {
         Task<List<ExpenseResponse>> GetAllExpensesAsync();
         Task<ExpenseResponse?> GetExpenseByIdAsync(int id);
-        Task<ReturnCreatedExpenseVM?> CreateExpenseAsync(CreateExpenseVM model, IFormFile justification);
+        Task<ReturnCreatedExpenseVM?> CreateExpenseAsync(CreateExpenseVM model);
         Task<bool> UpdateExpenseAsync(UpdateExpenseVM model);
   
 

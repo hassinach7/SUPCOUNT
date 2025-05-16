@@ -18,29 +18,27 @@ namespace SupCountFE.MVC.Services.Implementations
             _helper = helper;
         }
 
-        public async Task<ReturnCreatedExpenseVM?> CreateExpenseAsync(CreateExpenseVM model, IFormFile justification)
+        public async Task<ReturnCreatedExpenseVM?> CreateExpenseAsync(CreateExpenseVM model)
         {
             var formData = new MultipartFormDataContent();
 
-            formData.Add(new StringContent(model.Title), "Title");
+            formData.Add(new StringContent(model.Title!), "Title");
             formData.Add(new StringContent(model.Amount.ToString(CultureInfo.InvariantCulture)), "Amount");
-            formData.Add(new StringContent(model.Date.ToString("yyyy-MM-dd")), "Date");
-            formData.Add(new StringContent(model.GroupId.ToString()), "GroupId");
-            formData.Add(new StringContent(model.CategoryId.ToString()), "CategoryId");
+            formData.Add(new StringContent(model.Date!.Value.ToString("yyyy-MM-dd")), "Date");
+            formData.Add(new StringContent(model.GroupId!.ToString()!), "GroupId");
+            formData.Add(new StringContent(model.CategoryId!.ToString()!), "CategoryId");
 
-            if (justification != null && justification.Length > 0)
+            // Add Justifications
+            if (model.Justifications != null && model.Justifications.Count > 0)
             {
-                var fileContent = new StreamContent(justification.OpenReadStream());
-                fileContent.Headers.ContentType = new MediaTypeHeaderValue(justification.ContentType);
-                formData.Add(fileContent, "files", justification.FileName); 
+                foreach (var file in model.Justifications)
+                {
+                    var streamContent = new StreamContent(file.OpenReadStream());
+                    streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                    formData.Add(streamContent, "files", file.FileName);
+                }
             }
-
-            if (!string.IsNullOrEmpty(_helper.JWTToken))
-            {
-                _api.Http.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", _helper.JWTToken);
-            }
-
+            
             var response = await _api.Http.PostAsync("expense/Create", formData);
 
             if (response.IsSuccessStatusCode)

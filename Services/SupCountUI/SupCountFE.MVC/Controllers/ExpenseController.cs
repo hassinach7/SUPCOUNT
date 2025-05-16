@@ -32,30 +32,35 @@ namespace SupCountFE.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+           var model = new CreateExpenseVM();
+            model = await FillListe(model);
+
+            return View(model);
+        }
+
+        private async Task<CreateExpenseVM> FillListe(CreateExpenseVM model)
+        {
             var groups = await _groupService.GetAllGroupsAsync();
             var categories = await _categoryService.GetAllAsync();
 
-            ViewBag.Groups = new SelectList(groups, "Id", "Name");
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            model.GroupsItems = new SelectList(groups, "Id", "Name");
+            model.CategoriesItems = new SelectList(categories, "Id", "Name");
 
-            return View(new CreateExpenseVM());
+            return model;
         }
 
 
         // POST: /Expense/Create
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateExpenseVM model, [FromForm] IFormFile justification)
+        public async Task<IActionResult> Create([FromForm] CreateExpenseVM model)
         {
             if (!ModelState.IsValid)
             {
-                var groups = await _groupService.GetAllGroupsAsync();
-                var categories = await _categoryService.GetAllAsync();
-                ViewBag.Groups = new SelectList(groups, "Id", "Name");
-                ViewBag.Categories = new SelectList(categories, "Id", "Name");
+                model = await FillListe(model);
                 return View(model);
             }
 
-            var result = await _expenseService.CreateExpenseAsync(model, justification);
+            var result = await _expenseService.CreateExpenseAsync(model);
             if (result != null)
             {
                 TempData["Success"] = "Expense created successfully!";

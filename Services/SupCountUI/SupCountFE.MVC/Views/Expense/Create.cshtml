@@ -1,6 +1,4 @@
-﻿@model SupCountFE.MVC.ViewModels.Expense.CreateExpenseVM
-
-<link rel="stylesheet" href="~/css/form-style.css" />
+﻿@model CreateExpenseVM
 
 @{
     ViewData["Title"] = "Create Expense";
@@ -30,7 +28,7 @@
 
         <div class="form-group">
             <label asp-for="GroupId">Group</label>
-            <select asp-for="GroupId" asp-items="ViewBag.Groups" class="form-control">
+            <select asp-for="GroupId" asp-items="@Model.GroupsItems" class="form-control">
                 <option value="">-- Select Group --</option>
             </select>
             <span asp-validation-for="GroupId" class="text-danger"></span>
@@ -38,7 +36,7 @@
 
         <div class="form-group">
             <label asp-for="CategoryId">Category</label>
-            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+            <select asp-for="CategoryId" asp-items="@Model.CategoriesItems" class="form-control">
                 <option value="">-- Select Category --</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -46,7 +44,10 @@
 
         <div class="form-group">
             <label>Justification</label><br />
-            <input type="file" name="files" class="form-control-file" />
+            <input type="file" asp-for="Justifications" multiple  class="form-control-file" />
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text text-danger mt-2">
+
         </div>
 
         <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
@@ -54,6 +55,9 @@
     </form>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+
+
+@section ExpenseCreateCSS {
+    <link rel="stylesheet" href="~/css/form-style.css" />
 }
+
