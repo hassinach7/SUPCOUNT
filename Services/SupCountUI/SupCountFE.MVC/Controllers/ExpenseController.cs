@@ -11,13 +11,43 @@ namespace SupCountFE.MVC.Controllers
         private readonly IMapper _mapper;
         private readonly IGroupService _groupService;
         private readonly ICategoryService _categoryService;
+        private readonly IJustificationService justificationService;
 
-        public ExpenseController(IExpenseService expenseService, IMapper mapper, IGroupService groupService, ICategoryService categoryService)
+
+        [HttpGet]
+        public IActionResult Dwonload( string Base64String)
+        {
+
+            try
+            {
+                var fileBytes = Convert.FromBase64String(Base64String);
+
+                return File(fileBytes, "application/octet-stream", "Justification");
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid base64 string format.");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Justifications(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var justifications = await justificationService.GetListAsync(id.Value);
+            return View(_mapper.Map<IList<JustificationExepnseVM>>(justifications));
+        }
+        public ExpenseController(IExpenseService expenseService, IMapper mapper, IGroupService groupService,
+            ICategoryService categoryService, IJustificationService justificationService)
         {
             _expenseService = expenseService;
             _mapper = mapper;
             _groupService = groupService;
             _categoryService = categoryService;
+            this.justificationService = justificationService;
         }
 
         // GET: /Expense/List
@@ -32,7 +62,7 @@ namespace SupCountFE.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-           var model = new CreateExpenseVM();
+            var model = new CreateExpenseVM();
             model = await FillListe(model);
 
             return View(model);
@@ -109,7 +139,7 @@ namespace SupCountFE.MVC.Controllers
             return RedirectToAction(nameof(List));
         }
 
-      
+
     }
 }
 

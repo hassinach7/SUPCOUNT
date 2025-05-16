@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SupCountBE.Application.Responses.Expense;
 using SupCountBE.Application.Responses.Group;
+using SupCountBE.Application.Responses.Justification;
 using SupCountFE.MVC.ViewModels.Expense;
 using SupCountFE.MVC.ViewModels.Group;
 
@@ -16,5 +17,6 @@ public class AutoMapperProfile : Profile
         this.CreateMap<CreateExpenseVM, ExpenseResponse>();
         this.CreateMap<ExpenseResponse, ExpenseVM>();
         this.CreateMap<ExpenseGroupResponse, ExpenseGroupVM>();
+        this.CreateMap<JustificationResponse, JustificationExepnseVM>();
     }
 }
