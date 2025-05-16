@@ -1,7 +1,7 @@
 using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.Services.Implementations;
-
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +20,17 @@ builder.Services.Configure<ApiSetting>(builder.Configuration.GetSection("ApiSett
 
 builder.Services.AddTransient<ApiSecurity>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IGroupService, GroupService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IExpenseService, ExpenseService>();
+
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<Helper>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+
+
+builder.Services.AddSingleton<Helper>();
 
 
 var app = builder.Build();

@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using SupCountBE.Application.Commands.Expense;
-using SupCountBE.Application.Responses.Expense;
 using SupCountBE.Application.Validations.Expense;
 using SupCountBE.Core.Exceptions;
 using SupCountBE.Core.Repositories;
@@ -26,10 +25,10 @@ public class CreateExpenseHandler : IRequestHandler<CreateExpenseCommand, int>
         var validation = await validator.ValidateAsync(request, cancellationToken);
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
-        var group = await _groupRepository.GetByIdAsync(request.GroupId!.Value);
+        var group = await _groupRepository.GetByIdAsync(request.GroupId);
         if (group == null)
             throw new ExpenseException($"The Groupe is not found ");
-        var category = await _categoryRepository.GetByIdAsync(request.CategoryId!.Value);
+        var category = await _categoryRepository.GetByIdAsync(request.CategoryId);
         if (category == null)
             throw new ExpenseException($"The category not found");
 

@@ -1,0 +1,31 @@
+﻿@model SupCountFE.MVC.ViewModels.Group.UpdateGroupVM
+<link rel="stylesheet" href="~/css/form-style.css" />
+@{
+    ViewData["Title"] = "Edit Group";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3 class="mb-4">Edit Group</h3>
+
+    <form asp-action="Edit" method="post">
+      
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="font-weight-bold"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter group name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mt-3">
+            <label asp-for="Description" class="font-weight-bold"></label>
+            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Update description"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-4">Save Changes</button>
+        <a asp-action="List" class="btn btn-outline-secondary btn-block mt-2">Cancel</a>
+    </form>
+</div>
+

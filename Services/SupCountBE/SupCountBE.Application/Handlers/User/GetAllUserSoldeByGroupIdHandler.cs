@@ -22,6 +22,7 @@ public class GetAllUserSoldeByGroupIdHandler : IRequestHandler<GetAllUserSoldeBy
         if (group == null)
         {
             throw new GroupException($"Group with ID {request.GroupId} not found.");
+
         }
 
         var users = await _userRepository.GetAllUsersByGroupIdAsync(request.GroupId);

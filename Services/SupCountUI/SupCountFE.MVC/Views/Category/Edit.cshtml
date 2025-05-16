@@ -1,0 +1,28 @@
+﻿@model SupCountFE.MVC.ViewModels.Category.UpdateCategoryVM
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3 class="mb-4">Edit Category</h3>
+
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="font-weight-bold"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter new name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-4">Save Changes</button>
+        <a asp-action="List" class="btn btn-outline-secondary btn-block mt-2">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

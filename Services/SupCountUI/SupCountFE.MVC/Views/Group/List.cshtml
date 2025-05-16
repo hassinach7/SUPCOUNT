@@ -1,0 +1,88 @@
+﻿@using SupCountBE.Application.Responses.Group
+<link rel="stylesheet" href="~/css/form-style.css" />
+
+@model IEnumerable<GroupResponse>
+@{
+    ViewData["Title"] = "List Groups";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Groups</h2>
+        <a class="btn btn-outline-primary" asp-action="Create">+ New Group</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th style="width: 200px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model)
+            {
+                <tr>
+                    <td>@group.Name</td>
+                    <td>
+                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@group.Id">Edit</a>
+                        <button class="btn btn-sm btn-info text-white"
+                                data-toggle="modal"
+                                data-target="#detailsModal"
+                                data-id="@group.Id"
+                                data-name="@group.Name"
+                                data-description="@group.Description">
+                            Details
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Details Modal -->
+
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg border-0 rounded">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="detailsModalLabel">
+                    <i class="fas fa-users mr-2"></i> Group Details
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body px-4 py-3">
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">Name:</label>
+                    <div class="text-dark" id="modalGroupName">Loading...</div>
+                </div>
+                <div>
+                    <label class="font-weight-bold text-secondary mb-0">Description:</label>
+                    <div class="text-dark" id="modalGroupDescription" style="white-space: pre-wrap;">Loading...</div>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#detailsModal').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            const name = button.data('name') || 'N/A';
+            const description = button.data('description') || 'No description provided.';
+
+            $('#modalGroupName').text(name);
+            $('#modalGroupDescription').text(description);
+        });
+    </script>
+}
+

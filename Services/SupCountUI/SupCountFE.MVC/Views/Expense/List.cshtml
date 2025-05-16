@@ -1,0 +1,81 @@
+﻿@model IEnumerable<SupCountBE.Application.Responses.Expense.ExpenseResponse>
+<link rel="stylesheet" href="~/css/form-style.css" />
+@{
+    ViewData["Title"] = "Expenses";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Expenses</h2>
+        <a class="btn btn-outline-primary" asp-action="Create">+ New Expense</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Title</th>
+                <th style="width: 300px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Model)
+            {
+                <tr>
+                    <td>@expense.Title</td>
+                    <td>
+                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@expense.Id">Edit</a>
+
+                        <button class="btn btn-sm btn-info text-white" data-toggle="modal" data-target="#detailsModal"
+                                data-group="@expense.Group.Name"
+                                data-category="@expense.CategoryName"
+                                data-amount="@expense.Amount"
+                                data-date="@expense.Date.ToString("dd-MM-yyyy")"
+                                data-payer="@expense.Payer">
+                            Details
+                        </button>
+
+                        <a class="btn btn-sm btn-warning text-white" asp-action="Participate" asp-route-id="@expense.Id">
+                            Participate
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">Expense Details</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Group:</strong> <span id="detailGroup"></span></p>
+                <p><strong>Category:</strong> <span id="detailCategory"></span></p>
+                <p><strong>Amount:</strong> <span id="detailAmount"></span></p>
+                <p><strong>Date:</strong> <span id="detailDate"></span></p>
+                <p><strong>Payer:</strong> <span id="detailPayer"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#detailsModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+
+            $('#detailGroup').text(button.data('group'));
+            $('#detailCategory').text(button.data('category'));
+            $('#detailAmount').text(button.data('amount') + " $");
+            $('#detailDate').text(button.data('date'));
+            $('#detailPayer').text(button.data('payer'));
+        });
+    </script>
+}
+

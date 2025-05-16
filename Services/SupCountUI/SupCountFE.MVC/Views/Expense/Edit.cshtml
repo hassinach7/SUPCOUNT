@@ -1,0 +1,48 @@
+﻿@model SupCountFE.MVC.ViewModels.Expense.UpdateExpenseVM
+<link rel="stylesheet" href="~/css/form-style.css" />
+@{
+    ViewData["Title"] = "Update Expense";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3 class="mb-4">Update Expense</h3>
+
+    <form asp-action="Edit" method="post">
+
+        <div class="form-group">
+            <label asp-for="Title" class="font-weight-bold"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Amount" class="font-weight-bold"></label>
+            <input asp-for="Amount" class="form-control" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Date" class="font-weight-bold"></label>
+            <input asp-for="Date" type="date" class="form-control" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GroupId" class="font-weight-bold">Group</label>
+            <select asp-for="GroupId" class="form-control" asp-items="ViewBag.Groups"></select>
+            <span asp-validation-for="GroupId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CategoryId" class="font-weight-bold">Category</label>
+            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+      
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-action="List" class="btn btn-secondary ml-2">Cancel</a>
+    </form>
+</div>
+
