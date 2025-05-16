@@ -18,7 +18,7 @@ namespace SupCountBE.Application.Handlers.Justification
 
         public async Task<IList<JustificationResponse>> Handle(GetAllJustificationQuery request, CancellationToken cancellationToken)
         {
-            var justifications = await _justificationRepository.GetAllListByExpenseIdIncludingAsync(request.ExpenseId, false);
+            var justifications = await _justificationRepository.GetAllListByExpenseIdIncludingAsync(request.ExpenseId, true);
             return _mapper.Map<IList<JustificationResponse>>(justifications);
         }
     }

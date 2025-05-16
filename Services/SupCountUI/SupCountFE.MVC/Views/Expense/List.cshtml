@@ -44,26 +44,49 @@
     </table>
 </div>
 
-<!-- Details Modal -->
+<!-- Expense Details Modal -->
 <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content p-3">
-            <div class="modal-header">
-                <h5 class="modal-title">Expense Details</h5>
-                <button type="button" class="close" data-dismiss="modal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg border-0 rounded">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="detailsModalLabel">
+                    <i class="fas fa-receipt mr-2"></i> Expense Details
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span>&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p><strong>Group:</strong> <span id="detailGroup"></span></p>
-                <p><strong>Category:</strong> <span id="detailCategory"></span></p>
-                <p><strong>Amount:</strong> <span id="detailAmount"></span></p>
-                <p><strong>Date:</strong> <span id="detailDate"></span></p>
-                <p><strong>Payer:</strong> <span id="detailPayer"></span></p>
+
+            <div class="modal-body px-4 py-3">
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">Group:</label>
+                    <div class="text-dark" id="detailGroup">Loading...</div>
+                </div>
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">Category:</label>
+                    <div class="text-dark" id="detailCategory">Loading...</div>
+                </div>
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">Amount:</label>
+                    <div class="text-dark" id="detailAmount">Loading...</div>
+                </div>
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">Date:</label>
+                    <div class="text-dark" id="detailDate">Loading...</div>
+                </div>
+                <div>
+                    <label class="font-weight-bold text-secondary mb-0">Payer:</label>
+                    <div class="text-dark" id="detailPayer">Loading...</div>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     <script>
