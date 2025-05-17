@@ -67,6 +67,17 @@ namespace SupCountFE.MVC.Services.Implementations
 
             }
         }
+        public async Task<List<SoldeUserResponse>> GetUserSoldesByGroupIdAsync(int groupId)
+        {
+            var response = await _apiSecurity.Http.GetAsync($"User/GetAllUserSoldeByGroupId?groupId={groupId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadFromJsonAsync<List<SoldeUserResponse>>();
+                return data ?? new List<SoldeUserResponse>();
+            }
+
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
 
     }
 }

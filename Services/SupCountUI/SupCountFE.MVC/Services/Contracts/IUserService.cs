@@ -9,6 +9,6 @@ namespace SupCountFE.MVC.Services.Contracts
         Task<UserResponse?> GetUserByIdAsync(string id);
         Task<UserResponse?> CreateUserAsync(RegisterUserVM model);
         Task<bool> UpdateUserAsync(UpdateUserVM model);
-
+        Task<List<SoldeUserResponse>> GetUserSoldesByGroupIdAsync(int groupId);
     }
 }

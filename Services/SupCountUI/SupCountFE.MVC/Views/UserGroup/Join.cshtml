@@ -1,0 +1,26 @@
+﻿@model JoinGroupVM
+
+@{
+    ViewData["Title"] = "Join Group";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+
+
+    <form asp-action="Join" asp-controller="UserGroup" method="post">
+        <input type="hidden" asp-for="GroupId" />
+
+        <div class="form-group">
+            <label class="font-weight-bold">Group Name</label>
+        
+        </div>
+
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-block btn-primary">Join Group</button>
+        </div>
+    </form>
+</div>
+
+@section UserGroupCSS {
+    <link rel="stylesheet" href="~/css/form-style.css" />
+}

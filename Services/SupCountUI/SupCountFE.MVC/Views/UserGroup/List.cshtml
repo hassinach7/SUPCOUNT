@@ -1,0 +1,106 @@
+﻿@model IEnumerable<UserGroupVM>
+
+@{
+    ViewData["Title"] = "Group Members";
+    var groupedData = Model.GroupBy(m => m.GroupName).ToList();
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Group Members</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Groups</th>
+                <th>Users</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in groupedData)
+            {
+                var first = true;
+                var rowSpan = group.Count();
+
+                foreach (var member in group)
+                {
+                    <tr>
+                        @if (first)
+                        {
+                            <td rowspan="@rowSpan">@group.Key</td>
+                            first = false;
+                        }
+                        <td>@member.FullName</td>
+                        <td>
+                            <button class="btn btn-sm btn-info text-white"
+                                    data-toggle="modal"
+                                    data-target="#detailsModal"
+                                    data-group="@member.GroupName"
+                                    data-user="@member.FullName"
+                                    data-role="@member.Role"
+                                    data-date="@member.CreatedAt.ToString("yyyy-MM-dd HH:mm")">
+                                Details
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg border-0 rounded">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="detailsModalLabel">
+                    <i class="fas fa-user-group mr-2"></i> Member Details
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body px-4 py-3">
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">Group:</label>
+                    <div class="text-dark" id="modalGroupName">Loading...</div>
+                </div>
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">User FullName:</label>
+                    <div class="text-dark" id="modalUserId">Loading...</div>
+                </div>
+                <div class="mb-3">
+                    <label class="font-weight-bold text-secondary mb-0">Role:</label>
+                    <div class="text-dark" id="modalUserRole">Loading...</div>
+                </div>
+                <div>
+                    <label class="font-weight-bold text-secondary mb-0">Joined At:</label>
+                    <div class="text-dark" id="modalJoinedAt">Loading...</div>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section UserGroupCSS {
+    <link rel="stylesheet" href="~/css/form-style.css" />
+}
+
+@section UserGroupJS {
+    <script>
+        $('#detailsModal').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            $('#modalGroupName').text(button.data('group') || 'N/A');
+            $('#modalUserId').text(button.data('user') || 'N/A');
+            $('#modalUserRole').text(button.data('role') || 'N/A');
+            $('#modalJoinedAt').text(button.data('date') || 'N/A');
+        });
+    </script>
+}

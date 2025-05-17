@@ -22,8 +22,8 @@
                 <tr>
                     <td>@group.Name</td>
                     <td>
-                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@group.Id">Edit</a>
-                        <button class="btn btn-sm btn-info text-white"
+                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@group.Id">Edit</a>                       
+                       <button class="btn btn-sm btn-info text-white"
                                 data-toggle="modal"
                                 data-target="#detailsModal"
                                 data-id="@group.Id"
@@ -31,7 +31,12 @@
                                 data-description="@group.Description">
                             Details
                         </button>
-                    </td>
+                        <form asp-action="Join" asp-controller="UserGroup" method="post" style="display:inline;">
+                            <input type="hidden" name="groupId" value="@group.Id" />
+                            <button type="submit" class="btn btn-sm btn-success">Join</button>
+                        </form>
+
+                    </td>                 
                 </tr>
             }
         </tbody>

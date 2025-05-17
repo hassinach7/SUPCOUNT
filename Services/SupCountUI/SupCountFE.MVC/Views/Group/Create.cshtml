@@ -1,6 +1,5 @@
-﻿@using SupCountFE.MVC.ViewModels.Group
-@model CreateGroupVM
-<link rel="stylesheet" href="~/css/form-style.css" />
+﻿@model CreateGroupVM
+
 
 <div class="container mt-5" style="max-width: 600px;">
     <h3 class="mb-4">Create Group</h3>
@@ -22,6 +21,6 @@
         <a asp-action="List" class="btn btn-outline-secondary btn-block mt-2">Cancel</a>
     </form>
 </div>
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+@section GroupCSS {
+    <link rel="stylesheet" href="~/css/form-style.css" />
 }

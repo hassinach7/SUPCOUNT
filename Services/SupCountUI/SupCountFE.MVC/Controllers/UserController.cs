@@ -89,6 +89,13 @@ namespace SupCountFE.MVC.Controllers
 
             return RedirectToAction("List", "User");
         }
+        // GET: /GroupUser solde
+        [HttpGet]
+        public async Task<IActionResult> GetUserSoldesByGroupId(int groupId)
+        {
+            var userSoldes = await _userService.GetUserSoldesByGroupIdAsync(groupId);
+            return View(userSoldes);
+        }
     }
 
 }

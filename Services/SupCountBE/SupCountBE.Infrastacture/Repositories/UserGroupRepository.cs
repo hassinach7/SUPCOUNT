@@ -65,8 +65,5 @@ public class UserGroupRepository : AsyncRepository<UserGroup>, IUserGroupReposit
         throw new NotImplementedException();
     }
 
-    public Task<bool> IsUserInGroup(int userId, int groupId)
-    {
-        throw new NotImplementedException();
-    }
+   
 }
