@@ -1,4 +1,5 @@
-﻿using SupCountFE.MVC.Services.Contracts;
+﻿using AutoMapper;
+using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.ViewModels.Category;
 
 namespace SupCountFE.MVC.Controllers
@@ -6,17 +7,19 @@ namespace SupCountFE.MVC.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, IMapper mapper)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> List()
         {
             var categories = await _categoryService.GetAllAsync();
-            return View(categories);
+            return View (_mapper.Map<List<CategoryVM>>(categories));
         }
 
         [HttpGet]

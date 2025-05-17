@@ -11,6 +11,9 @@
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("ExpenseCSS", false)
+	@RenderSection("GroupCSS", false)
+    @RenderSection("CategoryCSS", false)
+
 </head>
 <body id="page-top">
 
@@ -38,7 +41,6 @@
                 </a>
                 <div id="collapseExpenses" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Expense Tools:</h6>
                         <a class="collapse-item" asp-controller="Expense" asp-action="List">All Expenses</a>
                     </div>
                 </div>
@@ -210,6 +212,7 @@
     <script src="~/vendor/chart.js/Chart.min.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
     @RenderSection("ExpenseJS", false)
+    @RenderSection("GroupJS", false)
 
 
 </body>

@@ -22,8 +22,8 @@ namespace SupCountFE.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var data = await _groupService.GetAllGroupsAsync();
-            return View(data);
+            var groups = await _groupService.GetAllGroupsAsync();
+            return View(_mapper.Map<List<GroupVM>>(groups));
         }
 
         // GET: /Group/Create

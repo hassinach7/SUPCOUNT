@@ -1,6 +1,4 @@
-﻿@using SupCountBE.Application.Responses.Category
-@model IEnumerable<CategoryResponse>
-<link rel="stylesheet" href="~/css/form-style.css" />
+﻿@model IEnumerable<CategoryVM>
 
 @{
     ViewData["Title"] = "List Categories";
@@ -32,3 +30,6 @@
         </tbody>
     </table>
 </div>
+@section CategoryCSS {
+    <link rel="stylesheet" href="~/css/form-style.css" />
+}
