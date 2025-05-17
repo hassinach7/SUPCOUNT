@@ -3,9 +3,11 @@ using SupCountBE.Application.Responses.Category;
 using SupCountBE.Application.Responses.Expense;
 using SupCountBE.Application.Responses.Group;
 using SupCountBE.Application.Responses.Justification;
+using SupCountBE.Application.Responses.User;
 using SupCountFE.MVC.ViewModels.Category;
 using SupCountFE.MVC.ViewModels.Expense;
 using SupCountFE.MVC.ViewModels.Group;
+using SupCountFE.MVC.ViewModels.User;
 
 namespace SupCountFE.MVC.Profiles;
 
@@ -22,5 +24,8 @@ public class AutoMapperProfile : Profile
         this.CreateMap<JustificationResponse, JustificationExepnseVM>();
         this.CreateMap<CategoryResponse, CategoryVM>();
         this.CreateMap<GroupResponse, GroupVM>();
+        this.CreateMap<UserResponse, UpdateUserVM>();
+        this.CreateMap<UpdateUserVM, UserResponse>();
+        this.CreateMap<UserResponse, UserVM>();
     }
 }

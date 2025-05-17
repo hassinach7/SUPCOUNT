@@ -24,6 +24,7 @@ builder.Services.AddTransient<IGroupService, GroupService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IExpenseService, ExpenseService>();
 builder.Services.AddTransient<IJustificationService, JustificationService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 
 builder.Services.AddHttpContextAccessor();
