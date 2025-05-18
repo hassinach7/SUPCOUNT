@@ -30,5 +30,6 @@ public class AutoMapperProfile : Profile
         this.CreateMap<UpdateUserVM, UserResponse>();
         this.CreateMap<UserResponse, UserVM>();
         this.CreateMap<UserGroupResponse, UserGroupVM>();
+        this.CreateMap<SoldeUserResponse, SoldeUserVM>();
     }
 }

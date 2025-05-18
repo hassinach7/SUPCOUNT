@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SupCountBE.Application.Responses.User;
+using SupCountBE.Core.Entities;
 using SupCountFE.MVC.Services.Contracts;
 
 using SupCountFE.MVC.ViewModels.User;
@@ -10,11 +11,13 @@ namespace SupCountFE.MVC.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly IGroupService _groupService;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserService userService, IMapper mapper, IGroupService groupService)
         {
             _userService = userService;
             _mapper = mapper;
+            _groupService = groupService;
         }
 
         [HttpGet]
@@ -90,12 +93,20 @@ namespace SupCountFE.MVC.Controllers
             return RedirectToAction("List", "User");
         }
         // GET: /GroupUser solde
+        // GET: /GroupUser solde
         [HttpGet]
         public async Task<IActionResult> GetUserSoldesByGroupId(int groupId)
         {
             var userSoldes = await _userService.GetUserSoldesByGroupIdAsync(groupId);
-            return View(userSoldes);
+            var group = await _groupService.GetGroupByIdAsync(groupId);
+
+            ViewBag.GroupName = group?.Name ?? "Group";
+
+            var viewModel = _mapper.Map<List<SoldeUserVM>>(userSoldes);
+            return View("Balances", viewModel);
         }
+
+
     }
 
 }

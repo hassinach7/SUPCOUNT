@@ -20,7 +20,13 @@
             @foreach (var group in Model)
             {
                 <tr>
-                    <td>@group.Name</td>
+                    <td>
+                        <a asp-controller="User" asp-action="GetUserSoldesByGroupId" asp-route-groupId="@group.Id" class="text-decoration-none font-weight-bold">
+                            @group.Name
+                        </a>
+
+                    </td>
+
                     <td>
                         <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@group.Id">Edit</a>                       
                        <button class="btn btn-sm btn-info text-white"

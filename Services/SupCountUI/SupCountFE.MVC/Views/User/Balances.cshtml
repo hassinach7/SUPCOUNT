@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SoldeUserVM>
+
+@{
+    ViewData["Title"] = "Group Balance";
+    var groupName = ViewBag.GroupName as string ?? "Group";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2> <span class="text-primary">@groupName</span></h2>
+        <a asp-action="List" asp-controller="Group" class="btn btn-outline-secondary">Back to Groups</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th class="text-right">Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserFullName</td>
+                    <td>@user.UserEmail</td>
+                    <td class="text-right @(user.UserSolde < 0 ? "text-danger" : "text-success")">
+                        @user.UserSolde.ToString("0.00") €
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section GroupCSS {
+    <link rel="stylesheet" href="~/css/form-style.css" />
+}
