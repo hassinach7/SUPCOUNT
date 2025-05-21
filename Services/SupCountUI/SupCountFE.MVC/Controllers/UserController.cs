@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using SupCountBE.Application.Responses.User;
-using SupCountBE.Core.Entities;
 using SupCountFE.MVC.Services.Contracts;
-
 using SupCountFE.MVC.ViewModels.User;
 
 namespace SupCountFE.MVC.Controllers
@@ -12,12 +9,15 @@ namespace SupCountFE.MVC.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IGroupService _groupService;
+        private readonly IRoleService _roleService;
 
-        public UserController(IUserService userService, IMapper mapper, IGroupService groupService)
+        public UserController(IUserService userService, IMapper mapper, IGroupService groupService,
+            IRoleService roleService)
         {
             _userService = userService;
             _mapper = mapper;
             _groupService = groupService;
+            _roleService = roleService;
         }
 
         [HttpGet]
@@ -28,26 +28,35 @@ namespace SupCountFE.MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
-            return View(new RegisterUserVM());
+            var model = new RegisterUserVM
+            {
+                Roles = await _roleService.GetRolesAsync(),
+                SelectedRoles = new List<string>() 
+            };
+            return View(model);
         }
 
-        // POST: /User/Create
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserVM model)
         {
             if (!ModelState.IsValid)
+            {
+                model.Roles = await _roleService.GetRolesAsync(); // Recharge les rôles en cas d'erreur
                 return View(model);
+            }
 
             try
             {
+                model.Roles = model.SelectedRoles; // Mapper sélection vers rôles à envoyer
                 var createdUser = await _userService.CreateUserAsync(model);
                 if (createdUser != null)
                 {
                     TempData["Success"] = "User created successfully.";
-
+                    return RedirectToAction(nameof(List));
                 }
+
                 ModelState.AddModelError("", "User creation failed.");
             }
             catch (Exception ex)
@@ -55,44 +64,60 @@ namespace SupCountFE.MVC.Controllers
                 ModelState.AddModelError("", $"Error: {ex.Message}");
             }
 
+            model.Roles = await _roleService.GetRolesAsync(); 
             return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            if (!ModelState.IsValid)
-            {
+            if (string.IsNullOrWhiteSpace(id))
                 return RedirectToAction(nameof(List));
-            }
 
-            // Récupérer l'utilisateur à modifier
-            UserResponse? userToUpdate = await _userService.GetUserByIdAsync(id);
+            var userToUpdate = await _userService.GetUserByIdAsync(id);
             if (userToUpdate is null)
-            {
                 return RedirectToAction(nameof(List));
-            }
 
             var model = _mapper.Map<UpdateUserVM>(userToUpdate);
+
+        
+            var allRoles = await _roleService.GetRolesAsync();
+
+            var userRoles = userToUpdate.Roles ?? new List<string>();
+
+            model.Roles = allRoles;
+            model.SelectedRoles = userRoles;
+
             return View(model);
         }
 
-       
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateUserVM model)
         {
             if (!ModelState.IsValid)
             {
+              
+                model.Roles = await _roleService.GetRolesAsync();
                 return View(model);
             }
-            var userId = model.Id;
-            var userDto = _mapper.Map<UserResponse>(model);
 
-            await _userService.UpdateUserAsync(model);
+            try
+            {
+                model.Roles = model.SelectedRoles;
+                await _userService.UpdateUserAsync(model);
 
-            return RedirectToAction("List", "User");
+                TempData["Success"] = "User updated successfully.";
+                return RedirectToAction(nameof(List));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error: {ex.Message}");
+                model.Roles = await _roleService.GetRolesAsync();
+                return View(model);
+            }
         }
-      
+
+
         // GET: /GroupUser solde
         [HttpGet]
         public async Task<IActionResult> GetUserSoldesByGroupId(int groupId)

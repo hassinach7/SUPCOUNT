@@ -1,49 +1,61 @@
 ﻿@model SupCountFE.MVC.ViewModels.User.RegisterUserVM
 
 @{
-    ViewData["Title"] = "Register User";
+	ViewData["Title"] = "Register User";
 }
 
 <div class="container mt-5" style="max-width: 600px;">
-    <h3 class="mb-4">Register New User</h3>
+	<h3 class="mb-4">Register New User</h3>
 
-    <form asp-controller="User" asp-action="Register" method="post">
+	<form asp-controller="User" asp-action="Register" method="post">
 
-        <div class="form-group">
-            <label asp-for="FullName" class="font-weight-bold"></label>
-            <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
-        </div>
+		<div class="form-group">
+			<label asp-for="FullName" class="font-weight-bold"></label>
+			<input asp-for="FullName" class="form-control" />
+			<span asp-validation-for="FullName" class="text-danger"></span>
+		</div>
 
-        <div class="form-group">
-            <label asp-for="Email" class="font-weight-bold"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+		<div class="form-group">
+			<label asp-for="Email" class="font-weight-bold"></label>
+			<input asp-for="Email" class="form-control" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
 
-        <div class="form-group">
-            <label asp-for="Username" class="font-weight-bold"></label>
-            <input asp-for="Username" class="form-control" />
-            <span asp-validation-for="Username" class="text-danger"></span>
-        </div>
+		<div class="form-group">
+			<label asp-for="Username" class="font-weight-bold"></label>
+			<input asp-for="Username" class="form-control" />
+			<span asp-validation-for="Username" class="text-danger"></span>
+		</div>
 
-        <div class="form-group">
-            <label asp-for="PhoneNumber" class="font-weight-bold"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
+		<div class="form-group">
+			<label asp-for="PhoneNumber" class="font-weight-bold"></label>
+			<input asp-for="PhoneNumber" class="form-control" />
+			<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+		</div>
 
-        <div class="form-group">
-            <label asp-for="Password" class="font-weight-bold"></label>
-            <input asp-for="Password" class="form-control" type="password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
+		<div class="form-group">
+			<label asp-for="Password" class="font-weight-bold"></label>
+			<input asp-for="Password" class="form-control" type="password" />
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</div>
 
-        <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
-        <a asp-action="List" class="btn btn-outline-secondary btn-block mt-2">Cancel</a>
-    </form>
+		<div class="form-group">
+			<label asp-for="SelectedRoles" class="font-weight-bold"></label>
+			<select asp-for="SelectedRoles" class="form-control" multiple="multiple">
+				@foreach (var role in Model.Roles)
+				{
+					<option value="@role">@role</option>
+				}
+			</select>
+			<span asp-validation-for="SelectedRoles" class="text-danger"></span>
+		</div>
+
+
+		<button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+		<a asp-action="List" class="btn btn-outline-secondary btn-block mt-2">Cancel</a>
+	</form>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+	<partial name="_ValidationScriptsPartial" />
 }

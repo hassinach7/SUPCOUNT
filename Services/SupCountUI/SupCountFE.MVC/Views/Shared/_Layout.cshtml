@@ -134,22 +134,26 @@
                     </div>
                 </div>
             </li>
-
-            <!-- Admin Panel -->
-            <div class="sidebar-heading">Admin</div>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Admin Panel</span>
-                </a>
-                <div id="collapsePages" class="collapse" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" asp-controller="User" asp-action="Register">Register</a>
-                        <a class="collapse-item" asp-controller="User" asp-action="List">All Users</a>
+            @if (_helper.UserRoles.Contains("Admin"))
+            {
+                <!-- Admin Panel -->
+                <div class="sidebar-heading">Admin</div>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Admin Panel</span>
+                    </a>
+                    <div id="collapsePages" class="collapse" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Login Screens:</h6>
+                            <a class="collapse-item" asp-controller="User" asp-action="Register">Register</a>
+                            <a class="collapse-item" asp-controller="User" asp-action="List">All Users</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+}
+
+        
         </ul>
 
         <!-- Sidebar Toggler -->

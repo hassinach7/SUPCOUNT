@@ -14,5 +14,9 @@ namespace SupCountFE.MVC.ViewModels.User
         public string FullName { get; set; } = null!;
         [Required]
         public string Username { get; set; } = null!;
+        public IList<string> Roles { get; set; } = new List<string>();
+
+        [Display(Name = "Select Roles")]
+        public IList<string> SelectedRoles { get; set; } = new List<string>();
     }
 }

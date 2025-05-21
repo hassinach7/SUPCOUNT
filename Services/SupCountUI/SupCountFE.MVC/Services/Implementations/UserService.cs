@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using SupCountBE.Application.Responses.User;
-using SupCountBE.Core.Entities;
 using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.ViewModels.User;
@@ -43,6 +42,15 @@ namespace SupCountFE.MVC.Services.Implementations
 
         public async Task<UserResponse?> CreateUserAsync(RegisterUserVM model)
         {
+            if (model.SelectedRoles != null && model.SelectedRoles.Any())
+            {
+                model.Roles = model.SelectedRoles;
+            }
+            else
+            {
+                model.Roles = new List<string>();
+            }
+
             var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var response = await _apiSecurity.Http.PostAsync("User/Register", jsonContent);
 
@@ -55,6 +63,14 @@ namespace SupCountFE.MVC.Services.Implementations
         }
         public async Task<bool> UpdateUserAsync(UpdateUserVM model)
         {
+            if (model.SelectedRoles != null && model.SelectedRoles.Any())
+            {
+                model.Roles = model.SelectedRoles;
+            }
+            else
+            {
+                model.Roles = new List<string>();
+            }
             var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var response = await _apiSecurity.Http.PutAsync($"User/Edit", jsonContent);
             if (response.IsSuccessStatusCode)

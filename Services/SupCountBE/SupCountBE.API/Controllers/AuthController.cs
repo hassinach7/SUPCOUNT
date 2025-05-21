@@ -41,7 +41,7 @@ public class AuthController : ControllerBase
         var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
         if (string.IsNullOrEmpty(email))
-            return BadRequest("Email introuvable");
+            return BadRequest("Email not found");
 
         var command = new GoogleAuthCommand
         {

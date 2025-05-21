@@ -18,5 +18,8 @@ namespace SupCountFE.MVC.ViewModels.User
 
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; } = null!;
+        public IList<string> Roles { get; set; } = new List<string>();
+        public IList<string> SelectedRoles { get; set; } = new List<string>();
+
     }
 }

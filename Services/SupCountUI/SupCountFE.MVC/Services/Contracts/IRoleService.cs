@@ -2,5 +2,5 @@
 
 public interface IRoleService
 {
-    Task<IList<string>> GetRolesAsync();
+    Task<IList<string?>> GetRolesAsync();
 }
