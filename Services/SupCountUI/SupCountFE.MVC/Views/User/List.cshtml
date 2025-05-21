@@ -1,98 +1,105 @@
 ﻿@model IEnumerable<UserVM>
 
 @{
-    ViewData["Title"] = "List Users";
+	ViewData["Title"] = "List Users";
 }
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Users</h2>
-        <a class="btn btn-outline-primary" asp-action="Register">+ New User</a>
-    </div>
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2>Users</h2>
+		<a class="btn btn-outline-primary" asp-action="Register">+ New User</a>
+	</div>
 
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th style="width: 200px;">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.FullName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                        <button class="btn btn-sm btn-info text-white"
-                                data-toggle="modal"
-                                data-target="#detailsModal"
-                                data-id="@user.Id"
-                                data-name="@user.FullName"                               
-                                data-phone="@user.PhoneNumber"
-                                data-date="@user.CreatedAt.ToString("yyyy-MM-dd")">
-                            Details
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+	<table class="table table-bordered">
+		<thead class="thead-light">
+			<tr>
+				<th>Full Name</th>
+				<th>Email</th>
+				<th>Roles</th>
+				<th style="width: 200px;">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var user in Model)
+			{
+				<tr>
+					<td>@user.FullName</td>
+					<td>@user.Email</td>
+					<td>
+						@foreach (var role in user.Roles)
+						{
+							<span class="badge badge-info mr-1">@role</span>
+						}
+					</td>
+					<td>
+						<a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+						<button class="btn btn-sm btn-info text-white"
+								data-toggle="modal"
+								data-target="#detailsModal"
+								data-id="@user.Id"
+								data-name="@user.FullName"
+								data-phone="@user.PhoneNumber"
+								data-date="@user.CreatedAt.ToString("yyyy-MM-dd")">
+							Details
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 </div>
 
 <!-- Details Modal -->
 <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content shadow-lg border-0 rounded">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="detailsModalLabel">
-                    <i class="fas fa-user mr-2"></i> User Details
-                </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span>&times;</span>
-                </button>
-            </div>
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content shadow-lg border-0 rounded">
+			<div class="modal-header bg-primary text-white">
+				<h5 class="modal-title" id="detailsModalLabel">
+					<i class="fas fa-user mr-2"></i> User Details
+				</h5>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+					<span>&times;</span>
+				</button>
+			</div>
 
-            <div class="modal-body px-4 py-3">
-                <div class="mb-3">
-                    <label class="font-weight-bold text-secondary mb-0">Full Name:</label>
-                    <div class="text-dark" id="modalUserName">Loading...</div>
-                </div>
-              
-                <div class="mb-3">
-                    <label class="font-weight-bold text-secondary mb-0">Phone Number:</label>
-                    <div class="text-dark" id="modalUserPhone">Loading...</div>
-                </div>
-                <div>
-                    <label class="font-weight-bold text-secondary mb-0">Created At:</label>
-                    <div class="text-dark" id="modalUserDate">Loading...</div>
-                </div>
-            </div>
+			<div class="modal-body px-4 py-3">
+				<div class="mb-3">
+					<label class="font-weight-bold text-secondary mb-0">Full Name:</label>
+					<div class="text-dark" id="modalUserName">Loading...</div>
+				</div>
 
-            <div class="modal-footer justify-content-end">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
+				<div class="mb-3">
+					<label class="font-weight-bold text-secondary mb-0">Phone Number:</label>
+					<div class="text-dark" id="modalUserPhone">Loading...</div>
+				</div>
+				<div>
+					<label class="font-weight-bold text-secondary mb-0">Created At:</label>
+					<div class="text-dark" id="modalUserDate">Loading...</div>
+				</div>
+			</div>
+
+			<div class="modal-footer justify-content-end">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section UserCSS {
-    <link rel="stylesheet" href="~/css/form-style.css" />
+	<link rel="stylesheet" href="~/css/form-style.css" />
 }
 
 @section UserJS {
-    <script>
-        $('#detailsModal').on('show.bs.modal', function (event) {
-            const button = $(event.relatedTarget);
-            const name = button.data('name') || 'N/A';
-            const phone = button.data('phone') || '';
-            const date = button.data('date') || 'Unknown';
+	<script>
+		$('#detailsModal').on('show.bs.modal', function (event) {
+			const button = $(event.relatedTarget);
+			const name = button.data('name') || 'N/A';
+			const phone = button.data('phone') || '';
+			const date = button.data('date') || 'Unknown';
 
-            $('#modalUserName').text(name);       
-            $('#modalUserPhone').text(phone);
-            $('#modalUserDate').text(date);
-        });
-    </script>
+			$('#modalUserName').text(name);
+			$('#modalUserPhone').text(phone);
+			$('#modalUserDate').text(date);
+		});
+	</script>
 }

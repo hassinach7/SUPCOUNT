@@ -17,8 +17,22 @@ namespace SupCountBE.Application.Handlers.User
 
         public async Task<IList<UserResponse>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetAllListIncludingAsync(includeExpenses: true, includeGroups: true, includeReimbursements: true);
-            return _mapper.Map<IList<UserResponse>>(users);
+            var users = await _userRepository.GetAllListIncludingAsync(new IncludingItem
+            {
+               IncludeExpenses =  true, IncludeGroups =  true, IncludeReimbursements =  true
+            });
+
+            var userMapping = _mapper.Map<IList<UserResponse>>(users);
+
+            foreach (var user in userMapping)
+            {
+                var roles = await _userRepository.GetRolesByUserIdAsync(user.Id);
+                if (roles != null)
+                {
+                    user.Roles = roles;
+                }
+            }
+            return userMapping;
         }
     }
 }

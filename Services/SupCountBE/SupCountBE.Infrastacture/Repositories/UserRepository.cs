@@ -27,22 +27,22 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         }
     }
 
-    public Task<IList<User>> GetAllListIncludingAsync(bool includeExpenses = false, bool includeReimbursements = false, bool includeGroups = false)
+    public Task<IList<User>> GetAllListIncludingAsync(IncludingItem including)
 
     {
         var query = _dbContext.Users.AsQueryable();
 
-        if (includeExpenses)
+        if (including.IncludeExpenses)
             query = query.Include(u => u.Expenses);
 
-        if (includeReimbursements)
+        if (including.IncludeReimbursements)
         {
             query = query
                 .Include(u => u.ReimbursementsSent)
                 .Include(u => u.ReimbursementsReceived);
         }
 
-        if (includeGroups)
+        if (including.IncludeGroups)
             query = query.Include(u => u.UserGroups!).ThenInclude(ug => ug.Group);
 
         return Task.FromResult(query.ToList() as IList<User>);
@@ -56,25 +56,17 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
              .ToListAsync();
     }
 
-    public async Task<User?> GetByIdIncludingAsync(
-        string id,
-        bool includeExpenses = false,
-        bool includeParticipations = false,
-        bool includeReimbursementsSent = false,
-        bool includeReimbursementsReceived = false,
-        bool includeSentMessages = false,
-        bool includeReceivedMessages = false,
-        bool includeUserGroups = false)
+    public async Task<User?> GetByIdIncludingAsync(string id, IncludingItem including)
     {
         var query = _dbContext.Users.AsQueryable();
 
-        if (includeExpenses) query = query.Include(u => u.Expenses);
-        if (includeParticipations) query = query.Include(u => u.Participations);
-        if (includeReimbursementsSent) query = query.Include(u => u.ReimbursementsSent);
-        if (includeReimbursementsReceived) query = query.Include(u => u.ReimbursementsReceived);
-        if (includeSentMessages) query = query.Include(u => u.SentMessages);
-        if (includeReceivedMessages) query = query.Include(u => u.ReceivedMessages);
-        if (includeUserGroups) query = query.Include(u => u.UserGroups);
+        if (including.IncludeExpenses) query = query.Include(u => u.Expenses);
+        if (including.IncludeParticipations) query = query.Include(u => u.Participations);
+        if (including.IncludeReimbursementsSent) query = query.Include(u => u.ReimbursementsSent);
+        if (including.IncludeReimbursementsReceived) query = query.Include(u => u.ReimbursementsReceived);
+        if (including.IncludeSentMessages) query = query.Include(u => u.SentMessages);
+        if (including.IncludeReceivedMessages) query = query.Include(u => u.ReceivedMessages);
+        if (including.IncludeUserGroups) query = query.Include(u => u.UserGroups);
 
         return await query.SingleOrDefaultAsync(u => u.Id == id);
     }
@@ -82,6 +74,17 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
     public async Task<User?> GetReciepientByIdAsync(string RecipientId)
     {
        return await _userManager.FindByIdAsync(RecipientId);
+    }
+
+    public async Task<IList<string>> GetRolesByUserIdAsync(string userId)
+    {
+        var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null)
+        {
+            throw new Exception($"User with ID {userId} not found.");
+        }
+        var roles = await _userManager.GetRolesAsync(user);
+        return roles.ToList();
     }
 
     public async Task<User?> GetUserByEmailAsync(string email)

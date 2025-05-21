@@ -39,6 +39,7 @@ public static class InfrastactureContainer
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserGroupRepository, UserGroupRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
 
         services.Configure<JwtSettings>(options =>
         {

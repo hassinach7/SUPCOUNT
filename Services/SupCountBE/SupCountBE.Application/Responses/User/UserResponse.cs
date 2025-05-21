@@ -8,5 +8,7 @@ namespace SupCountBE.Application.Responses.User
         public string Email { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
+        public IList<string> Roles { get; set; } = new List<string>();
+
     }
 }
