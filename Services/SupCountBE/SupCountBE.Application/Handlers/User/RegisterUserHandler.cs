@@ -6,7 +6,7 @@ using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.User;
 
-public class RegisterUserHandler: IRequestHandler<RegisterUserCommand, Unit>
+public class RegisterUserHandler: IRequestHandler<RegisterUserCommand, string>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class RegisterUserHandler: IRequestHandler<RegisterUserCommand, Unit>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         // Validation request
       
@@ -30,11 +30,12 @@ public class RegisterUserHandler: IRequestHandler<RegisterUserCommand, Unit>
         var existingUser = await _userRepository.GetUserByEmailAsync(request.Email);
         if (existingUser != null)
             throw new UserException("User with this email already exists.");
+
         var user = _mapper.Map<Core.Entities.User>(request);
-        var result = await _userRepository.CreateAsync(user, request.Password);
+        var result = await _userRepository.CreateAsync(user, request.Password, request.Roles);
         if (!result.Item1)
             throw new UserException(result.Item2);
 
-        return Unit.Value;  
+        return user.Id;  
     }
 }

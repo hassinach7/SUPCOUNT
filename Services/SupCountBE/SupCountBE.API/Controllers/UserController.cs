@@ -20,7 +20,12 @@ public class UserController : ControllerBase
     [Route("[action]")]
     public async Task<IActionResult> Register(RegisterUserCommand model)
     {
-        return Ok(await _mediator.Send(model));
+        var userId = await _mediator.Send(model);
+        return Ok(new
+        {
+            Id = userId,
+            Message = "User created successfully."
+        });
     }
     [HttpGet]
     [ActionName("GetAll")]

@@ -13,12 +13,20 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         this._userManager = userManager;
     }
 
-    public async Task<(bool, string)> CreateAsync(User user, string password)
+    public async Task<(bool, string)> CreateAsync(User user, string password, IList<string> roles)
     {
         var result = await _userManager.CreateAsync(user, password);
         if (result.Succeeded)
         {
-            return (true,string.Empty);
+            var rolesToAdd = (roles is null || roles.Count == 0) ? new List<string>() { "User" } : roles;
+            var addToRoleResult = await _userManager.AddToRolesAsync(user, rolesToAdd);
+            if (!addToRoleResult.Succeeded)
+            {
+                var errors = string.Join(", ", addToRoleResult.Errors.Select(e => e.Description));
+                return (false, errors);
+            }
+
+            return (true, string.Empty);
         }
         else
         {
@@ -73,7 +81,7 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
 
     public async Task<User?> GetReciepientByIdAsync(string RecipientId)
     {
-       return await _userManager.FindByIdAsync(RecipientId);
+        return await _userManager.FindByIdAsync(RecipientId);
     }
 
     public async Task<IList<string>> GetRolesByUserIdAsync(string userId)
@@ -100,7 +108,7 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
     public async Task UpdateAsync(User user, List<string> roles)
     {
         await UpdateAsync(user);
-        if(roles.Count>0)
+        if (roles.Count > 0)
         {
             var currentRoles = await _userManager.GetRolesAsync(user);
             var rolesToAdd = roles.Except(currentRoles).ToList();

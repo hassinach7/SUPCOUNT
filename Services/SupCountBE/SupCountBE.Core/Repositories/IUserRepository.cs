@@ -10,7 +10,7 @@ public interface IUserRepository : IAsyncRepository<User>
     Task<User?> GetUserByIdAsync(string id);
     Task<User?> GetReciepientByIdAsync(string RecipientId);
     Task<User?> GetUserByEmailAsync(string email);
-    Task<(bool, string)> CreateAsync(User user, string password);
+    Task<(bool, string)> CreateAsync(User user, string password,IList<string> roles);
     Task<IList<User>> GetAllUsersByGroupIdAsync(int groupId);
 }
 public class IncludingItem
