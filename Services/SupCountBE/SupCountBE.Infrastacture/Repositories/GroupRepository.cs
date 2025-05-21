@@ -1,76 +1,61 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SupCountBE.Core.Entities;
-using SupCountBE.Core.Repositories;
+﻿using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
+using SupCountBE.Infrastacture.Repositories;
 
-namespace SupCountBE.Infrastacture.Repositories;
+namespace SupCountBE.Infrastructure.Repositories;
 
 public class GroupRepository : AsyncRepository<Group>, IGroupRepository
 {
-    public GroupRepository(SupCountDbContext dbContext) : base(dbContext)
+    public GroupRepository(SupCountDbContext dbContext) : base(dbContext) { }
+
+    public async Task<Group?> GetByIdIncludingAsync(int id, GroupIncludingProperties groupIncludingProperties)
     {
-    }
-
-    public async Task<Group?> GetByIdIncludingAsync(
-        int id,
-        bool includeUserGroups = false,
-        bool includeExpenses = false,
-        bool includeReimbursements = false,
-        bool includeMessages = false)
-    {
-        var query = _dbContext.Groups.AsQueryable();
-
-        if (includeUserGroups)
-        {
-            query = query.Include(g => g.UserGroups);
-        }
-
-        if (includeExpenses)
-        {
-            query = query.Include(g => g.Expenses);
-        }
-
-        if (includeReimbursements)
-        {
-            query = query.Include(g => g.Reimbursements);
-        }
-
-        if (includeMessages)
-        {
-            query = query.Include(g => g.Messages);
-        }
-
+        var query = Get(groupIncludingProperties);
         return await query.SingleOrDefaultAsync(g => g.Id == id);
     }
 
-    public Task<IList<Group>> GetAllListIncludingAsync(
+    public async Task<IList<Group>> GetAllListIncludingAsync(
         bool includeUserGroups = false,
         bool includeExpenses = false,
         bool includeReimbursements = false,
         bool includeMessages = false)
     {
+        var props = new GroupIncludingProperties
+        {
+            IncludeUserGroups = includeUserGroups,
+            IncludeExpenses = includeExpenses,
+            IncludeReimbursements = includeReimbursements,
+            IncludeMessages = includeMessages
+        };
+
+        var query = Get(props);
+        return await query.ToListAsync();
+    }
+
+    private IQueryable<Group> Get(GroupIncludingProperties props)
+    {
         var query = _dbContext.Groups.AsQueryable();
 
-        if (includeUserGroups)
+        if (props.IncludeUserGroups)
         {
             query = query.Include(g => g.UserGroups);
         }
 
-        if (includeExpenses)
+        if (props.IncludeExpenses)
         {
             query = query.Include(g => g.Expenses);
         }
 
-        if (includeReimbursements)
+        if (props.IncludeReimbursements)
         {
             query = query.Include(g => g.Reimbursements);
         }
 
-        if (includeMessages)
+        if (props.IncludeMessages)
         {
             query = query.Include(g => g.Messages);
         }
 
-        return Task.FromResult(query.ToList() as IList<Group>);
+        return query;
     }
 }

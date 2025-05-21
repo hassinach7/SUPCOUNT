@@ -1,52 +1,44 @@
 ﻿using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
+using SupCountBE.Infrastacture.Repositories;
 
-
-namespace SupCountBE.Infrastacture.Repositories;
+namespace SupCountBE.Infrastructure.Repositories;
 
 public class MessageRepository : AsyncRepository<Message>, IMessageRepository
 {
     public MessageRepository(SupCountDbContext dbContext) : base(dbContext) { }
 
-    public async Task<IList<Message>> GetAllListIncludingAsync(bool includeSender = false, bool includeRecipient = false, bool includeGroup = false)
+    public async Task<Message?> GetByIdIncludingAsync(int id, MessageIncludingProperties messageIncludingProperties)
     {
-        var query = _dbContext.Messages.AsQueryable();
+        var query = Get(messageIncludingProperties);
+        return await query.SingleOrDefaultAsync(m => m.Id == id);
+    }
 
-        if (includeSender)
-            query = query.Include(m => m.Sender);
-
-        if (includeRecipient)
-            query = query.Include(m => m.Recipient);
-
-        if (includeGroup)
-            query = query.Include(m => m.Group);
-
+    public async Task<IList<Message>> GetAllListIncludingAsync(MessageIncludingProperties messageIncludingProperties)
+    {
+        var query = Get(messageIncludingProperties);
         return await query.ToListAsync();
     }
 
-    public async Task<Message?> GetByIdIncludingAsync(
-        int id,
-        bool includeSender = false,
-        bool includeRecipient = false,
-        bool includeGroup = false)
+    private IQueryable<Message> Get(MessageIncludingProperties props)
     {
         var query = _dbContext.Messages.AsQueryable();
 
-        if (includeSender)
+        if (props.IncludeSender)
         {
             query = query.Include(m => m.Sender);
         }
 
-        if (includeRecipient)
+        if (props.IncludeRecipient)
         {
             query = query.Include(m => m.Recipient);
         }
 
-        if (includeGroup)
+        if (props.IncludeGroup)
         {
             query = query.Include(m => m.Group);
         }
 
-        return await query.SingleOrDefaultAsync(m => m.Id == id);
+        return query;
     }
 }

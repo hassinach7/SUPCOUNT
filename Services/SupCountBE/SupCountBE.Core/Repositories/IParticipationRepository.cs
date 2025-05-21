@@ -3,18 +3,19 @@
 public interface IParticipationRepository : IAsyncRepository<Participation>
 {
     Task<IList<Participation>> GetListIncludingAsync(
-        bool includeUser = false,
-        bool includeExpense = false
+       ParticipationIncludingProperties participationIncludingProperties
     );
 
     Task<Participation?> GetByIdsAsync( int expenseId);
     Task<Participation?> GetByIdsIncludingAsync(
       
         int expenseId,
-         bool includeUser = false,
-        bool includeExpense = false
+        ParticipationIncludingProperties participationIncludingProperties
         );
+}
 
-
-
+public record ParticipationIncludingProperties
+{
+    public bool IncludeUser { get; set; } = false;
+    public bool IncludeExpense { get; set; } = false;
 }

@@ -1,57 +1,49 @@
 ﻿using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
+using SupCountBE.Infrastacture.Repositories;
 
-namespace SupCountBE.Infrastacture.Repositories;
+namespace SupCountBE.Infrastructure.Repositories;
 
 public class ReimbursementRepository : AsyncRepository<Reimbursement>, IReimbursementRepository
 {
     public ReimbursementRepository(SupCountDbContext dbContext) : base(dbContext) { }
 
-    public async Task<IList<Reimbursement>> GetAllListIncludingAsync(bool includeSender = false, bool includeBeneficiary = false, bool includeGroup = false)
+    public async Task<Reimbursement?> GetByIdIncludingAsync(int id, ReimbursementIncludingProperties reimbursementIncludingProperties)
     {
-        var query = _dbContext.Reimbursements.AsQueryable();
+        var query = Get(reimbursementIncludingProperties);
+        return await query.SingleOrDefaultAsync(r => r.Id == id);
+    }
 
-        if (includeSender)
-            query = query.Include(r => r.Sender);
-
-        if (includeBeneficiary)
-            query = query.Include(r => r.Beneficiary);
-
-        if (includeGroup)
-            query = query.Include(r => r.Group);
-
+    public async Task<IList<Reimbursement>> GetAllListIncludingAsync(ReimbursementIncludingProperties reimbursementIncludingProperties)
+    {
+        var query = Get(reimbursementIncludingProperties);
         return await query.ToListAsync();
     }
 
-        public async Task<Reimbursement?> GetByIdIncludingAsync(
-        int id,
-        bool includeSender = false,
-        bool includeBeneficiary = false,
-        bool includeGroup = false,
-        bool includeTransactions = false)
+    private IQueryable<Reimbursement> Get(ReimbursementIncludingProperties props)
     {
         var query = _dbContext.Reimbursements.AsQueryable();
 
-        if (includeSender)
+        if (props.IncludeSender)
         {
             query = query.Include(r => r.Sender);
         }
 
-        if (includeBeneficiary)
+        if (props.IncludeBeneficiary)
         {
             query = query.Include(r => r.Beneficiary);
         }
 
-        if (includeGroup)
+        if (props.IncludeGroup)
         {
             query = query.Include(r => r.Group);
         }
 
-        if (includeTransactions)
+        if (props.IncludeTransactions)
         {
             query = query.Include(r => r.Transactions);
         }
 
-        return await query.SingleOrDefaultAsync(r => r.Id == id);
+        return query;
     }
 }

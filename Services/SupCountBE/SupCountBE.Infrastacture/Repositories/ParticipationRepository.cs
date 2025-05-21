@@ -1,59 +1,45 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SupCountBE.Core.Entities;
-using SupCountBE.Core.Repositories;
+﻿using SupCountBE.Core.Repositories;
 using SupCountBE.Infrastacture.Data.Context;
+using SupCountBE.Infrastacture.Repositories;
 
-namespace SupCountBE.Infrastacture.Repositories;
+namespace SupCountBE.Infrastructure.Repositories;
 
 public class ParticipationRepository : AsyncRepository<Participation>, IParticipationRepository
 {
     public ParticipationRepository(SupCountDbContext dbContext) : base(dbContext) { }
 
-    public async Task<IList<Participation>> GetListIncludingAsync(
-        bool includeUser = false,
-        bool includeExpense = false)
+    public async Task<IList<Participation>> GetListIncludingAsync(ParticipationIncludingProperties participationIncludingProperties)
+    {
+        var query = Get(participationIncludingProperties);
+        return await query.ToListAsync();
+    }
+
+    public async Task<Participation?> GetByIdsAsync(int expenseId)
+    {
+        return await _dbContext.Participations
+            .FirstOrDefaultAsync(p => p.ExpenseId == expenseId);
+    }
+
+    public async Task<Participation?> GetByIdsIncludingAsync(int expenseId, ParticipationIncludingProperties participationIncludingProperties)
+    {
+        var query = Get(participationIncludingProperties);
+        return await query.SingleOrDefaultAsync(p => p.ExpenseId == expenseId);
+    }
+
+    private IQueryable<Participation> Get(ParticipationIncludingProperties props)
     {
         var query = _dbContext.Participations.AsQueryable();
 
-        if (includeUser)
+        if (props.IncludeUser)
         {
             query = query.Include(p => p.User);
         }
 
-        if (includeExpense)
+        if (props.IncludeExpense)
         {
             query = query.Include(p => p.Expense);
         }
 
-        return await query.ToListAsync();
-    }
-
-    public async Task<Participation?> GetByIdsAsync( int expenseId)
-    {
-        return await _dbContext.Participations
-            .Include(p => p.User)
-            .Include(p => p.Expense)
-            .FirstOrDefaultAsync(p =>  p.ExpenseId == expenseId);
-    }
-
-    public async Task<Participation?> GetByIdsIncludingAsync(
-    
-      int expenseId,
-      bool includeUser = false,
-      bool includeExpense = false)
-    {
-        var query = _dbContext.Participations.AsQueryable();
-
-        if (includeUser)
-        {
-            query = query.Include(ug => ug.User);
-        }
-
-        if (includeExpense)
-        {
-            query = query.Include(ug => ug.Expense);
-        }
-
-        return await query.SingleOrDefaultAsync(ug => ug.ExpenseId == expenseId);
+        return query;
     }
 }
