@@ -44,9 +44,11 @@ public class AuthController : Controller
             ModelState.AddModelError("", result!.Messages[0].Replace("[\"", "").Replace("\"]", ""));
             return View(model);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            ModelState.AddModelError("", "An error occurred while processing your request.");
+            // Log the exception (ex) here if needed
+            Console.WriteLine(ex.Message);
+            ModelState.AddModelError("", "An error occurred while processing your request." + ex.Message);
             return View(model);
         }
     }

@@ -1,6 +1,13 @@
-# services:
-#   supcountbe.api:
-#     image: ${DOCKER_REGISTRY-}supcountbeapi
-#     build:
-#       context: .
-#       dockerfile: Services/SupCountBE/SupCountBE.API/Dockerfile
+services:
+  supcountbe.api:
+    image: ${DOCKER_REGISTRY-}supcountbeapi
+    build:
+      context: .
+      dockerfile: Services/SupCountBE/SupCountBE.API/Dockerfile
+
+  supcountfe.mvc:
+    image: ${DOCKER_REGISTRY-}supcountfemvc
+    build:
+      context: .
+      dockerfile: Services/SupCountUI/SupCountFE.MVC/Dockerfile
+

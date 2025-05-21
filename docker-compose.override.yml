@@ -1,20 +1,20 @@
 services:
-  # supcountbe.api:
-  #   container_name: supcountbe.api
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #     - ConnectionStrings__DefaultConnection=Server=supcountdb;DataBase=SupCountDb;Persist Security Info=True;User ID=sa;Password=kalilinux2.0@@;Trust Server Certificate=True;MultipleActiveResultSets=true;
-  #     - JWT__Key=f1cQ1bgc8lY7UIHdaIZRTJE29AwiE5eAg5XTR3e1a4eDZlMhld1THVbb18uzdeAW
-  #     - JWT__ExpirationInMinutes=400
-  #     - JWT__Issuer=SupCountApi
-  #     - JWT__Audience=SupCountApiUser
-  #   ports:
-  #     - "8081:8080"
-  #   depends_on:
-  #     - supcountdb
-  #   networks:
-  #     - supcount-network
-  #   restart: always
+  supcountbe.api:
+    container_name: supcountbe.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=supcountdb;DataBase=SupCountDb;Persist Security Info=True;User ID=sa;Password=kalilinux2.0@@;Trust Server Certificate=True;MultipleActiveResultSets=true;
+      - JWT__Key=f1cQ1bgc8lY7UIHdaIZRTJE29AwiE5eAg5XTR3e1a4eDZlMhld1THVbb18uzdeAW
+      - JWT__ExpirationInMinutes=400
+      - JWT__Issuer=SupCountApi
+      - JWT__Audience=SupCountApiUser
+    ports:
+      - "8081:8080"
+    depends_on:
+      - supcountdb
+    networks:
+      - supcount-network
+    restart: always
     
   supcountdb:
      container_name: subcountdb
@@ -30,6 +30,17 @@ services:
      volumes:
        - supcount-db-data:/var/opt/mssql
 
+  supcountfe.mvc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiSetting__Url=http://supcountbe.api:8080/api/
+    ports:
+      - "8082:8080"
+    depends_on:
+      - supcountbe.api
+    networks:
+      - supcount-network
+    restart: always
 networks:
   supcount-network:     
   

@@ -4,7 +4,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "supcountbe.api": "StartDebugging"
+        "supcountbe.api": "StartDebugging",
+        "supcountfe.mvc": "StartDebugging"
       }
     }
   }
