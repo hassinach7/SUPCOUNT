@@ -1,38 +1,38 @@
-﻿@model IEnumerable<UserVM>
-
+﻿@model IEnumerable<ReimbursementVM>
 @{
-    ViewData["Title"] = "List Users";
+    ViewData["Title"] = "List Reimbursements";
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Users</h2>
-        <a class="btn btn-outline-primary" asp-action="Register">+ New User</a>
+        <h2>Reimbursements</h2>
+        <a class="btn btn-outline-primary" asp-action="Create">+ New Reimbursement</a>
     </div>
 
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
-                <th>Full Name</th>
-                <th>Email</th>
+                <th>Name</th>
+                <th>Sender</th>
+                <th>Beneficiary</th>
                 <th style="width: 200px;">Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model)
+            @foreach (var r in Model)
             {
                 <tr>
-                    <td>@user.FullName</td>
-                    <td>@user.Email</td>
+                    <td>@r.Name</td>
+                    <td>@r.SenderName</td>
+                    <td>@r.BeneficiaryName</td>
                     <td>
-                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                       
                         <button class="btn btn-sm btn-info text-white"
                                 data-toggle="modal"
                                 data-target="#detailsModal"
-                                data-id="@user.Id"
-                                data-name="@user.FullName"                               
-                                data-phone="@user.PhoneNumber"
-                                data-date="@user.CreatedAt.ToString("yyyy-MM-dd")">
+                                data-name="@r.Name"
+                                data-amount="@r.Amount"
+                                data-group="@r.GroupName">
                             Details
                         </button>
                     </td>
@@ -48,7 +48,7 @@
         <div class="modal-content shadow-lg border-0 rounded">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="detailsModalLabel">
-                    <i class="fas fa-user mr-2"></i> User Details
+                    <i class="fas fa-receipt mr-2"></i> Reimbursement Details
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span>&times;</span>
@@ -56,18 +56,17 @@
             </div>
 
             <div class="modal-body px-4 py-3">
-                <div class="mb-3">
-                    <label class="font-weight-bold text-secondary mb-0">Full Name:</label>
-                    <div class="text-dark" id="modalUserName">Loading...</div>
+                <div class="mb-2">
+                    <label class="font-weight-bold text-secondary mb-0">Group:</label>
+                    <div class="text-dark" id="modalGroupName">Loading...</div>
                 </div>
-              
-                <div class="mb-3">
-                    <label class="font-weight-bold text-secondary mb-0">Phone Number:</label>
-                    <div class="text-dark" id="modalUserPhone">Loading...</div>
+                <div class="mb-2">
+                    <label class="font-weight-bold text-secondary mb-0">Amount:</label>
+                    <div class="text-dark" id="modalAmount">Loading...</div>
                 </div>
-                <div>
-                    <label class="font-weight-bold text-secondary mb-0">Created At:</label>
-                    <div class="text-dark" id="modalUserDate">Loading...</div>
+                <div class="mb-2">
+                    <label class="font-weight-bold text-secondary mb-0">Reimbursement:</label>
+                    <div class="text-dark" id="modalName">Loading...</div>
                 </div>
             </div>
 
@@ -78,21 +77,19 @@
     </div>
 </div>
 
-@section UserCSS {
-    <link rel="stylesheet" href="~/css/form-style.css" />
-}
-
-@section UserJS {
+@section ReimbursementJS {
     <script>
         $('#detailsModal').on('show.bs.modal', function (event) {
             const button = $(event.relatedTarget);
             const name = button.data('name') || 'N/A';
-            const phone = button.data('phone') || '';
-            const date = button.data('date') || 'Unknown';
+            const amount = button.data('amount') || '0';
+            const group = button.data('group') || 'N/A';
 
-            $('#modalUserName').text(name);       
-            $('#modalUserPhone').text(phone);
-            $('#modalUserDate').text(date);
+            $('#modalName').text(name);
+            $('#modalAmount').text(`${amount} €`);
+            $('#modalGroupName').text(group);
         });
     </script>
 }
+
+

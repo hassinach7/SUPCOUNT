@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GroupVM>
+﻿@model IEnumerable<SupCountFE.MVC.ViewModels.Group.GroupVM>
+
 @{
     ViewData["Title"] = "List Groups";
 }
@@ -6,6 +7,21 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Groups</h2>
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["Success"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                @TempData["Error"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+            </div>
+        }
+
         <a class="btn btn-outline-primary" asp-action="Create">+ New Group</a>
     </div>
 
@@ -13,7 +29,7 @@
         <thead class="thead-light">
             <tr>
                 <th>Name</th>
-                <th style="width: 200px;">Actions</th>
+                <th style="width: 300px;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,12 +40,12 @@
                         <a asp-controller="User" asp-action="GetUserSoldesByGroupId" asp-route-groupId="@group.Id" class="text-decoration-none font-weight-bold">
                             @group.Name
                         </a>
-
                     </td>
 
                     <td>
-                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@group.Id">Edit</a>                       
-                       <button class="btn btn-sm btn-info text-white"
+                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@group.Id">Edit</a>
+
+                        <button class="btn btn-sm btn-info text-white"
                                 data-toggle="modal"
                                 data-target="#detailsModal"
                                 data-id="@group.Id"
@@ -37,12 +53,17 @@
                                 data-description="@group.Description">
                             Details
                         </button>
+
                         <form asp-action="Join" asp-controller="UserGroup" method="post" style="display:inline;">
                             <input type="hidden" name="groupId" value="@group.Id" />
                             <button type="submit" class="btn btn-sm btn-success">Join</button>
                         </form>
 
-                    </td>                 
+                        <form asp-action="Generate" asp-controller="Reimbursement" method="get" style="display:inline;">
+                            <input type="hidden" name="groupId" value="@group.Id" />
+                            <button type="submit" class="btn btn-sm btn-warning">Balance</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -50,7 +71,6 @@
 </div>
 
 <!-- Details Modal -->
-
 <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content shadow-lg border-0 rounded">
@@ -80,20 +100,13 @@
         </div>
     </div>
 </div>
-@section GroupCSS {
-    <link rel="stylesheet" href="~/css/form-style.css" />
-}
 
 @section GroupJS {
     <script>
         $('#detailsModal').on('show.bs.modal', function (event) {
             const button = $(event.relatedTarget);
-            const name = button.data('name') || 'N/A';
-            const description = button.data('description') || 'No description provided.';
-
-            $('#modalGroupName').text(name);
-            $('#modalGroupDescription').text(description);
+            $('#modalGroupName').text(button.data('name') || 'N/A');
+            $('#modalGroupDescription').text(button.data('description') || 'No description provided.');
         });
     </script>
 }
-

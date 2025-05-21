@@ -20,17 +20,17 @@ namespace SupCountFE.MVC.Controllers
         {
             try
             {
-                // Tu peux changer "Member" par "Viewer", "Admin", etc.
                 await _userGroupService.JoinGroupAsync(groupId, "Member");
-                TempData["Success"] = "You joined the group successfully!";
+                TempData["Success"] = "Vous avez rejoint le groupe avec succès.";
             }
             catch (Exception ex)
             {
-                TempData["Error"] = $"Failed to join the group: {ex.Message}";
+                TempData["Error"] = ex.Message; 
             }
 
             return RedirectToAction("List", "Group");
         }
+
         [HttpGet]
         public async Task<IActionResult> List()
         {

@@ -92,7 +92,7 @@ namespace SupCountFE.MVC.Controllers
 
             return RedirectToAction("List", "User");
         }
-        // GET: /GroupUser solde
+      
         // GET: /GroupUser solde
         [HttpGet]
         public async Task<IActionResult> GetUserSoldesByGroupId(int groupId)

@@ -42,10 +42,19 @@ namespace SupCountFE.MVC.Services.Implementations
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<UserGroupResponse>() ?? throw new Exception("No content.");
+                return await response.Content.ReadFromJsonAsync<UserGroupResponse>()
+                    ?? throw new Exception("No response from the server.");
             }
 
-            throw new Exception(await response.Content.ReadAsStringAsync());
+            var rawError = await response.Content.ReadAsStringAsync();
+
+            if (rawError.Contains("already") || rawError.Contains("duplicate") || rawError.Contains("PRIMARY KEY"))
+            {
+                throw new Exception("You are already a member of this group.");
+            }
+
+            throw new Exception("An error occurred while attempting to join the group.");
         }
+
     }
 }

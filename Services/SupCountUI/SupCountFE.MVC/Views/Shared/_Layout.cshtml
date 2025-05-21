@@ -15,8 +15,8 @@
     @RenderSection("CategoryCSS", false)
     @RenderSection("UserCSS", false)
 	@RenderSection("UserGroupCSS", false)
-
-   
+    @RenderSection("ReimbursementCSS", false)
+ 
 
 </head>
 <body id="page-top">
@@ -58,7 +58,7 @@
                 </a>
                 <div id="collapseReimbursements" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-controller="Reimbursement" asp-action="Index">My Reimbursements</a>
+                        <a class="collapse-item" asp-controller="Reimbursement" asp-action="List">My Reimbursements</a>
                     </div>
                 </div>
             </li>
@@ -221,6 +221,9 @@
     @RenderSection("GroupJS", false)
 	@RenderSection("UserJS", false)
 	@RenderSection("UserGroupJS", false)"
+    @RenderSection("ReimbursementJS", false)
+    
+
 
 
 </body>
