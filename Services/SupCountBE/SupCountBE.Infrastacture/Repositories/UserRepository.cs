@@ -96,4 +96,23 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
     {
         return await _userManager.FindByIdAsync(id);
     }
+
+    public async Task UpdateAsync(User user, List<string> roles)
+    {
+        await UpdateAsync(user);
+        if(roles.Count>0)
+        {
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            var rolesToAdd = roles.Except(currentRoles).ToList();
+            var rolesToRemove = currentRoles.Except(roles).ToList();
+            if (rolesToAdd.Count > 0)
+            {
+                await _userManager.AddToRolesAsync(user, rolesToAdd);
+            }
+            if (rolesToRemove.Count > 0)
+            {
+                await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+            }
+        }
+    }
 }

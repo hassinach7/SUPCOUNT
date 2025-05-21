@@ -2,6 +2,8 @@
 
 public interface IUserRepository : IAsyncRepository<User>
 {
+    Task UpdateAsync(User user , List<string> roles);
+
     Task<IList<string>> GetRolesByUserIdAsync(string userId);
     Task<User?> GetByIdIncludingAsync(string id, IncludingItem including);
     Task<IList<User>> GetAllListIncludingAsync(IncludingItem including);
