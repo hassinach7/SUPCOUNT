@@ -43,13 +43,13 @@ namespace SupCountFE.MVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.Roles = await _roleService.GetRolesAsync(); // Recharge les rôles en cas d'erreur
+                model.Roles = await _roleService.GetRolesAsync(); 
                 return View(model);
             }
 
             try
             {
-                model.Roles = model.SelectedRoles; // Mapper sélection vers rôles à envoyer
+                model.Roles = model.SelectedRoles; 
                 var createdUser = await _userService.CreateUserAsync(model);
                 if (createdUser != null)
                 {
