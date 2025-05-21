@@ -30,12 +30,12 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
     {
         var query = _dbContext.Participations.AsQueryable();
 
-        if (props.IncludeUser)
+        if (props.IncludeUsers)
         {
             query = query.Include(p => p.User);
         }
 
-        if (props.IncludeExpense)
+        if (props.IncludeExpenses)
         {
             query = query.Include(p => p.Expense);
         }

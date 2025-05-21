@@ -24,17 +24,17 @@ public class ReimbursementRepository : AsyncRepository<Reimbursement>, IReimburs
     {
         var query = _dbContext.Reimbursements.AsQueryable();
 
-        if (props.IncludeSender)
+        if (props.IncludeSenders)
         {
             query = query.Include(r => r.Sender);
         }
 
-        if (props.IncludeBeneficiary)
+        if (props.IncludeBeneficiaries)
         {
             query = query.Include(r => r.Beneficiary);
         }
 
-        if (props.IncludeGroup)
+        if (props.IncludeGroups)
         {
             query = query.Include(r => r.Group);
         }

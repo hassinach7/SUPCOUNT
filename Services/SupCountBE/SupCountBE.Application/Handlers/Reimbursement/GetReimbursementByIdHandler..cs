@@ -19,11 +19,13 @@ namespace SupCountBE.Application.Handlers.Reimbursement
         {
             var reimbursement = await _reimbursementRepository.GetByIdIncludingAsync(
                 request.Id,
-                includeSender: true,
-                includeBeneficiary: true,
-                includeGroup: true,
-                includeTransactions: true
-            );
+                new ReimbursementIncludingProperties
+                {
+                    IncludeSenders = true,
+                    IncludeBeneficiaries = true,
+                    IncludeGroups = true,
+                    IncludeTransactions = true
+                });
 
             if (reimbursement == null)
                 throw new Exception("Reimbursement not found.");

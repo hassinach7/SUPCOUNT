@@ -61,7 +61,12 @@ namespace SupCountBE.Application.Handlers.Message
 
             await _messageRepository.AddAsync(message);
 
-            var createdMessage = await _messageRepository.GetByIdIncludingAsync(message.Id, includeSender: true, includeRecipient: true, includeGroup: true);
+            var createdMessage = await _messageRepository.GetByIdIncludingAsync(message.Id,
+                new MessageIncludingProperties {
+                    IncludeSenders = true,
+                    IncludeRecipients = true,
+                    IncludeGroups = true
+                });
             return _mapper.Map<MessageResponse>(createdMessage);
         }
     }

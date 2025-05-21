@@ -19,10 +19,12 @@ namespace SupCountBE.Application.Handlers.Message
         {
             var message = await _repository.GetByIdIncludingAsync(
                 request.Id,
-                includeSender: true,
-                includeRecipient: true,
-                includeGroup: true
-            );
+                new MessageIncludingProperties
+                {
+                    IncludeSenders = true,
+                    IncludeRecipients = true,
+                    IncludeGroups = true
+                });
 
             if (message == null)
                 throw new Exception("Message not found.");

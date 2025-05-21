@@ -1,24 +1,31 @@
-﻿
-using SupCountBE.Application.Queries.Reimbursement;
+﻿using SupCountBE.Application.Queries.Reimbursement;
 using SupCountBE.Application.Responses.Reimbursement;
 using SupCountBE.Core.Repositories;
 
-namespace SupCountBE.Application.Handlers.Reimbursement;
-
-public class GetAllReimbursementHandler : IRequestHandler<GetAllReimbursementQuery, IList<ReimbursementResponse>>
+namespace SupCountBE.Application.Handlers.Reimbursement
 {
-    private readonly IReimbursementRepository _reimbursementRepository;
-    private readonly IMapper _mapper;
-
-    public GetAllReimbursementHandler(IReimbursementRepository reimbursementRepository, IMapper mapper)
+    public class GetAllReimbursementHandler : IRequestHandler<GetAllReimbursementQuery, IList<ReimbursementResponse>>
     {
-        _reimbursementRepository = reimbursementRepository;
-        _mapper = mapper;
-    }
+        private readonly IReimbursementRepository _reimbursementRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<IList<ReimbursementResponse>> Handle(GetAllReimbursementQuery request, CancellationToken cancellationToken)
-    {
-        var reimbursements = await _reimbursementRepository.GetAllListIncludingAsync(includeSender: true, includeBeneficiary: true, includeGroup: true);
-        return _mapper.Map<IList<ReimbursementResponse>>(reimbursements);
+        public GetAllReimbursementHandler(IReimbursementRepository reimbursementRepository, IMapper mapper)
+        {
+            _reimbursementRepository = reimbursementRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<IList<ReimbursementResponse>> Handle(GetAllReimbursementQuery request, CancellationToken cancellationToken)
+        {
+            var reimbursements = await _reimbursementRepository.GetAllListIncludingAsync(
+                new ReimbursementIncludingProperties
+                {
+                    IncludeSenders = true,
+                    IncludeBeneficiaries = true,
+                    IncludeGroups = true
+                });
+
+            return _mapper.Map<IList<ReimbursementResponse>>(reimbursements);
+        }
     }
 }

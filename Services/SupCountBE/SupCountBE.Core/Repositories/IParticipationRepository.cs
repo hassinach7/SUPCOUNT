@@ -16,6 +16,6 @@ public interface IParticipationRepository : IAsyncRepository<Participation>
 
 public record ParticipationIncludingProperties
 {
-    public bool IncludeUser { get; set; } = false;
-    public bool IncludeExpense { get; set; } = false;
+    public bool IncludeUsers { get; set; } = false;
+    public bool IncludeExpenses { get; set; } = false;
 }

@@ -4,40 +4,49 @@ using SupCountBE.Application.Responses.Reimbursement;
 using SupCountBE.Application.Validations.Reimbursement;
 using SupCountBE.Core.Repositories;
 
-namespace SupCountBE.Application.Handlers.Reimbursement;
-
-public class CreateReimbursementHandler : IRequestHandler<CreateReimbursementCommand, ReimbursementResponse>
+namespace SupCountBE.Application.Handlers.Reimbursement
 {
-    private readonly IReimbursementRepository _reimbursementRepository;
-    private readonly IMapper _mapper;
-
-    public CreateReimbursementHandler(IReimbursementRepository reimbursementRepository, IMapper mapper)
+    public class CreateReimbursementHandler : IRequestHandler<CreateReimbursementCommand, ReimbursementResponse>
     {
-        _reimbursementRepository = reimbursementRepository;
-        _mapper = mapper;
-    }
+        private readonly IReimbursementRepository _reimbursementRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<ReimbursementResponse> Handle(CreateReimbursementCommand request, CancellationToken cancellationToken)
-    {
-        var validator = new CreateReimbursementValidator();
-        var validation = await validator.ValidateAsync(request, cancellationToken);
-        if (!validation.IsValid)
-            throw new ValidationException(validation.Errors);
-
-
-
-        var reimbursement = new Core.Entities.Reimbursement
+        public CreateReimbursementHandler(IReimbursementRepository reimbursementRepository, IMapper mapper)
         {
-            Name = request.Name,
-            SenderId = _reimbursementRepository.GetCurrentUser(),
-            BeneficiaryId = request.BeneficiaryId,
-            Amount = request.Amount,
-            GroupId = request.GroupId
-        };
+            _reimbursementRepository = reimbursementRepository;
+            _mapper = mapper;
+        }
 
-        await _reimbursementRepository.AddAsync(reimbursement);
+        public async Task<ReimbursementResponse> Handle(CreateReimbursementCommand request, CancellationToken cancellationToken)
+        {
+            var validator = new CreateReimbursementValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        var full = await _reimbursementRepository.GetByIdIncludingAsync(reimbursement.Id, includeSender: true, includeBeneficiary: true, includeGroup: true, includeTransactions: true);
-        return _mapper.Map<ReimbursementResponse>(full);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
+            var reimbursement = new Core.Entities.Reimbursement
+            {
+                Name = request.Name,
+                SenderId = _reimbursementRepository.GetCurrentUser(),
+                BeneficiaryId = request.BeneficiaryId,
+                Amount = request.Amount,
+                GroupId = request.GroupId
+            };
+
+            await _reimbursementRepository.AddAsync(reimbursement);
+
+            var full = await _reimbursementRepository.GetByIdIncludingAsync(
+                reimbursement.Id,
+                new ReimbursementIncludingProperties
+                {
+                    IncludeSenders = true,
+                    IncludeBeneficiaries = true,
+                    IncludeGroups = true,
+                    IncludeTransactions = true
+                });
+
+            return _mapper.Map<ReimbursementResponse>(full);
+        }
     }
 }

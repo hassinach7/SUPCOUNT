@@ -24,17 +24,17 @@ public class MessageRepository : AsyncRepository<Message>, IMessageRepository
     {
         var query = _dbContext.Messages.AsQueryable();
 
-        if (props.IncludeSender)
+        if (props.IncludeSenders)
         {
             query = query.Include(m => m.Sender);
         }
 
-        if (props.IncludeRecipient)
+        if (props.IncludeRecipients)
         {
             query = query.Include(m => m.Recipient);
         }
 
-        if (props.IncludeGroup)
+        if (props.IncludeGroups)
         {
             query = query.Include(m => m.Group);
         }

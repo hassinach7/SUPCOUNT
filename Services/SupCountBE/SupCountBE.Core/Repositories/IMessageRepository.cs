@@ -7,7 +7,7 @@ public interface IMessageRepository : IAsyncRepository<Message>
 }
 public record MessageIncludingProperties
 {
-    public bool IncludeSender { get; set; } = false;
-    public bool IncludeRecipient { get; set; } = false;
-    public bool IncludeGroup { get; set; } = false;
+    public bool IncludeSenders { get; set; } = false;
+    public bool IncludeRecipients { get; set; } = false;
+    public bool IncludeGroups { get; set; } = false;
 }

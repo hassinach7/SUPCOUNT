@@ -11,8 +11,8 @@ namespace SupCountBE.Core.Repositories
 }
 public record ReimbursementIncludingProperties
 {
-    public bool IncludeSender { get; set; } = false;
-    public bool IncludeBeneficiary { get; set; } = false;
-    public bool IncludeGroup { get; set; } = false;
+    public bool IncludeSenders { get; set; } = false;
+    public bool IncludeBeneficiaries { get; set; } = false;
+    public bool IncludeGroups { get; set; } = false;
     public bool IncludeTransactions { get; set; } = false;
 }
