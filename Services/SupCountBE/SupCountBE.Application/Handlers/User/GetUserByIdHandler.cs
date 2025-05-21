@@ -20,7 +20,10 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserResponse
         var user = await this._userRepository.GetUserByIdAsync(request.Id);
         if (user is null)
             return null;
-        return this._mapper.Map<UserResponse>(user);
+        var mappedUser =  this._mapper.Map<UserResponse>(user);
+        var roles = await this._userRepository.GetRolesByUserIdAsync(user.Id);
+        mappedUser.Roles = roles;
+        return mappedUser;
     }
 }
 
