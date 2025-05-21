@@ -27,15 +27,15 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Dashboard" asp-action="Index">
                 <div class="sidebar-brand-text mx-3">SUPCOUNT</div>
             </a>
-
-            <li class="nav-item active">
+               @if (_helper.UserRoles.Contains("User"))
+            {
+                  <li class="nav-item active">
                 <a class="nav-link" asp-controller="Dashboard" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-
-            <div class="sidebar-heading">Interface</div>
+                 <div class="sidebar-heading">Interface</div>
 
             <!-- Expenses -->
             <li class="nav-item">
@@ -115,11 +115,6 @@
                 </div>
             </li>
 
-
-
-
-        
-
             <!-- Messages -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMessages">
@@ -133,7 +128,10 @@
                         <a class="collapse-item" asp-controller="Message" asp-action="Compose">Compose</a>
                     </div>
                 </div>
-            </li>
+            </li>                
+            }
+
+           
             @if (_helper.UserRoles.Contains("Admin"))
             {
                 <!-- Admin Panel -->
