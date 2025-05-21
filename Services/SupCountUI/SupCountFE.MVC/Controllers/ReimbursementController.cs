@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.ViewModels.Reimbursement;
 
@@ -10,15 +11,17 @@ namespace SupCountFE.MVC.Controllers
         private readonly IReimbursementService _reimbursementService;
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
+        private readonly Helper _helper;
         private readonly IMapper _mapper;
 
-        public ReimbursementController(IReimbursementService reimbursementService, IMapper mapper, IGroupService groupService, IUserService userService)
+        public ReimbursementController(IReimbursementService reimbursementService, IMapper mapper,
+            IGroupService groupService, IUserService userService, Helper helper)
         {
             _reimbursementService = reimbursementService;
             _mapper = mapper;
             _groupService = groupService;
             _userService = userService;
-
+            _helper = helper;
         }
 
         [HttpGet]
@@ -43,7 +46,7 @@ namespace SupCountFE.MVC.Controllers
             var users = await _userService.GetAllUsersAsync();// ou GetAllUsersAsync()
 
             model.GroupsItems = new SelectList(groups, "Id", "Name");
-            model.BeneficiariesItems = new SelectList(users, "Id", "FullName"); 
+            model.BeneficiariesItems = new SelectList(users.Where(o => o.Id != _helper.UserId).ToList(), "Id", "FullName");
 
             return model;
         }
