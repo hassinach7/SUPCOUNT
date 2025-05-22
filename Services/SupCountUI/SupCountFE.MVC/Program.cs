@@ -28,6 +28,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserGroupService, UserGroupService>();
 builder.Services.AddTransient<IReimbursementService, ReimbursementService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<IMessageService, MessageService>();
 
 
 builder.Services.AddHttpContextAccessor();

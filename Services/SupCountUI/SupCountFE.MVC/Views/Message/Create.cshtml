@@ -1,0 +1,185 @@
+﻿@model SupCountFE.MVC.ViewModels.Message.CreateMessageVM
+@{
+    ViewData["Title"] = "Chat";
+    var users = ViewBag.UsersItems as SelectList;
+    var groups = ViewBag.GroupsItems as SelectList;
+    var messages = ViewBag.Messages as List<SupCountFE.MVC.ViewModels.Message.MessageVM>;
+}
+
+<style>
+    .chat-layout {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        height: calc(100vh - 150px);
+        padding: 20px;
+    }
+
+    .chat-box, .contact-box {
+        flex: 1;
+        margin: 0 10px;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        background-color: #e6f0fa;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .chat-box {
+        margin-right: 20px;
+    }
+
+    .contact-box {
+        max-width: 400px;
+    }
+
+    .chat-header, .contact-header {
+        background-color: #007acc;
+        color: white;
+        padding: 12px;
+        font-weight: bold;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+    }
+
+    .chat-messages {
+        flex-grow: 1;
+        background-color: #f5faff;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .chat-input {
+        background-color: #e0efff;
+        padding: 10px;
+        display: flex;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+        .chat-input textarea {
+            flex-grow: 1;
+            resize: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .chat-input button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            margin-left: 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+            .chat-input button:hover {
+                background-color: #005ea6;
+            }
+
+    .contact-search {
+        flex-grow: 1;
+        background-color: #f5faff;
+        padding: 10px;
+        font-style: italic;
+        color: #333;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+    select.form-control {
+        margin-top: 6px;
+    }
+</style>
+
+<h2>Chat</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@error.ErrorMessage</div>
+        }
+    </div>
+}
+
+<div class="chat-layout">
+    <!-- Chat Box -->
+    <div class="chat-box">
+        <div class="chat-header">🧑‍💬 Chat</div>
+
+        <div class="chat-messages">
+            @if (messages != null && messages.Any())
+            {
+                foreach (var msg in messages)
+                {
+                    <div>
+                        <strong>@msg.SenderName</strong>: @msg.Content <br />
+                        <small class="text-muted">@msg.CreatedAt.ToString("HH:mm")</small>
+                        <hr />
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No messages yet.</p>
+            }
+        </div>
+
+        <form asp-action="Create" method="post" class="chat-input" id="messageForm">
+            <input type="hidden" asp-for="SenderId" />
+
+            <textarea asp-for="Content" class="form-control" rows="1" placeholder="Type your message..."></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <!-- Contact Sidebar -->
+    <div class="contact-box">
+        <div class="contact-header">Contacts</div>
+
+        <div class="contact-search">
+            <p><em>Select Contact 🔍</em></p>
+
+            <div class="form-group">
+                <label asp-for="RecipientId">Private</label>
+                <select asp-for="RecipientId" asp-items="users" class="form-control" id="RecipientId">
+                    <option value="">Select recipient</option>
+                </select>
+            </div>
+
+            <div class="form-group mt-2">
+                <label asp-for="GroupId">Group</label>
+                <select asp-for="GroupId" asp-items="groups" class="form-control" id="GroupId">
+                    <option value="">Select group</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById("messageForm").addEventListener("submit", function (e) {
+            const recipient = document.getElementById("RecipientId").value;
+            const group = document.getElementById("GroupId").value;
+
+            const recipientSelected = recipient !== "";
+            const groupSelected = group !== "" && group !== "0";
+
+            if ((recipientSelected && groupSelected) || (!recipientSelected && !groupSelected)) {
+                e.preventDefault();
+                alert("Please select either a recipient or a group, but not both.");
+            }
+        });
+    </script>
+}

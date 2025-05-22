@@ -115,20 +115,24 @@
                 </div>
             </li>
 
-            <!-- Messages -->
+          
+          <!-- Messages -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMessages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMessages"
+                   aria-expanded="true" aria-controls="collapseMessages">
                     <i class="fas fa-envelope"></i>
                     <span>Messages</span>
                 </a>
                 <div id="collapseMessages" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-controller="Message" asp-action="Inbox">Inbox</a>
-                        <a class="collapse-item" asp-controller="Message" asp-action="Sent">Sent</a>
-                        <a class="collapse-item" asp-controller="Message" asp-action="Compose">Compose</a>
+                        <h6 class="collapse-header">Messaging</h6>
+                     
+                        <a class="collapse-item" asp-controller="Message" asp-action="Create">Compose</a>
                     </div>
                 </div>
-            </li>                
+            </li>
+
+                
             }
 
            
@@ -225,6 +229,7 @@
 	@RenderSection("UserGroupJS", false)"
     @RenderSection("ReimbursementJS", false)
     @RenderSection("StatisticsJS", false)
+    @RenderSection("MessageJS", false)
     
 
 

@@ -9,6 +9,7 @@ using SupCountBE.Application.Responses.UserGroup;
 using SupCountFE.MVC.ViewModels.Category;
 using SupCountFE.MVC.ViewModels.Expense;
 using SupCountFE.MVC.ViewModels.Group;
+using SupCountFE.MVC.ViewModels.Message;
 using SupCountFE.MVC.ViewModels.Reimbursement;
 using SupCountFE.MVC.ViewModels.User;
 using SupCountFE.MVC.ViewModels.UserGroup;
@@ -36,6 +37,7 @@ public class AutoMapperProfile : Profile
         this.CreateMap<UserGroupResponse, UserGroupVM>();
         this.CreateMap<SoldeUserResponse, SoldeUserVM>();
         this.CreateMap<ReimbursementResponse, ReimbursementVM>();
-       
+        this.CreateMap<MessageVM, CreateMessageVM>();
+
     }
 }
