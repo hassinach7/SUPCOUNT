@@ -10,6 +10,8 @@ namespace SupCountFE.MVC.Services.Contracts
         Task<ReturnCreatedExpenseVM?> CreateExpenseAsync(CreateExpenseVM model);
         Task<bool> UpdateExpenseAsync(UpdateExpenseVM model);
         Task<StatisticsVM?> GetUserExpenseStatisticsAsync(string userId);
+        Task<Stream?> ExportExpensesPdfAsync(int groupId);
+        Task<Stream?> ExportExpensesCsvAsync(int groupId);
 
 
 

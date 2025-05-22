@@ -15,13 +15,17 @@
             <tr>
                 <th>Title</th>
                 <th style="width: 300px;">Actions</th>
+                <th style="width: 200px;">Export</th> <!-- nouvelle colonne -->
             </tr>
         </thead>
         <tbody>
             @foreach (var expense in Model)
             {
+                var groupId = expense.Group.Id;
+
                 <tr>
                     <td>@expense.Title</td>
+
                     <td>
                         <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@expense.Id">Edit</a>
 
@@ -34,15 +38,22 @@
                             Details
                         </button>
 
-                      @*   <a class="btn btn-sm btn-warning text-white" asp-action="Participate" asp-route-id="@expense.Id">
-                            Participate
-                        </a> *@
                         <a class="btn btn-sm btn-success text-white" asp-action="Justifications" asp-route-id="@expense.Id">
                             Justifications
                         </a>
+                    </td>
 
+                    <td>
+                        <a href="@Url.Action("ExportPdf", "Expense", new { groupId })"
+                           target="_blank"
+                           class="btn btn-sm btn-outline-danger mb-1">
+                            PDF
+                        </a>
 
-
+                        <a href="@Url.Action("ExportCsv", "Expense", new { groupId })"
+                           class="btn btn-sm btn-outline-success">
+                            CSV
+                        </a>
                     </td>
                 </tr>
             }

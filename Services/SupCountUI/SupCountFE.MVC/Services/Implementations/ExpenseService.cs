@@ -118,6 +118,17 @@ namespace SupCountFE.MVC.Services.Implementations
 
             return true;
         }
+        public async Task<Stream?> ExportExpensesPdfAsync(int groupId)
+        {
+            var response = await _api.Http.GetAsync($"Expense/GenerateExpensePdf?groupId={groupId}");
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsStreamAsync() : null;
+        }
+
+        public async Task<Stream?> ExportExpensesCsvAsync(int groupId)
+        {
+            var response = await _api.Http.GetAsync($"Expense/ExportExpensesCsv?groupId={groupId}");
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsStreamAsync() : null;
+        }
     }
 }
 

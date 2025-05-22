@@ -154,6 +154,26 @@ namespace SupCountFE.MVC.Controllers
             var stats = await _expenseService.GetUserExpenseStatisticsAsync(userId);
             return View(stats);
         }
+        [HttpGet]
+        public async Task<IActionResult> ExportCsv(int groupId)
+        {
+            var stream = await _expenseService.ExportExpensesCsvAsync(groupId);
+            if (stream == null)
+                return BadRequest("Erreur lors de l'export CSV.");
+
+            return File(stream, "text/csv", $"Expenses_Group_{groupId}.csv");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportPdf(int groupId)
+        {
+            var stream = await _expenseService.ExportExpensesPdfAsync(groupId);
+            if (stream == null)
+                return BadRequest("Erreur lors de l'export PDF.");
+
+            return File(stream, "application/pdf", $"Expenses_Group_{groupId}.pdf");
+        }
+
 
 
 
