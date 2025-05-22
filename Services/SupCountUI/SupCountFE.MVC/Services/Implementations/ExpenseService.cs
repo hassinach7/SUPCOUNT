@@ -84,6 +84,24 @@ namespace SupCountFE.MVC.Services.Implementations
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
+        public async Task<StatisticsVM?> GetUserExpenseStatisticsAsync(string userId)
+        {
+            if (!string.IsNullOrEmpty(_helper.JWTToken))
+            {
+                _api.Http.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", _helper.JWTToken);
+            }
+
+            var response = await _api.Http.GetAsync($"expense/GetUserExpenseStatistics?userId={userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<StatisticsVM>();
+            }
+
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
         public async Task<bool> UpdateExpenseAsync(UpdateExpenseVM model)
         {
             if (!string.IsNullOrEmpty(_helper.JWTToken))

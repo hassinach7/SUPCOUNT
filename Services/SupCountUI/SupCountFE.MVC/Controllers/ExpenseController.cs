@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.ViewModels.Expense;
 
@@ -12,6 +13,7 @@ namespace SupCountFE.MVC.Controllers
         private readonly IGroupService _groupService;
         private readonly ICategoryService _categoryService;
         private readonly IJustificationService justificationService;
+        private readonly Helper _helper;
 
 
         [HttpGet]
@@ -41,13 +43,14 @@ namespace SupCountFE.MVC.Controllers
             return View(_mapper.Map<IList<JustificationExepnseVM>>(justifications));
         }
         public ExpenseController(IExpenseService expenseService, IMapper mapper, IGroupService groupService,
-            ICategoryService categoryService, IJustificationService justificationService)
+            ICategoryService categoryService, IJustificationService justificationService, Helper helper)
         {
             _expenseService = expenseService;
             _mapper = mapper;
             _groupService = groupService;
             _categoryService = categoryService;
             this.justificationService = justificationService;
+            _helper = helper;
         }
 
         // GET: /Expense/List
@@ -138,6 +141,20 @@ namespace SupCountFE.MVC.Controllers
             TempData["Info"] = $"Participation logic to be implemented for expense {id}.";
             return RedirectToAction(nameof(List));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Statistics()
+        {
+            var userId = _helper.UserId;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var stats = await _expenseService.GetUserExpenseStatisticsAsync(userId);
+            return View(stats);
+        }
+
 
 
     }

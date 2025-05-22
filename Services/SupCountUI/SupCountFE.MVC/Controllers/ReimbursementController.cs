@@ -43,7 +43,7 @@ namespace SupCountFE.MVC.Controllers
         private async Task<CreateReimbursementVM> FillListe(CreateReimbursementVM model)
         {
             var groups = await _groupService.GetAllGroupsAsync();
-            var users = await _userService.GetAllUsersAsync();// ou GetAllUsersAsync()
+            var users = await _userService.GetAllUsersAsync();
 
             model.GroupsItems = new SelectList(groups, "Id", "Name");
             model.BeneficiariesItems = new SelectList(users.Where(o => o.Id != _helper.UserId).ToList(), "Id", "FullName");

@@ -9,7 +9,9 @@ namespace SupCountFE.MVC.Services.Contracts
         Task<ExpenseResponse?> GetExpenseByIdAsync(int id);
         Task<ReturnCreatedExpenseVM?> CreateExpenseAsync(CreateExpenseVM model);
         Task<bool> UpdateExpenseAsync(UpdateExpenseVM model);
-  
+        Task<StatisticsVM?> GetUserExpenseStatisticsAsync(string userId);
+
+
 
     }
 }

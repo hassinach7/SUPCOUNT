@@ -1,0 +1,102 @@
+﻿@model SupCountFE.MVC.ViewModels.Expense.StatisticsVM
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Expense Statistics</h2>
+    </div>
+
+    <p><strong>Total Expenses:</strong> @Model.TotalAmount €</p>
+
+    <h4 class="mt-4">Expenses by Category</h4>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Category</th>
+                <th>Amount (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AmountByCategory)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="mt-4">Expenses by Month</h4>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Month</th>
+                <th>Amount (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AmountByMonth)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="mt-4">Expenses by Group</h4>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Group</th>
+                <th>Amount (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AmountByGroup)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="mt-5">Graph: Expenses by Month</h4>
+    <canvas id="expensesChart" width="400" height="150"></canvas>
+</div>
+
+@section StatisticsJS {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = @Html.Raw(Json.Serialize(Model.AmountByMonth.Keys));
+        const data = @Html.Raw(Json.Serialize(Model.AmountByMonth.Values));
+
+        const ctx = document.getElementById('expensesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Expenses (€)',
+                    data: data,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
