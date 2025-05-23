@@ -48,26 +48,10 @@ builder.Services.AddAuthentication(options =>
 .AddCookie()
 .AddGoogle(options =>
 {
-    options.ClientId = "44523278386-h40s3qr6ii6f6flqsi5mtb2ht0jlk28d.apps.googleusercontent.com";
-    options.ClientSecret = "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";
+    options.ClientId = builder.Configuration["Google-auth:ClientId"]!;
+    options.ClientSecret = builder.Configuration["Google-auth:ClientSecret"]!;
     options.Scope.Add("email");
     options.SaveTokens = true;
-    //options.Events.OnCreatingTicket = async context =>
-    //{
-    //    var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
-    //    Console.WriteLine($"StartUp : [AUTH] Email utilisateur connecté : {email}");
-
-    //   // inject IAuthService and call login action 
-    //    options.Events.OnCreatingTicket = async context =>
-    //    {
-    //        var email = context.Principal!.FindFirst(ClaimTypes.Email)?.Value;
-    //        // call login action
-
-
-
-    //    };
-
-    //};
 });
 
 
@@ -77,11 +61,8 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-//builder.Services.AddTransient<IAuthService, AuthService>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

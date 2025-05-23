@@ -34,6 +34,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ApiSetting__Url=http://supcountbe.api:8080/api/
+      - Google-auth__ClientId=44523278386-h40s3qr6ii6f6flqsi5mtb2ht0jlk28d.apps.googleusercontent.com
+      - Google-auth__ClientSecret=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
     ports:
       - "8082:8080"
     depends_on:

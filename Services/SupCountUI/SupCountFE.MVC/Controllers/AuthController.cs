@@ -1,4 +1,6 @@
-﻿using SupCountFE.MVC.Models;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using System.Security.Claims;
 
@@ -31,11 +33,6 @@ public class AuthController : Controller
             if (result != null && result.IsAuthenticated)
             {
                 SignInUser(result);
-
-                // Remove email from claims
-                var claimsIdentity = User.Identity as ClaimsIdentity;
-                claimsIdentity?.RemoveClaim(claimsIdentity.FindFirst(ClaimTypes.Email));
-
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -80,20 +77,24 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
+        var claimsIdentity = User.Identity as ClaimsIdentity;
+        if (claimsIdentity != null)
+        {
+            var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
+            if (emailClaim != null)
+            {
+                claimsIdentity.RemoveClaim(emailClaim);
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity)
+                );
+            }
+        }
 
         HttpContext.Session.Clear();
 
-
         return RedirectToAction("Login", "Auth");
     }
-
-    // GET: /Auth/ExternalLogin?provider=Google
-    [HttpGet]
-    public IActionResult ExternalLogin(string provider = "Google")
-    {
-        return Redirect($"https://localhost:7280/api/Auth/ExternalLogin?provider={provider}");
-    }
-
 }
