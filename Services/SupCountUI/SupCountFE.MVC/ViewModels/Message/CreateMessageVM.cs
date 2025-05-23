@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace SupCountFE.MVC.ViewModels.Message
 {
@@ -13,5 +14,9 @@ namespace SupCountFE.MVC.ViewModels.Message
         public string? RecipientId { get; set; }
 
         public int? GroupId { get; set; }
+
+        public SelectList? UsersItems { get; set; }
+        public SelectList? GroupsItems { get; set; }
+        public List<MessageVM> Messages { get; set; } = new List<MessageVM>();
     }
 }

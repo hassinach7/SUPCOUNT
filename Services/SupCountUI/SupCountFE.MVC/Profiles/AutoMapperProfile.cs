@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using SupCountBE.Application.Commands.Message;
 using SupCountBE.Application.Responses.Category;
 using SupCountBE.Application.Responses.Expense;
 using SupCountBE.Application.Responses.Group;
 using SupCountBE.Application.Responses.Justification;
+using SupCountBE.Application.Responses.Message;
 using SupCountBE.Application.Responses.Reimbursement;
 using SupCountBE.Application.Responses.User;
 using SupCountBE.Application.Responses.UserGroup;
@@ -37,7 +39,10 @@ public class AutoMapperProfile : Profile
         this.CreateMap<UserGroupResponse, UserGroupVM>();
         this.CreateMap<SoldeUserResponse, SoldeUserVM>();
         this.CreateMap<ReimbursementResponse, ReimbursementVM>();
-        this.CreateMap<MessageVM, CreateMessageVM>();
+        this.CreateMap<MessageResponse, MessageVM>();
+
+        this.CreateMap<CreateMessageVM, CreateMessageCommand>();
+
 
     }
 }

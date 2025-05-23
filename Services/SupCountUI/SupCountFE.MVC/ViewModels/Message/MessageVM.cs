@@ -25,9 +25,6 @@ public class MessageVM
     public string? RecipientName { get; set; }
     public string? GroupName { get; set; }
 
-
-    public SelectList? UsersItems { get; set; }
-    public SelectList? GroupsItems { get; set; }
 }
 
 
