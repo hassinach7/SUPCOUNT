@@ -11,6 +11,14 @@ public class ApiSecurity
         Http = new HttpClient();
         Http.BaseAddress = new Uri(options.Value.Url ?? throw new Exception("Api Url is Null"));
         var httpContextAccessor = new HttpContextAccessor();
+        if(httpContextAccessor.HttpContext == null)
+        {
+            return;
+        }
+        if (httpContextAccessor.HttpContext.Session == null)
+        {
+            return;
+        }
         var token = httpContextAccessor!.HttpContext!.Session.GetString("JWTToken");
         if (!string.IsNullOrEmpty(token))
         {

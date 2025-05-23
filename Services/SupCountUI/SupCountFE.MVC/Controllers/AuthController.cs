@@ -1,4 +1,6 @@
-﻿using SupCountFE.MVC.Services.Contracts;
+﻿using SupCountFE.MVC.Models;
+using SupCountFE.MVC.Services.Contracts;
+using System.Security.Claims;
 
 namespace SupCountFE.MVC.Controllers;
 
@@ -14,8 +16,29 @@ public class AuthController : Controller
 
     // GET: /Auth/Login
     [HttpGet("login")]
-    public IActionResult Login()
+    public async Task<IActionResult> Login()
     {
+        var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        if (!string.IsNullOrEmpty(email))
+        {
+            var result = await _authService.LoginAsync(new LoginVM
+            {
+                GoogleAuth = true,
+                UserName = email,
+                Password = new Random().Next(100000, 999999).ToString()
+            });
+
+            if (result != null && result.IsAuthenticated)
+            {
+                SignInUser(result);
+
+                // Remove email from claims
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                claimsIdentity?.RemoveClaim(claimsIdentity.FindFirst(ClaimTypes.Email));
+
+                return RedirectToAction("Index", "Home");
+            }
+        }
         return View();
     }
 
@@ -31,13 +54,7 @@ public class AuthController : Controller
 
             if (result != null && result.IsAuthenticated)
             {
-                HttpContext.Session.SetString("JWTToken", result.Token!);
-                HttpContext.Session.SetString("Email", result.Email!);
-                HttpContext.Session.SetString("UserName", result.UserName!);
-                HttpContext.Session.SetString("UserId", result.UserId!);
-                HttpContext.Session.SetString("UserRoles", string.Join(",", result.Roles!));
-                HttpContext.Session.SetString("TokenExpiry", result.ExpiresOn.ToString());
-
+                SignInUser(result);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -46,12 +63,22 @@ public class AuthController : Controller
         }
         catch (Exception ex)
         {
-            // Log the exception (ex) here if needed
             Console.WriteLine(ex.Message);
-            ModelState.AddModelError("", "An error occurred while processing your request." + ex.Message);
+            ModelState.AddModelError("", "An error occurred while processing your request. " + ex.Message);
             return View(model);
         }
     }
+
+    private void SignInUser(AuthModel result)
+    {
+        HttpContext.Session.SetString("JWTToken", result.Token!);
+        HttpContext.Session.SetString("Email", result.Email!);
+        HttpContext.Session.SetString("UserName", result.UserName!);
+        HttpContext.Session.SetString("UserId", result.UserId!);
+        HttpContext.Session.SetString("UserRoles", string.Join(",", result.Roles!));
+        HttpContext.Session.SetString("TokenExpiry", result.ExpiresOn.ToString());
+    }
+
     [HttpPost]
     public IActionResult Logout()
     {

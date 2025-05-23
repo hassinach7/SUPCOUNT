@@ -1,7 +1,10 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.Services.Implementations;
 using System.Reflection;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +40,35 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 
 builder.Services.AddSingleton<Helper>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddGoogle(options =>
+{
+    options.ClientId = "44523278386-h40s3qr6ii6f6flqsi5mtb2ht0jlk28d.apps.googleusercontent.com";
+    options.ClientSecret = "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";
+    options.Scope.Add("email");
+    options.SaveTokens = true;
+    //options.Events.OnCreatingTicket = async context =>
+    //{
+    //    var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
+    //    Console.WriteLine($"StartUp : [AUTH] Email utilisateur connecté : {email}");
+
+    //   // inject IAuthService and call login action 
+    //    options.Events.OnCreatingTicket = async context =>
+    //    {
+    //        var email = context.Principal!.FindFirst(ClaimTypes.Email)?.Value;
+    //        // call login action
+
+
+
+    //    };
+
+    //};
+});
 
 
 var app = builder.Build();
@@ -62,7 +94,7 @@ app.Use(async (context, next) =>
     var path = context.Request.Path.Value?.ToLower();
 
     // Skip check for /auth/login
-    if (path == "/auth/login")
+    if (path == "/auth/login" || path == "/account/login" || path == "/account/googleResponse")
     {
         await next();
         return;

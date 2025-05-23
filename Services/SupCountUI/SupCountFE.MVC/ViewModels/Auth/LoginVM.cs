@@ -11,6 +11,8 @@ namespace SupCountFE.MVC.ViewModels.Auth
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
+
+        public bool GoogleAuth { get; set; } = false;
     }
 
 

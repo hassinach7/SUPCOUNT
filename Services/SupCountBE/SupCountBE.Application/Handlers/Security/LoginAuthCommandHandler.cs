@@ -18,7 +18,7 @@ public class LoginAuthCommandHandler : IRequestHandler<LoginAuthCommand, LoginAu
 
     public async Task<LoginAuthResponseDto> Handle(LoginAuthCommand request, CancellationToken cancellationToken)
     {
-        var authModel = await _tokenGenerator.GetTokenAsync(new TokenRequestModel { Email = request.UserName, Password = request.Password});
+        var authModel = await _tokenGenerator.GetTokenAsync(new TokenRequestModel { Email = request.UserName, Password = request.Password, GoogleAuth =request.GoogleAuth});
         return _mapper.Map<LoginAuthResponseDto>(authModel); 
     }
 }

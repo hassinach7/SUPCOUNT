@@ -29,7 +29,7 @@ public class TokenGenerator : ITokenGenerator
     {
         var authModel = new AuthModel();
 
-      
+
         var user = await _userManager.FindByEmailAsync(email);
 
         if (user == null)
@@ -39,7 +39,7 @@ public class TokenGenerator : ITokenGenerator
                 UserName = email,
                 Email = email,
                 FullName = fullName ?? email,
-                EmailConfirmed = true 
+                EmailConfirmed = true
             };
 
             var creationResult = await _userManager.CreateAsync(user);
@@ -70,12 +70,21 @@ public class TokenGenerator : ITokenGenerator
     {
         var authModel = new AuthModel();
         var user = await _userManager.FindByEmailAsync(model.Email);
-
-        if (user is null || !await _userManager.CheckPasswordAsync(user, model.Password))
+        if (user == null)
         {
             authModel.Message = "Invalid credentials";
             return authModel;
         }
+
+        if (!model.GoogleAuth)
+        {
+            if (!await _userManager.CheckPasswordAsync(user, model.Password))
+            {
+                authModel.Message = "Invalid credentials";
+                return authModel;
+            }
+        }
+
         var jwtSecurityToken = await CreateJwtToken(user);
         var rolesList = await _userManager.GetRolesAsync(user);
 

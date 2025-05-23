@@ -19,10 +19,6 @@ public class RegisterUserValidator: AbstractValidator<RegisterUserCommand>
             .MinimumLength(6)
             .WithMessage("Password must be at least 6 characters long");
 
-
-        RuleFor(x => x.PhoneNumber)
-            .NotEmpty()
-            .WithMessage("Phone number is required");
         RuleFor(x => x.FullName)
             .NotEmpty()
             .WithMessage("Full name is required")

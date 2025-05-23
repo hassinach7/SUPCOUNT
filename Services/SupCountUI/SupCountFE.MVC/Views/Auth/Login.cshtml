@@ -59,7 +59,7 @@
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                                         <div asp-validation-summary="All" class="text text-danger mt-2"></div>
                                         <hr />
-                                        <a class="btn btn-google btn-user btn-block" href="/Auth/ExternalLogin?provider=Google">
+                                        <a class="btn btn-google btn-user btn-block"  asp-action="login" asp-controller="account">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
                                         </a>
                                     </form>
