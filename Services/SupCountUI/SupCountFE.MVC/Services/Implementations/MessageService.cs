@@ -37,28 +37,10 @@ namespace SupCountFE.MVC.Services.Implementations
         {
             var allMessages = await GetAllMessagesAsync();
 
-            Console.WriteLine($"[DEBUG] Loaded {allMessages.Count} messages");
+            Console.WriteLine($"[DEBUG] Loaded {allMessages.Count} messages (no filtering)");
 
-            if (groupId != null)
-            {
-                var groupMessages = allMessages.Where(m => m.GroupId == groupId).ToList();
-                Console.WriteLine($"[DEBUG] Group messages: {groupMessages.Count}");
-                return groupMessages;
-            }
-
-            if (!string.IsNullOrEmpty(recipientId))
-            {
-                var privateMessages = allMessages
-                    .Where(m =>
-                        (m.SenderId == senderId && m.RecipientId == recipientId) ||
-                        (m.SenderId == recipientId && m.RecipientId == senderId))
-                    .ToList();
-                Console.WriteLine($"[DEBUG] Private messages: {privateMessages.Count}");
-                return privateMessages;
-            }
-
-            return new List<MessageVM>();
+            return allMessages;
         }
-
+        
     }
 }

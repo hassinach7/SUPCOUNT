@@ -4,7 +4,7 @@ using SupCountBE.Core.Repositories;
 
 namespace SupCountBE.Application.Handlers.Message
 {
-    internal class GetAllMessageHandler : IRequestHandler<GetAllMessageQuery, IList<MessageResponse>>
+    public class GetAllMessageHandler : IRequestHandler<GetAllMessageQuery, IList<MessageResponse>>
     {
         private readonly IMessageRepository _messageRepository;
         private readonly IMapper _mapper;

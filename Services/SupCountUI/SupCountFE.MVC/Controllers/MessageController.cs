@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SupCountBE.Application.Commands.Message;
-using SupCountBE.Core.Entities;
 using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
-using SupCountFE.MVC.Services.Implementations;
 using SupCountFE.MVC.ViewModels.Message;
-using SupCountFE.MVC.ViewModels.Reimbursement;
 
 namespace SupCountFE.MVC.Controllers
 {
@@ -32,7 +28,17 @@ namespace SupCountFE.MVC.Controllers
             _userService = userService;
             _mapper = mapper;
         }
-     
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var messages = await _messageService.GetAllMessagesAsync();
+            return Json(messages);
+        }
+
+
+
         [HttpGet]
         public async Task<IActionResult> Create(string? recipientId, int? groupId)
         {
