@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ParticipationVM>
+@{
+	ViewData["Title"] = "Participation List";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Participations</h2>	
+		</div>
+	<table class="table table-bordered">
+		<thead class="thead-light">
+			<tr>
+				<th>Weight</th>			
+				<th>Expense Title</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var participation in Model)
+			{
+				<tr>
+					<td>@participation.Weight</td>
+					<td>@participation.ExpenseTitle</td>
+					<td>@participation.CreatedAt.ToString("MM/dd/yyyy")</td>
+					
+					</tr>
+			}
+
+		</tbody>
+	</table>
+</div>
+						

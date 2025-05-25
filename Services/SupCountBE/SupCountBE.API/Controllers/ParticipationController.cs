@@ -16,6 +16,13 @@ namespace SupCountBE.API.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
+        [ActionName("GetAllByUser")]
+        [Route("[action]")]
+        public async Task<IActionResult> GetAllByUserAsync()
+        {
+            return Ok(await _mediator.Send(new GetAllParticipationByCurrentUserQuery()));
+        }
 
         [HttpGet]
         [ActionName("GetAll")]

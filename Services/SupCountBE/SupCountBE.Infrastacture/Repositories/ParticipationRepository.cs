@@ -42,4 +42,11 @@ public class ParticipationRepository : AsyncRepository<Participation>, IParticip
 
         return query;
     }
+
+    public async Task<IList<Participation>> GetListByUserIdAsync(string userId)
+    {
+        return await _dbContext.Participations.Include(o => o.Expense)
+            .Where(p => p.UserId == userId)
+            .ToListAsync();
+    }
 }

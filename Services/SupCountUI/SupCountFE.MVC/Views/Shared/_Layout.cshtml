@@ -16,6 +16,7 @@
     @RenderSection("UserCSS", false)
 	@RenderSection("UserGroupCSS", false)
     @RenderSection("ReimbursementCSS", false)
+    @RenderSection("ParticipationCSS", false)
 
  
 
@@ -47,6 +48,7 @@
                <div id="collapseExpenses" class="collapse" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" asp-controller="Expense" asp-action="List">All Expenses</a>
+                     <a class="collapse-item" asp-controller="Participation" asp-action="List">All Participations</a>
                 </div>
             </div>
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.ViewModels.Expense;
+using SupCountFE.MVC.ViewModels.Participation;
 
 namespace SupCountFE.MVC.Controllers
 {
@@ -12,12 +13,60 @@ namespace SupCountFE.MVC.Controllers
         private readonly IMapper _mapper;
         private readonly IGroupService _groupService;
         private readonly ICategoryService _categoryService;
+        private readonly IParticipationService _participationService;
         private readonly IJustificationService justificationService;
         private readonly Helper _helper;
+        public ExpenseController(IExpenseService expenseService, IMapper mapper, IGroupService groupService,
+          ICategoryService categoryService, IJustificationService justificationService, Helper helper, IParticipationService participationService)
+        {
+            _expenseService = expenseService;
+            _mapper = mapper;
+            _groupService = groupService;
+            _categoryService = categoryService;
+            this.justificationService = justificationService;
+            _participationService = participationService;
+            _helper = helper;
+        }
+
+        // action Participate
+        [HttpGet]
+        public async Task<IActionResult> Participate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var expense = await _expenseService.GetExpenseByIdAsync(id.Value);
+            if (expense == null)
+            {
+                return NotFound();
+            }
+            var model = new ParticipateExpenseVM { ExpenseId = id.Value, ExpenseTitle = expense.Title, Weight = 100 };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Participate(ParticipateExpenseVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                await _participationService.CreateParticipationAsync(model.ExpenseId!.Value, model.Weight);
+                return RedirectToAction("List","Participation");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
+        }
 
 
         [HttpGet]
-        public IActionResult Dwonload( string Base64String)
+        public IActionResult Dwonload(string Base64String)
         {
 
             try
@@ -42,16 +91,7 @@ namespace SupCountFE.MVC.Controllers
             var justifications = await justificationService.GetListAsync(id.Value);
             return View(_mapper.Map<IList<JustificationExepnseVM>>(justifications));
         }
-        public ExpenseController(IExpenseService expenseService, IMapper mapper, IGroupService groupService,
-            ICategoryService categoryService, IJustificationService justificationService, Helper helper)
-        {
-            _expenseService = expenseService;
-            _mapper = mapper;
-            _groupService = groupService;
-            _categoryService = categoryService;
-            this.justificationService = justificationService;
-            _helper = helper;
-        }
+      
 
         // GET: /Expense/List
         [HttpGet]

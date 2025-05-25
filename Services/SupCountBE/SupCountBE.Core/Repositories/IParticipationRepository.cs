@@ -6,12 +6,13 @@ public interface IParticipationRepository : IAsyncRepository<Participation>
        ParticipationIncludingProperties participationIncludingProperties
     );
 
-    Task<Participation?> GetByIdsAsync( int expenseId);
+    Task<Participation?> GetByIdsAsync(int expenseId);
     Task<Participation?> GetByIdsIncludingAsync(
-      
+
         int expenseId,
         ParticipationIncludingProperties participationIncludingProperties
         );
+    Task<IList<Participation>> GetListByUserIdAsync(string userId);
 }
 
 public record ParticipationIncludingProperties

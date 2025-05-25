@@ -37,34 +37,13 @@ namespace SupCountFE.MVC.Controllers
             return model;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateParticipationVM model)
-        {
-            if (!ModelState.IsValid)
-            {
-                model = await FillList(model);
-                return View(model);
-            }
-
-            try
-            {
-                await _participationService.CreateParticipationAsync(model);
-                TempData["Success"] = "Participation created successfully!";
-                return RedirectToAction(nameof(List));
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                model = await FillList(model);
-                return View(model);
-            }
-        }
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var participations = await _participationService.GetAllParticipationsAsync();
+            var participations = await _participationService.GetAllParticipationsByUserAsync();
             var viewModels = _mapper.Map<List<ParticipationVM>>(participations);
             return View(viewModels);
         }
+      
     }
 }

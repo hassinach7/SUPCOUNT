@@ -18,9 +18,9 @@ namespace SupCountFE.MVC.Services.Implementations
             _apiSecurity = apiSecurity;
         }
 
-        public async Task<IEnumerable<ParticipationResponse>> GetAllParticipationsAsync()
+        public async Task<IEnumerable<ParticipationResponse>> GetAllParticipationsByUserAsync()
         {
-            var response = await _apiSecurity.Http.GetAsync("Participation/GetAll");
+            var response = await _apiSecurity.Http.GetAsync("Participation/GetAllByUser");
 
             if (response.IsSuccessStatusCode)
             {
@@ -31,28 +31,28 @@ namespace SupCountFE.MVC.Services.Implementations
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ParticipationResponse> CreateParticipationAsync(CreateParticipationVM model)
+        public async Task CreateParticipationAsync(int expenseId, float wieght)
         {
-            var jsonPayload = JsonConvert.SerializeObject(model);
+            var jsonPayload = JsonConvert.SerializeObject(new { weight = wieght, expenseId = expenseId });
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
             var response = await _apiSecurity.Http.PostAsync("Participation/Create", content);
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<ParticipationResponse>()
-                    ?? throw new Exception("No response from the server.");
+                return;
             }
 
-            var rawError = await response.Content.ReadAsStringAsync();
-
-            if (rawError.Contains("already") || rawError.Contains("duplicate") || rawError.Contains("PRIMARY KEY"))
-            {
-                throw new Exception("Participation already exists or duplicates detected.");
-            }
-
-            throw new Exception("An error occurred while creating the participation.");
+            var rawError = await response.Content.ReadAsStringAsync(); // properyhy detail
+            var error = JsonConvert.DeserializeObject<ErrorResponse>(rawError);
+            throw new Exception(error?.Message ?? "An error occurred while creating the participation.");
         }
+
+    }
+    public class ErrorResponse
+    {
+        public string? Message { get; set; }
+        public string? Details { get; set; }
     }
 }
 

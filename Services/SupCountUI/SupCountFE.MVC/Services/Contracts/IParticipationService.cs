@@ -1,15 +1,9 @@
 ﻿using SupCountBE.Application.Responses.Participation;
-using SupCountFE.MVC.ViewModels.Participation;
 
-namespace SupCountFE.MVC.Services.Contracts
+namespace SupCountFE.MVC.Services.Contracts;
+
+public interface IParticipationService
 {
-    public interface IParticipationService
-    {
-      
-         Task<IEnumerable<ParticipationResponse>> GetAllParticipationsAsync();
-         Task<ParticipationResponse> CreateParticipationAsync(CreateParticipationVM model);
-       
-
-        
-    }
+     Task<IEnumerable<ParticipationResponse>> GetAllParticipationsByUserAsync();
+     Task CreateParticipationAsync(int expenseId , float wieght);
 }
