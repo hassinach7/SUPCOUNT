@@ -37,6 +37,13 @@ namespace SupCountFE.MVC.Controllers
             return Json(messages);
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> GetPrivateConversation(string recipientId)
+        //{
+        //    var senderId = _helper.UserId!;
+        //    var messages = await _messageService.SendPrivateMessagesAsync();
+        //    return Json(messages);
+        //}
 
 
         [HttpGet]

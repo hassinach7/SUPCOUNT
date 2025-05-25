@@ -11,6 +11,6 @@ public class Message : BaseEntity
     public string? RecipientId { get; set; }
     public User? Sender { get; set; }
     public User? Recipient { get; set; }
-   
-   
+    public bool IsPrivate { get; set; }
 }
+    // ' currentuserId= SenderId || RecipientId)&&IsPrivate = true

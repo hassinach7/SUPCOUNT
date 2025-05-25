@@ -4,6 +4,7 @@ public interface IMessageRepository : IAsyncRepository<Message>
 {
     Task<Message?> GetByIdIncludingAsync(int id, MessageIncludingProperties messageIncludingProperties );
     Task<IList<Message>> GetAllListIncludingAsync(MessageIncludingProperties messageIncludingProperties );
+    Task<IList<Message>> GetPrivateMessagesAsync(string? senderId, string? recipientId);
 }
 public record MessageIncludingProperties
 {

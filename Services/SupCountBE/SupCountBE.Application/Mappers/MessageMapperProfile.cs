@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using SupCountBE.Application.Responses.Message;
-using SupCountBE.Core.Entities;
+﻿using SupCountBE.Application.Responses.Message;
 
 namespace SupCountBE.Application.Mappers
 {

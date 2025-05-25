@@ -24,6 +24,7 @@ public class MessageVM
     public string? SenderName { get; set; }
     public string? RecipientName { get; set; }
     public string? GroupName { get; set; }
+    public bool IsPrivate { get; set; } = false;
 
 }
 

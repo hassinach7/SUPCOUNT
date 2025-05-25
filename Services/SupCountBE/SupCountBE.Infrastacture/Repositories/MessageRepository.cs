@@ -41,4 +41,20 @@ public class MessageRepository : AsyncRepository<Message>, IMessageRepository
 
         return query;
     }
+
+    public async Task<IList<Message>> GetPrivateMessagesAsync(string? senderId, string? recipientId)
+    {
+        var query = _dbContext.Messages.AsQueryable();
+        if (!string.IsNullOrEmpty(senderId))
+        {
+            query = query.Where(m => m.SenderId == senderId);
+        }
+        if (!string.IsNullOrEmpty(recipientId))
+        {
+            query = query.Where(m => m.RecipientId == recipientId);
+        }
+        return await query.ToListAsync();
+
+
+    }
 }
