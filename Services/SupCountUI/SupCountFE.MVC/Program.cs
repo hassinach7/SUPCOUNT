@@ -4,7 +4,6 @@ using SupCountFE.MVC.Models;
 using SupCountFE.MVC.Services.Contracts;
 using SupCountFE.MVC.Services.Implementations;
 using System.Reflection;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +31,7 @@ builder.Services.AddTransient<IUserGroupService, UserGroupService>();
 builder.Services.AddTransient<IReimbursementService, ReimbursementService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IMessageService, MessageService>();
+builder.Services.AddTransient<IParticipationService, ParticipationService>();
 
 
 builder.Services.AddHttpContextAccessor();

@@ -134,14 +134,6 @@ namespace SupCountFE.MVC.Controllers
             return RedirectToAction(nameof(List));
         }
 
-        // GET: /Expense/Participate/{id}
-        [HttpGet]
-        public IActionResult Participate(int id)
-        {
-            TempData["Info"] = $"Participation logic to be implemented for expense {id}.";
-            return RedirectToAction(nameof(List));
-        }
-
         [HttpGet]
         public async Task<IActionResult> Statistics()
         {

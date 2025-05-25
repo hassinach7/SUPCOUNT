@@ -16,6 +16,7 @@
     @RenderSection("UserCSS", false)
 	@RenderSection("UserGroupCSS", false)
     @RenderSection("ReimbursementCSS", false)
+
  
 
 </head>
@@ -43,11 +44,12 @@
                     <i class="fas fa-money-bill-wave"></i>
                     <span>Expenses</span>
                 </a>
-                <div id="collapseExpenses" class="collapse" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-controller="Expense" asp-action="List">All Expenses</a>
-                    </div>
+               <div id="collapseExpenses" class="collapse" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" asp-controller="Expense" asp-action="List">All Expenses</a>
                 </div>
+            </div>
+
             </li>
 
             <!-- Reimbursements -->
