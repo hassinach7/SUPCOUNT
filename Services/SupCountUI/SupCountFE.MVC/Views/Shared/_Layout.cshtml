@@ -32,7 +32,7 @@
                @if (_helper.UserRoles.Contains("User"))
             {
                   <li class="nav-item active">
-                <a class="nav-link" asp-controller="Dashboard" asp-action="Index">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -118,7 +118,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Messaging</h6>
                      
-                        <a class="collapse-item" asp-controller="Message" asp-action="Create">Compose</a>
+                        <a class="collapse-item" asp-controller="Message" asp-action="Create">Group Messages</a>
+                         <a class="collapse-item" asp-controller="Message" asp-action="Private">Private Messages</a>
                     </div>
                 </div>
             </li>

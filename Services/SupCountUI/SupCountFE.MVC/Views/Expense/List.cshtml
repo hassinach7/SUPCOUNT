@@ -14,7 +14,7 @@
         <thead class="thead-light">
             <tr>
                 <th>Title</th>
-                <th style="width: 300px;">Actions</th>
+                <th style="width: 400px;">Actions</th>
                 <th style="width: 200px;">Export</th> 
             </tr>
         </thead>
@@ -23,43 +23,46 @@
             {
                 var groupId = expense.Group.Id;
 
-                <tr>
-                    <td>@expense.Title</td>
+              <tr>
+    <td>@expense.Title</td>
 
-                    <td>
-                        <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@expense.Id">Edit</a>
+    <td>
+        <a class="btn btn-sm btn-secondary btn-fixed me-1" asp-action="Edit" asp-route-id="@expense.Id">Edit</a>
 
-                        <button class="btn btn-sm btn-info text-white" data-toggle="modal" data-target="#detailsModal"
-                                data-group="@expense.Group.Name"
-                                data-category="@expense.CategoryName"
-                                data-amount="@expense.Amount"
-                                data-date="@expense.Date.ToString("dd-MM-yyyy")"
-                                data-payer="@expense.Payer">
-                            Details
-                        </button>
+        <button class="btn btn-sm btn-info text-white btn-fixed me-1"
+                data-toggle="modal"
+                data-target="#detailsModal"
+                data-group="@expense.Group.Name"
+                data-category="@expense.CategoryName"
+                data-amount="@expense.Amount"
+                data-date="@expense.Date.ToString("dd-MM-yyyy")"
+                data-payer="@expense.Payer">
+            Details
+        </button>
 
-                        <a class="btn btn-sm btn-success text-white" asp-action="Justifications" asp-route-id="@expense.Id">
-                            Justifications
-                        </a>
-                        <a class="btn btn-sm btn-primary text-white" asp-action="Participate" asp-route-id="@expense.Id">
-                            Participate
-                        </a>
-                    </td>
+        <form asp-action="Justifications" asp-route-id="@expense.Id" method="get" class="d-inline-block me-1">
+            <button type="submit" class="btn btn-sm btn-success text-white btn-fixed">Justifications</button>
+        </form>
 
-                    <td>
-                        <a href="@Url.Action("ExportPdf", "Expense", new { groupId })"
-                           target="_blank"
-                           class="btn btn-sm btn-outline-danger mb-1">
-                            PDF
-                        </a>
+        <form asp-action="Participate" asp-route-id="@expense.Id" method="get" class="d-inline-block me-1">
+            <button type="submit" class="btn btn-sm btn-dark text-white btn-fixed">Participate</button>
+        </form>
+    </td>
 
-                        <a href="@Url.Action("ExportCsv", "Expense", new { groupId })"
-                           class="btn btn-sm btn-outline-success">
-                            CSV
-                        </a>
-                    </td>
-                </tr>
-            }
+    <td>
+        <a href="@Url.Action("ExportPdf", "Expense", new { groupId })"
+           target="_blank"
+           class="btn btn-sm btn-outline-danger mb-1">
+            PDF
+        </a>
+
+        <a href="@Url.Action("ExportCsv", "Expense", new { groupId })"
+           class="btn btn-sm btn-outline-success">
+            CSV
+        </a>
+    </td>
+</tr>
+}
         </tbody>
     </table>
 </div>

@@ -156,19 +156,7 @@
         <div class="contact-search">
             <p><em>Select Contact 🔍</em></p>
 
-            <div class="form-group">
-                <label>Private</label>
-                <select class="form-control" id="RecipientIdDropdown">
-                    <option value="">Select recipient</option>
-                    @foreach (var user in Model.UsersItems!)
-                    {
-                        <option value="@user.Value" selected="@(Model.RecipientId == user.Value)">
-                            @user.Text
-                        </option>
-
-                    }
-                </select>
-            </div>
+          
 
             <div class="form-group mt-2">
                 <label>Group</label>
@@ -189,17 +177,8 @@
 
 @section MessageJS {
     <script>
-        const recipientDropdown = document.getElementById("RecipientIdDropdown");
+      
         const groupDropdown = document.getElementById("GroupIdDropdown");
-
-        recipientDropdown.addEventListener("change", function () {
-            const selectedId = this.value;
-            if (selectedId) {
-                groupDropdown.selectedIndex = 0; 
-                window.location.href = `/Message/Create?recipientId=${selectedId}`;
-            }
-        });
-
         groupDropdown.addEventListener("change", function () {
             const selectedId = this.value;
             if (selectedId) {

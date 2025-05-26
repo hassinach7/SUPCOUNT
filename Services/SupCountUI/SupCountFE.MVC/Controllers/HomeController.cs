@@ -1,24 +1,26 @@
 ﻿using SupCountFE.MVC.Models;
+using SupCountFE.MVC.Services.Contracts;
 
-namespace SupCountFE.MVC.Controllers
+[Route("[controller]")]
+public class HomeController : Controller
 {
-	[Route("[controller]")]
-    public class HomeController : Controller
-	{
-        private readonly Helper helper;
+    private readonly Helper helper;
+    private readonly IExpenseService expenseService;
 
-        public HomeController(Helper helper)
+    public HomeController(Helper helper, IExpenseService expenseService)
+    {
+        this.helper = helper;
+        this.expenseService = expenseService;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        if (!helper.UserRoles.Contains("User"))
         {
-            this.helper = helper;
+            return RedirectToAction("List", "User");
         }
 
-        public IActionResult Index()
-		{
-            if(!helper.UserRoles.Contains("User"))
-            {
-                return RedirectToAction("List", "User");
-            }
-            return View();
-		}
-	}
+        var expenses = await expenseService.GetUserExpenseStatisticsAsync(helper.UserId!);
+        return View(expenses);
+    }
 }

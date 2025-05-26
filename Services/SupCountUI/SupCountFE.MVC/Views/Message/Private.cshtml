@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MessageVM>
+@{
+    ViewData["Title"] = "Private Chat";
+}
+
+
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <div class="row">
+        <!-- Messages table -->
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Sender</th>
+                        <th>Recipient</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Messages != null)
+                    {
+                        foreach (var msg in (List<MessageVM>)ViewBag.Messages)
+                        {
+                            <tr>
+                                <td>@msg.SenderName</td>
+                                <td>@msg.RecipientName</td>
+                                <td>@msg.Content</td>
+                                <td>@msg.CreatedAt.ToString("g")</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No messages yet.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+
+       
+     
+
+

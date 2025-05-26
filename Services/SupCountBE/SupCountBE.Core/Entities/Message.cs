@@ -1,6 +1,4 @@
-﻿
-
-namespace SupCountBE.Core.Entities;
+﻿namespace SupCountBE.Core.Entities;
 
 public class Message : BaseEntity
 {

@@ -34,16 +34,18 @@ namespace SupCountFE.MVC.Controllers
         public async Task<IActionResult> GetAll()
         {
             var messages = await _messageService.GetAllMessagesAsync();
-            return Json(messages);
+            return View(messages);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetPrivateConversation(string recipientId)
-        //{
-        //    var senderId = _helper.UserId!;
-        //    var messages = await _messageService.SendPrivateMessagesAsync();
-        //    return Json(messages);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Private(string recipientId)
+        {
+            var userId = _helper.UserId!;
+            var messages = await _messageService.GetPrivateMessagesAsync(userId, recipientId);
+            return View(messages); 
+        }
+
+
 
 
         [HttpGet]
@@ -63,6 +65,7 @@ namespace SupCountFE.MVC.Controllers
 
             return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateMessageVM model)

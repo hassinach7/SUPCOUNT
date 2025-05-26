@@ -41,6 +41,17 @@ namespace SupCountFE.MVC.Services.Implementations
 
             return allMessages;
         }
-        
+
+        public async Task<List<MessageVM>> GetPrivateMessagesAsync(string senderId, string? recipientId)
+        {
+
+            var response = await _apiSecurity.Http.GetAsync($"Message/GetPrivateMessage?senderId={senderId}&recipientId={recipientId}");
+            if (!response.IsSuccessStatusCode) return new List<MessageVM>();
+
+            var messages = await response.Content.ReadFromJsonAsync<List<MessageVM>>();
+            return messages ?? new List<MessageVM>();
+        }
+
+       
     }
 }

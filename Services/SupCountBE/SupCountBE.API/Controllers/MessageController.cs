@@ -15,8 +15,6 @@ namespace SupCountBE.API.Controllers
         {
             _mediator = mediator;
         }
-
-
         [HttpGet]
         [ActionName("GetAll")]
         [Route("[action]")]
@@ -32,7 +30,13 @@ namespace SupCountBE.API.Controllers
             return Ok(await _mediator.Send(new GetMessageByIdQuery(id)));
 
         }
-
+        [HttpGet]
+        [ActionName("GetPrivateMessage")]
+        [Route("[action]")]
+        public async Task<IActionResult> GetPrivateMessageAsync(string senderId, string recipientId)
+        {       
+            return Ok(await _mediator.Send(new GetPrivateMessageQuery(senderId, recipientId)));
+        }
         [HttpPost]
         [ActionName("Create")]
         [Route("[action]")]
@@ -40,8 +44,6 @@ namespace SupCountBE.API.Controllers
         {
             return Ok(await _mediator.Send(model));
         }
-
-
         [HttpPut]
         [ActionName("Edit")]
         [Route("[action]")]
