@@ -724,7 +724,7 @@ Obtenir une relation utilisateur-groupe spécifique.
 Mettre à jour le rôle ou les détails.
 ```json
 {
-  "role": "Admin"
+  "role": ""
 }
 ```
 
