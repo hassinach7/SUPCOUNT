@@ -1,18 +1,16 @@
 ﻿
-
 namespace SupCountBE.Application.Responses.Message
 {
-    public class MessageResponse
+    public class MessageResponse: PrivateMessageResponse
     {
         public int Id { get; set; }
+        public string? GroupName { get; set; }
+    }
+    public class PrivateMessageResponse
+    {
         public string Content { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
-
-        public string? SenderName { get; set; } 
-        public string? RecipientName { get; set; }
-        public string? GroupName { get; set; }
-        public bool IsPrivate { get; set; } = false;
-
+        public string SenderName { get; set; } = null!;
+        public string RecipientName { get; set; } = null!;
     }
-
 }

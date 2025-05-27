@@ -8,5 +8,4 @@ public class CreateMessageCommand : IRequest<MessageResponse>
     public string SenderId { get; set; } = null!;
     public string? RecipientId { get; set; }
     public int? GroupId { get; set; }
-    public bool? IsPrivate { get; set; } = false;
 }
