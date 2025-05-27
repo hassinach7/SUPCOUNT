@@ -124,6 +124,7 @@
                     </div>
                 }
             }
+
             else
             {
                 <p class="text-muted">
@@ -156,8 +157,6 @@
         <div class="contact-search">
             <p><em>Select Contact 🔍</em></p>
 
-          
-
             <div class="form-group mt-2">
                 <label>Group</label>
                 <select class="form-control" id="GroupIdDropdown">
@@ -175,17 +174,16 @@
     </div>
 </div>
 
-@section MessageJS {
+  @section MessageJS {
     <script>
-      
         const groupDropdown = document.getElementById("GroupIdDropdown");
         groupDropdown.addEventListener("change", function () {
             const selectedId = this.value;
             if (selectedId) {
-                recipientDropdown.selectedIndex = 0; 
                 window.location.href = `/Message/Create?groupId=${selectedId}`;
             }
         });
     </script>
-
 }
+
+

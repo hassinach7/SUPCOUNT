@@ -33,11 +33,11 @@ namespace SupCountFE.MVC.Services.Implementations
             return result;
         }
 
-        public async Task<List<MessageVM>> GetMessagesAsync(string senderId, string? recipientId, int? groupId)
+        public async Task<List<MessageVM>> GetMessagesAsync(string senderId, int groupId)
         {
             var allMessages = await GetAllMessagesAsync();
 
-            Console.WriteLine($"[DEBUG] Loaded {allMessages.Count} messages (no filtering)");
+            Console.WriteLine($"[DEBUG] Loaded {allMessages.Count} messages");
 
             return allMessages;
         }
@@ -52,6 +52,6 @@ namespace SupCountFE.MVC.Services.Implementations
             return messages ?? new List<MessageVM>();
         }
 
-       
+
     }
 }

@@ -8,7 +8,9 @@ namespace SupCountFE.MVC.Services.Contracts
     {
         Task<List<MessageVM>> GetAllMessagesAsync();
         Task<MessageResponse?> SendMessageAsync(CreateMessageCommand model);
-        Task<List<MessageVM>> GetMessagesAsync(string senderId, string? recipientId, int? groupId);
+        Task<List<MessageVM>> GetMessagesAsync(string senderId, int groupId);
         Task<List<MessageVM>> GetPrivateMessagesAsync(string senderId, string? recipientId);
+
+
     }
 }

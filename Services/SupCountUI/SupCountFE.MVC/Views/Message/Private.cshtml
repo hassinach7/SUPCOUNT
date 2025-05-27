@@ -1,17 +1,24 @@
 ﻿@model IEnumerable<MessageVM>
 @{
     ViewData["Title"] = "Private Chat";
+    var recipientId = Context.Request.Query["recipientId"];
+    var users = ViewBag.Users as List<SelectListItem>;
 }
-
-
 
 <h2>@ViewData["Title"]</h2>
 
 <div class="container">
     <div class="row">
-        <!-- Messages table -->
+        <!-- Messages Column -->
         <div class="col-md-8">
-            <table class="table table-bordered">
+            <!-- Refresh Button -->
+            <button type="button" id="refreshBtn" class="btn btn-outline-primary mb-2">
+                <i class="fas fa-sync-alt"></i> Refresh Messages
+            </button>
+
+
+            <!-- Message Table -->
+            <table class="table table-bordered" id="messageTable">
                 <thead class="thead-light">
                     <tr>
                         <th>Sender</th>
@@ -21,9 +28,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (ViewBag.Messages != null)
+                    @if (Model.Any())
                     {
-                        foreach (var msg in (List<MessageVM>)ViewBag.Messages)
+                        foreach (var msg in Model)
                         {
                             <tr>
                                 <td>@msg.SenderName</td>
@@ -42,10 +49,90 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Chat Box -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Send a Message
+                </div>
+                <div class="card-body">
+                    <form asp-action="SendPrivate" method="post" id="chatForm">
+                        <input type="hidden" name="SenderId" value="@ViewBag.SenderId" />
+                        <div class="form-group">
+                            <label for="RecipientId">To</label>
+                            <select name="RecipientId" class="form-control" required>
+                                <option value="">Select user</option>
+                                @if (users != null)
+                                {
+                                    foreach (var user in users)
+                                    {
+                                        <option value="@user.Value" selected="@(user.Value == recipientId ? "selected" : null)">
+                                            @user.Text
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Content">Message</label>
+                            <textarea name="Content" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Send</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        </div>
+    </div>
+</div>
 
-       
-     
+@section PrivateMessageJS {
+    <script>
+        document.getElementById("refreshBtn").addEventListener("click", async function () {
+            const senderId = "@ViewBag.SenderId";
+            const recipientId = "@recipientId";
 
+            if (!senderId || !recipientId) {
+                alert("Sender or recipient ID is missing.");
+                return;
+            }
 
+            const url = `/Message/GetPrivateMessage?senderId=${senderId}&recipientId=${recipientId}`;
+            console.log("Fetching:", url);
+
+            try {
+                const res = await fetch(url);
+                if (!res.ok) {
+                    alert("Failed to load messages.");
+                    return;
+                }
+
+                const messages = await res.json();
+                const tbody = document.querySelector("#messageTable tbody");
+                tbody.innerHTML = "";
+
+                if (messages.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">No messages yet.</td></tr>`;
+                    return;
+                }
+
+                messages.forEach(msg => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${msg.senderName}</td>
+                        <td>${msg.recipientName}</td>
+                        <td>${msg.content}</td>
+                        <td>${new Date(msg.createdAt).toLocaleString()}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (err) {
+                console.error("Error fetching messages:", err);
+                alert("Unexpected error occurred.");
+            }
+        });
+    </script>
+}

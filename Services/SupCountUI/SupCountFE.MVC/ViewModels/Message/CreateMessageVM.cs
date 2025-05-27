@@ -14,6 +14,7 @@ namespace SupCountFE.MVC.ViewModels.Message
         public string? RecipientId { get; set; }
 
         public int? GroupId { get; set; }
+        public bool? IsPrivate { get; set; } = false;
 
         public SelectList? UsersItems { get; set; }
         public SelectList? GroupsItems { get; set; }
